@@ -31,7 +31,6 @@
     font-size: 15px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
   }
 
   body::before {
@@ -53,7 +52,6 @@
   }
   .wrap { max-width: 1240px; margin: 0 auto; }
 
-  /* ── Banner status koneksi ── */
   .conn-banner {
     display: none;
     padding: 10px 24px;
@@ -67,7 +65,6 @@
   }
   .conn-banner.show { display: block; }
 
-  /* ── Marquee ── */
   .marquee { border-bottom: 1px solid var(--line); overflow: hidden; padding: 14px 0; }
   .marquee-track { display: flex; width: max-content; white-space: nowrap; animation: scroll 45s linear infinite; }
   .marquee-content { display: flex; flex-shrink: 0; }
@@ -79,7 +76,6 @@
   .marquee-content span.heart { color: var(--accent); }
   @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-  /* ── Header ── */
   .header { padding: 72px 40px 48px; border-bottom: 1px solid var(--line); }
   .header-top { display: flex; justify-content: space-between; color: var(--muted); }
   .header-top .pink { color: var(--accent); }
@@ -93,7 +89,6 @@
   }
   .header h1 em { font-style: italic; color: var(--accent); }
 
-  /* ── Grid ── */
   .grid {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -110,7 +105,6 @@
   }
   .form-col h2 em { font-style: italic; color: var(--accent); }
 
-  /* ── Fields ── */
   .field { margin-bottom: 28px; }
   .field label { display: block; margin-bottom: 10px; color: var(--muted); }
   .field input,
@@ -137,13 +131,11 @@
     line-height: 1.5;
   }
 
-  /* ── Star picker ── */
   .star-picker { display: flex; gap: 6px; font-size: 30px; line-height: 1; cursor: pointer; user-select: none; }
   .star-picker span { color: var(--line); transition: color 0.15s, transform 0.15s; }
   .star-picker span.active { color: var(--accent); }
   .star-picker span:hover { transform: translateY(-3px); }
 
-  /* ── Submit ── */
   .btn-submit {
     display: flex;
     align-items: center;
@@ -165,7 +157,6 @@
   .btn-submit .arrow { font-size: 16px; transition: transform 0.25s; }
   .btn-submit:hover:not(:disabled) .arrow { transform: translateX(6px); }
 
-  /* ── Stats ── */
   .stats {
     display: flex;
     align-items: center;
@@ -189,7 +180,6 @@
   .stats-stars .off { color: var(--line); }
   .stats-info .label { color: var(--muted); }
 
-  /* ── Reviews ── */
   .reviews-head {
     display: flex;
     justify-content: space-between;
@@ -205,7 +195,7 @@
   .reviews-head span { color: var(--muted); }
 
   .review {
-    padding: 24px 0;
+    padding: 22px 0;
     border-bottom: 1px solid var(--line);
     animation: fadeIn 0.45s ease;
   }
@@ -226,34 +216,37 @@
     justify-content: space-between;
     align-items: center;
     color: var(--muted);
-    margin-bottom: 12px;
+    margin-bottom: 10px;
   }
   .review-top .num { color: var(--accent); }
-  .review-top-right { display: flex; gap: 14px; align-items: center; }
+  .review-top-right { display: flex; gap: 12px; align-items: center; }
 
-  /* ── Like Button ── */
+  /* ── Like Button dengan Counter ── */
   .like-btn {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 5px;
     background: none;
     border: 1px solid var(--line);
     border-radius: 999px;
-    padding: 5px 12px;
+    padding: 4px 10px;
     cursor: pointer;
     color: var(--muted);
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.05em;
     transition: all 0.2s ease;
+    line-height: 1;
   }
-  .like-btn:hover {
+  .like-btn:hover:not(:disabled) {
     border-color: var(--accent);
     color: var(--accent);
   }
+  .like-btn:disabled {
+    cursor: default;
+  }
   .like-btn .heart-icon {
-    font-size: 13px;
+    font-size: 12px;
     line-height: 1;
     transition: transform 0.2s;
   }
@@ -271,18 +264,23 @@
     70%  { transform: scale(0.9); }
     100% { transform: scale(1); }
   }
+  .like-count {
+    font-weight: 500;
+    min-width: 10px;
+    text-align: center;
+  }
 
   .review-name {
     font-family: 'Instrument Serif', serif;
-    font-size: 24px;
+    font-size: 22px;
     line-height: 1.1;
     letter-spacing: -0.01em;
-    margin-bottom: 8px;
+    margin-bottom: 6px;
   }
-  .review-stars { font-size: 13px; letter-spacing: 3px; margin-bottom: 10px; }
+  .review-stars { font-size: 12px; letter-spacing: 3px; margin-bottom: 8px; }
   .review-stars .on { color: var(--accent); }
   .review-stars .off { color: var(--line); }
-  .review-text { color: var(--ink-soft); font-size: 15px; line-height: 1.55; max-width: 60ch; }
+  .review-text { color: var(--ink-soft); font-size: 14.5px; line-height: 1.5; max-width: 60ch; }
 
   .empty,
   .loading {
@@ -296,7 +294,6 @@
   }
   .empty .heart { color: var(--accent); font-style: normal; }
 
-  /* ── Toast ── */
   .toast {
     position: fixed;
     bottom: 24px;
@@ -304,9 +301,9 @@
     transform: translateX(-50%) translateY(80px);
     background: var(--ink);
     color: var(--bg);
-    padding: 14px 24px;
+    padding: 12px 20px;
     font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
+    font-size: 10px;
     letter-spacing: 0.1em;
     text-transform: uppercase;
     border-radius: 2px;
@@ -319,7 +316,6 @@
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.error { background: var(--accent-deep); }
 
-  /* ── Footer ── */
   .footer {
     padding: 40px;
     border-top: 1px solid var(--line);
@@ -330,86 +326,82 @@
   .footer .heart { color: var(--accent); }
 
   /* ══════════════════════════════════════════════
-     MOBILE — Dipadatkan
+     MOBILE — SUPER PADAT
      ══════════════════════════════════════════════ */
   @media (max-width: 860px) {
-    /* Header lebih ringkas */
-    .header { padding: 36px 18px 24px; }
+    .header { padding: 24px 14px 14px; }
+    .header-top { font-size: 9px; }
     .header h1 {
-      font-size: clamp(40px, 13vw, 64px);
-      margin-top: 18px;
-      line-height: 0.92;
+      font-size: clamp(34px, 12vw, 52px);
+      margin-top: 10px;
+      line-height: 0.95;
     }
 
-    /* Marquee lebih tipis */
-    .marquee { padding: 10px 0; }
-    .marquee-content span { margin: 0 20px; font-size: 10px; }
+    .marquee { padding: 8px 0; }
+    .marquee-content span { margin: 0 16px; font-size: 9px; }
 
-    /* Grid lebih rapat */
     .grid {
       grid-template-columns: 1fr;
-      gap: 32px;
-      padding: 28px 18px 48px;
+      gap: 18px;
+      padding: 16px 14px 32px;
     }
     .form-sticky { position: static; }
 
-    /* Form lebih padat */
-    .form-col h2 { font-size: 24px; margin-bottom: 18px; }
-    .field { margin-bottom: 18px; }
-    .field label { margin-bottom: 6px; font-size: 10px; }
-    .field input { padding: 6px 0 8px; font-size: 15px; }
+    .form-col h2 { font-size: 19px; margin-bottom: 12px; }
+    .field { margin-bottom: 12px; }
+    .field label { margin-bottom: 4px; font-size: 9px; }
+    .field input { padding: 4px 0 6px; font-size: 14px; }
     .field textarea {
-      min-height: 70px;
-      font-size: 16px;
-      padding: 6px 0 8px;
+      min-height: 56px;
+      font-size: 15px;
+      padding: 4px 0 6px;
     }
-    .star-picker { font-size: 26px; gap: 4px; }
-    .btn-submit { padding: 16px 18px; font-size: 11px; }
+    .star-picker { font-size: 24px; gap: 3px; }
+    .btn-submit { padding: 13px 14px; font-size: 10px; }
 
-    /* Stats lebih kompak */
     .stats {
-      gap: 18px;
-      padding-bottom: 22px;
-      margin-bottom: 22px;
+      gap: 14px;
+      padding-bottom: 14px;
+      margin-bottom: 14px;
     }
-    .stats-num .big { font-size: 48px; }
-    .stats-stars { font-size: 15px; letter-spacing: 2px; }
-    .stats-info { gap: 3px; }
+    .stats-num { gap: 4px; }
+    .stats-num .big { font-size: 38px; }
+    .stats-num .of { font-size: 9px; }
+    .stats-stars { font-size: 13px; letter-spacing: 1.5px; }
+    .stats-info { gap: 2px; }
+    .stats-info .label { font-size: 9px; }
 
-    /* Reviews header */
-    .reviews-head { margin-bottom: 14px; }
-    .reviews-head h3 { font-size: 20px; }
+    .reviews-head { margin-bottom: 8px; }
+    .reviews-head h3 { font-size: 16px; }
+    .reviews-head span { font-size: 9px; }
 
-    /* Review cards lebih rapat */
-    .review { padding: 18px 0; }
-    .review-top { margin-bottom: 8px; }
-    .review-top-right { gap: 10px; }
-    .review-name { font-size: 20px; margin-bottom: 6px; }
-    .review-stars { font-size: 12px; letter-spacing: 2px; margin-bottom: 8px; }
-    .review-text { font-size: 14px; line-height: 1.5; }
+    .review { padding: 12px 0; }
+    .review-top { margin-bottom: 5px; gap: 8px; }
+    .review-top .mono { font-size: 9px; }
+    .review-top-right { gap: 8px; }
+    .review-name { font-size: 17px; margin-bottom: 4px; }
+    .review-stars { font-size: 10px; letter-spacing: 1.5px; margin-bottom: 5px; }
+    .review-text { font-size: 13px; line-height: 1.45; }
 
-    /* Like button lebih kecil */
-    .like-btn { padding: 4px 10px; font-size: 9px; gap: 5px; }
-    .like-btn .heart-icon { font-size: 12px; }
+    .like-btn { padding: 3px 8px; font-size: 9px; gap: 4px; }
+    .like-btn .heart-icon { font-size: 11px; }
 
-    /* Footer */
     .footer {
-      padding: 22px 18px;
+      padding: 16px 14px;
       flex-direction: column;
-      gap: 6px;
-      font-size: 10px;
+      gap: 4px;
+      font-size: 9px;
     }
 
-    /* Toast */
-    .toast { padding: 12px 18px; font-size: 10px; bottom: 16px; }
+    .toast { padding: 10px 16px; font-size: 9px; bottom: 12px; }
   }
 
-  /* Extra compact untuk HP kecil */
   @media (max-width: 400px) {
-    .header h1 { font-size: 38px; }
-    .grid { padding: 24px 14px 40px; gap: 26px; }
-    .review-name { font-size: 18px; }
-    .stats-num .big { font-size: 42px; }
+    .header h1 { font-size: 32px; }
+    .grid { padding: 14px 12px 28px; gap: 14px; }
+    .review-name { font-size: 16px; }
+    .stats-num .big { font-size: 34px; }
+    .review-text { font-size: 12.5px; }
   }
 </style>
 </head>
@@ -417,7 +409,6 @@
 
 <div id="connBanner" class="conn-banner"></div>
 
-<!-- Marquee -->
 <div class="marquee">
   <div class="marquee-track">
     <div class="marquee-content">
@@ -533,13 +524,14 @@
 
   const AUTO_REFRESH_MS = 10000;
   const SYNC_DELAY_MS   = 900;
-  const LIKES_KEY       = 'testimoni_likes_v1';
+  const LIKE_SYNC_MS    = 1200;
+  const LIKED_KEY       = 'testimoni_liked_ids_v1';
 
   let rating = 0;
   let reviews = [];
   let isLoading = false;
   let justAddedId = null;
-  let likedIds = loadLikes();
+  let likedIds = loadLikedIds();
 
   const starPicker = document.getElementById('starPicker');
   const stars = starPicker.querySelectorAll('span');
@@ -563,24 +555,32 @@
     toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
   }
 
-  /* ── Likes (disimpan per pengunjung) ── */
-  function loadLikes() {
-    try { return new Set(JSON.parse(localStorage.getItem(LIKES_KEY) || '[]')); }
+  /* ── Liked IDs (siapa yang sudah klik like) ── */
+  function loadLikedIds() {
+    try { return new Set(JSON.parse(localStorage.getItem(LIKED_KEY) || '[]')); }
     catch { return new Set(); }
   }
-  function saveLikes() {
-    localStorage.setItem(LIKES_KEY, JSON.stringify([...likedIds]));
+  function saveLikedIds() {
+    localStorage.setItem(LIKED_KEY, JSON.stringify([...likedIds]));
   }
-  function toggleLike(id) {
-    if (likedIds.has(id)) {
-      likedIds.delete(id);
-      saveLikes();
-      return false;
-    } else {
-      likedIds.add(id);
-      saveLikes();
-      return true;
+
+  /* ── Sensor Nama ── */
+  function sensorNama(nama) {
+    const parts = String(nama).trim().split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return nama;
+
+    if (parts.length === 1) {
+      const w = parts[0];
+      if (w.length <= 2) return w[0] + '*';
+      if (w.length === 3) return w.substring(0, 2) + '*';
+      if (w.length <= 6) return w.substring(0, 3) + '***';
+      return w.substring(0, 4) + '***';
     }
+
+    // Multi-kata: kata pertama utuh (max 8 char), kata terakhir disensor
+    const first = parts[0].length > 8 ? parts[0].substring(0, 8) : parts[0];
+    const last = parts[parts.length - 1];
+    return first + ' ' + last[0] + '***';
   }
 
   /* ── Star picker ── */
@@ -620,7 +620,7 @@
     return true;
   }
 
-  /* ── Load dari server ── */
+  /* ── Load ── */
   async function loadReviews({ silent = false } = {}) {
     if (isLoading) return;
     isLoading = true;
@@ -644,13 +644,23 @@
     }
   }
 
-  /* ── POST ke server ── */
+  /* ── POST ── */
   async function addReview(payload) {
     await fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ action: 'add', ...payload })
+    });
+    return true;
+  }
+
+  async function likeReview(id) {
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify({ action: 'like', id })
     });
     return true;
   }
@@ -669,6 +679,8 @@
     reviews.forEach((item, idx) => {
       const num = String(reviews.length - idx).padStart(2, '0');
       const isLiked = likedIds.has(item.id);
+      const displayName = sensorNama(item.nama);
+
       const article = document.createElement('article');
       article.className = 'review';
       if (item.id && item.id === justAddedId) article.classList.add('is-new');
@@ -678,20 +690,21 @@
           <span class="mono num">♥ No. ${num}</span>
           <div class="review-top-right">
             <span class="mono">${escapeHtml(item.tanggal)}</span>
-            <button class="like-btn${isLiked ? ' liked' : ''}" data-id="${escapeHtml(item.id)}" aria-label="Suka">
+            <button class="like-btn${isLiked ? ' liked' : ''}"
+                    data-id="${escapeHtml(item.id)}"
+                    ${isLiked ? 'disabled' : ''}>
               <span class="heart-icon">${isLiked ? '♥' : '♡'}</span>
-              <span class="like-label">${isLiked ? 'Disukai' : 'Suka'}</span>
+              <span class="like-count">${item.likes || 0}</span>
             </button>
           </div>
         </div>
-        <div class="review-name">${escapeHtml(item.nama)}</div>
+        <div class="review-name">${escapeHtml(displayName)}</div>
         <div class="review-stars">${renderStars(item.rating)}</div>
         <div class="review-text">${escapeHtml(item.ulasan)}</div>
       `;
       listEl.appendChild(article);
     });
 
-    // Highlight untuk testimoni baru
     if (justAddedId) {
       const flag = justAddedId;
       justAddedId = null;
@@ -701,15 +714,38 @@
       }, 2500);
     }
 
-    // Event: Like button
+    // Event: Like
     listEl.querySelectorAll('.like-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const id = btn.dataset.id;
-        const nowLiked = toggleLike(id);
-        btn.classList.toggle('liked', nowLiked);
-        btn.querySelector('.heart-icon').textContent = nowLiked ? '♥' : '♡';
-        btn.querySelector('.like-label').textContent = nowLiked ? 'Disukai' : 'Suka';
-        if (nowLiked) toast('Makasih udah like ♥');
+        if (likedIds.has(id)) return;
+
+        // Optimistic: ubah tampilan dulu
+        likedIds.add(id);
+        saveLikedIds();
+        btn.classList.add('liked');
+        btn.disabled = true;
+        btn.querySelector('.heart-icon').textContent = '♥';
+        const countEl = btn.querySelector('.like-count');
+        countEl.textContent = (parseInt(countEl.textContent) || 0) + 1;
+
+        toast('Makasih udah like ♥');
+
+        // Kirim ke server
+        try {
+          await likeReview(id);
+          // Sync ulang untuk angka akurat
+          setTimeout(() => loadReviews({ silent: true }), LIKE_SYNC_MS);
+        } catch (err) {
+          // Rollback
+          likedIds.delete(id);
+          saveLikedIds();
+          btn.classList.remove('liked');
+          btn.disabled = false;
+          btn.querySelector('.heart-icon').textContent = '♡';
+          countEl.textContent = (parseInt(countEl.textContent) || 1) - 1;
+          toast('Gagal, coba lagi', true);
+        }
       });
     });
 
@@ -738,7 +774,7 @@
     totalEl.textContent = `Dari ${reviews.length} pelanggan`;
   }
 
-  /* ── Submit — Optimistic UI ── */
+  /* ── Submit ── */
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if (rating === 0) {
@@ -755,6 +791,7 @@
       nama,
       ulasan,
       rating,
+      likes: 0,
       tanggal: new Date().toLocaleDateString('id-ID', {
         day: '2-digit', month: 'short', year: 'numeric'
       })
