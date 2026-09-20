@@ -19,6 +19,7 @@
     --placeholder: #C4A3A6;
     --accent:      #D02C5A;
     --accent-deep: #A11E45;
+    --highlight:   #FCE4E8;
   }
 
   html { scroll-behavior: smooth; }
@@ -30,6 +31,7 @@
     font-size: 15px;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   body::before {
@@ -203,7 +205,7 @@
   .reviews-head span { color: var(--muted); }
 
   .review {
-    padding: 28px 0;
+    padding: 24px 0;
     border-bottom: 1px solid var(--line);
     animation: fadeIn 0.45s ease;
   }
@@ -213,44 +215,74 @@
     to   { opacity: 1; transform: translateY(0); }
   }
 
+  .review.is-new { animation: fadeIn 0.45s ease, highlight 2.4s ease; }
+  @keyframes highlight {
+    0%   { background: var(--highlight); }
+    100% { background: transparent; }
+  }
+
   .review-top {
     display: flex;
     justify-content: space-between;
     align-items: center;
     color: var(--muted);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .review-top .num { color: var(--accent); }
-  .review-top-right { display: flex; gap: 18px; align-items: center; }
+  .review-top-right { display: flex; gap: 14px; align-items: center; }
 
-  .delete-btn {
+  /* ── Like Button ── */
+  .like-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
     background: none;
-    border: none;
-    color: var(--muted);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    padding: 5px 12px;
     cursor: pointer;
+    color: var(--muted);
     font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
-    padding: 0;
-    opacity: 0;
-    transition: color 0.2s, opacity 0.2s;
+    transition: all 0.2s ease;
   }
-  .review:hover .delete-btn { opacity: 1; }
-  .delete-btn:hover { color: var(--accent); }
-  .delete-btn:disabled { cursor: wait; }
+  .like-btn:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+  .like-btn .heart-icon {
+    font-size: 13px;
+    line-height: 1;
+    transition: transform 0.2s;
+  }
+  .like-btn.liked {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .like-btn.liked .heart-icon {
+    animation: pop 0.35s ease;
+  }
+  @keyframes pop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.4); }
+    70%  { transform: scale(0.9); }
+    100% { transform: scale(1); }
+  }
 
   .review-name {
     font-family: 'Instrument Serif', serif;
-    font-size: 26px;
+    font-size: 24px;
     line-height: 1.1;
     letter-spacing: -0.01em;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
   }
-  .review-stars { font-size: 14px; letter-spacing: 3px; margin-bottom: 14px; }
+  .review-stars { font-size: 13px; letter-spacing: 3px; margin-bottom: 10px; }
   .review-stars .on { color: var(--accent); }
   .review-stars .off { color: var(--line); }
-  .review-text { color: var(--ink-soft); font-size: 15px; line-height: 1.6; max-width: 60ch; }
+  .review-text { color: var(--ink-soft); font-size: 15px; line-height: 1.55; max-width: 60ch; }
 
   .empty,
   .loading {
@@ -281,6 +313,8 @@
     transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3);
     z-index: 10000;
     pointer-events: none;
+    max-width: calc(100vw - 32px);
+    text-align: center;
   }
   .toast.show { transform: translateX(-50%) translateY(0); }
   .toast.error { background: var(--accent-deep); }
@@ -295,14 +329,87 @@
   }
   .footer .heart { color: var(--accent); }
 
+  /* ══════════════════════════════════════════════
+     MOBILE — Dipadatkan
+     ══════════════════════════════════════════════ */
   @media (max-width: 860px) {
-    .header { padding: 48px 24px 36px; }
-    .grid { grid-template-columns: 1fr; gap: 64px; padding: 48px 24px 72px; }
+    /* Header lebih ringkas */
+    .header { padding: 36px 18px 24px; }
+    .header h1 {
+      font-size: clamp(40px, 13vw, 64px);
+      margin-top: 18px;
+      line-height: 0.92;
+    }
+
+    /* Marquee lebih tipis */
+    .marquee { padding: 10px 0; }
+    .marquee-content span { margin: 0 20px; font-size: 10px; }
+
+    /* Grid lebih rapat */
+    .grid {
+      grid-template-columns: 1fr;
+      gap: 32px;
+      padding: 28px 18px 48px;
+    }
     .form-sticky { position: static; }
-    .footer { padding: 32px 24px; flex-direction: column; gap: 8px; }
-    .stats-num .big { font-size: 56px; }
-    .stats { gap: 24px; }
-    .delete-btn { opacity: 1; }
+
+    /* Form lebih padat */
+    .form-col h2 { font-size: 24px; margin-bottom: 18px; }
+    .field { margin-bottom: 18px; }
+    .field label { margin-bottom: 6px; font-size: 10px; }
+    .field input { padding: 6px 0 8px; font-size: 15px; }
+    .field textarea {
+      min-height: 70px;
+      font-size: 16px;
+      padding: 6px 0 8px;
+    }
+    .star-picker { font-size: 26px; gap: 4px; }
+    .btn-submit { padding: 16px 18px; font-size: 11px; }
+
+    /* Stats lebih kompak */
+    .stats {
+      gap: 18px;
+      padding-bottom: 22px;
+      margin-bottom: 22px;
+    }
+    .stats-num .big { font-size: 48px; }
+    .stats-stars { font-size: 15px; letter-spacing: 2px; }
+    .stats-info { gap: 3px; }
+
+    /* Reviews header */
+    .reviews-head { margin-bottom: 14px; }
+    .reviews-head h3 { font-size: 20px; }
+
+    /* Review cards lebih rapat */
+    .review { padding: 18px 0; }
+    .review-top { margin-bottom: 8px; }
+    .review-top-right { gap: 10px; }
+    .review-name { font-size: 20px; margin-bottom: 6px; }
+    .review-stars { font-size: 12px; letter-spacing: 2px; margin-bottom: 8px; }
+    .review-text { font-size: 14px; line-height: 1.5; }
+
+    /* Like button lebih kecil */
+    .like-btn { padding: 4px 10px; font-size: 9px; gap: 5px; }
+    .like-btn .heart-icon { font-size: 12px; }
+
+    /* Footer */
+    .footer {
+      padding: 22px 18px;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 10px;
+    }
+
+    /* Toast */
+    .toast { padding: 12px 18px; font-size: 10px; bottom: 16px; }
+  }
+
+  /* Extra compact untuk HP kecil */
+  @media (max-width: 400px) {
+    .header h1 { font-size: 38px; }
+    .grid { padding: 24px 14px 40px; gap: 26px; }
+    .review-name { font-size: 18px; }
+    .stats-num .big { font-size: 42px; }
   }
 </style>
 </head>
@@ -424,9 +531,15 @@
   const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHL30_WaubAWiKOZYIZx-HhZkwRszOgw4m0y3suoB7lWLpelBjPi-8WGboQ3l7zCtM/exec';
   /* ═══════════════════════════════════════════ */
 
+  const AUTO_REFRESH_MS = 10000;
+  const SYNC_DELAY_MS   = 900;
+  const LIKES_KEY       = 'testimoni_likes_v1';
+
   let rating = 0;
   let reviews = [];
   let isLoading = false;
+  let justAddedId = null;
+  let likedIds = loadLikes();
 
   const starPicker = document.getElementById('starPicker');
   const stars = starPicker.querySelectorAll('span');
@@ -436,7 +549,6 @@
   const submitLabel = document.getElementById('submitLabel');
   const connBanner = document.getElementById('connBanner');
 
-  /* ── Tanggal hari ini di header ── */
   document.getElementById('todayDate').textContent =
     new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
 
@@ -448,7 +560,27 @@
     el.classList.toggle('error', isError);
     el.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('show'), 2600);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+  }
+
+  /* ── Likes (disimpan per pengunjung) ── */
+  function loadLikes() {
+    try { return new Set(JSON.parse(localStorage.getItem(LIKES_KEY) || '[]')); }
+    catch { return new Set(); }
+  }
+  function saveLikes() {
+    localStorage.setItem(LIKES_KEY, JSON.stringify([...likedIds]));
+  }
+  function toggleLike(id) {
+    if (likedIds.has(id)) {
+      likedIds.delete(id);
+      saveLikes();
+      return false;
+    } else {
+      likedIds.add(id);
+      saveLikes();
+      return true;
+    }
   }
 
   /* ── Star picker ── */
@@ -478,11 +610,9 @@
     return `<span class="on">${'★'.repeat(r)}</span><span class="off">${'☆'.repeat(5 - r)}</span>`;
   }
 
-  /* ── Cek konfigurasi ── */
   function checkConfig() {
     if (SCRIPT_URL.includes('PASTE_URL')) {
-      connBanner.textContent =
-        '⚠ URL Google Apps Script belum diisi — buka file HTML dan ganti PASTE_URL_DISINI';
+      connBanner.textContent = '⚠ URL Google Apps Script belum diisi';
       connBanner.classList.add('show');
       listEl.innerHTML = '<div class="empty">Konfigurasi belum selesai.</div>';
       return false;
@@ -490,8 +620,8 @@
     return true;
   }
 
-  /* ── Muat semua testimoni dari Google Sheets ── */
-  async function loadReviews() {
+  /* ── Load dari server ── */
+  async function loadReviews({ silent = false } = {}) {
     if (isLoading) return;
     isLoading = true;
     try {
@@ -505,6 +635,7 @@
         throw new Error(json.message || 'Gagal memuat');
       }
     } catch (err) {
+      if (silent) return;
       connBanner.textContent = '⚠ Tidak dapat terhubung ke server. Coba refresh halaman.';
       connBanner.classList.add('show');
       listEl.innerHTML = '<div class="empty">Gagal memuat testimoni.</div>';
@@ -513,30 +644,18 @@
     }
   }
 
-  /* ── Tambah testimoni ── */
+  /* ── POST ke server ── */
   async function addReview(payload) {
-    const res = await fetch(SCRIPT_URL, {
+    await fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors',
       headers: { 'Content-Type': 'text/plain;charset=utf-8' },
       body: JSON.stringify({ action: 'add', ...payload })
     });
-    // mode: no-cors tidak bisa baca response — anggap sukses kalau tidak error
     return true;
   }
 
-  /* ── Hapus testimoni ── */
-  async function deleteReview(id) {
-    await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'delete', id })
-    });
-    return true;
-  }
-
-  /* ── Render daftar ── */
+  /* ── Render ── */
   function render() {
     listEl.innerHTML = '';
 
@@ -549,15 +668,20 @@
 
     reviews.forEach((item, idx) => {
       const num = String(reviews.length - idx).padStart(2, '0');
+      const isLiked = likedIds.has(item.id);
       const article = document.createElement('article');
       article.className = 'review';
-      article.style.animationDelay = `${Math.min(idx * 0.04, 0.4)}s`;
+      if (item.id && item.id === justAddedId) article.classList.add('is-new');
+      article.style.animationDelay = `${Math.min(idx * 0.03, 0.3)}s`;
       article.innerHTML = `
         <div class="review-top">
           <span class="mono num">♥ No. ${num}</span>
           <div class="review-top-right">
             <span class="mono">${escapeHtml(item.tanggal)}</span>
-            <button class="delete-btn" data-id="${escapeHtml(item.id)}">Hapus</button>
+            <button class="like-btn${isLiked ? ' liked' : ''}" data-id="${escapeHtml(item.id)}" aria-label="Suka">
+              <span class="heart-icon">${isLiked ? '♥' : '♡'}</span>
+              <span class="like-label">${isLiked ? 'Disukai' : 'Suka'}</span>
+            </button>
           </div>
         </div>
         <div class="review-name">${escapeHtml(item.nama)}</div>
@@ -567,28 +691,32 @@
       listEl.appendChild(article);
     });
 
-    listEl.querySelectorAll('.delete-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        if (!confirm('Hapus ulasan ini dari server?')) return;
-        btn.disabled = true;
-        btn.textContent = '...';
-        try {
-          await deleteReview(btn.dataset.id);
-          toast('Ulasan dihapus');
-          // Delay kecil supaya server sempat selesai
-          setTimeout(loadReviews, 800);
-        } catch {
-          toast('Gagal menghapus', true);
-          btn.disabled = false;
-          btn.textContent = 'Hapus';
-        }
+    // Highlight untuk testimoni baru
+    if (justAddedId) {
+      const flag = justAddedId;
+      justAddedId = null;
+      setTimeout(() => {
+        const el = document.querySelector(`.like-btn[data-id="${flag}"]`);
+        if (el) el.closest('.review')?.classList.remove('is-new');
+      }, 2500);
+    }
+
+    // Event: Like button
+    listEl.querySelectorAll('.like-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const id = btn.dataset.id;
+        const nowLiked = toggleLike(id);
+        btn.classList.toggle('liked', nowLiked);
+        btn.querySelector('.heart-icon').textContent = nowLiked ? '♥' : '♡';
+        btn.querySelector('.like-label').textContent = nowLiked ? 'Disukai' : 'Suka';
+        if (nowLiked) toast('Makasih udah like ♥');
       });
     });
 
     updateStats();
   }
 
-  /* ── Statistik ── */
+  /* ── Stats ── */
   function updateStats() {
     const countEl = document.getElementById('reviewsCount');
     const totalEl = document.getElementById('totalTesti');
@@ -610,7 +738,7 @@
     totalEl.textContent = `Dari ${reviews.length} pelanggan`;
   }
 
-  /* ── Submit ── */
+  /* ── Submit — Optimistic UI ── */
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if (rating === 0) {
@@ -621,30 +749,46 @@
     const ulasan = document.getElementById('ulasan').value.trim();
     if (!nama || !ulasan) return;
 
-    submitBtn.disabled = true;
-    submitLabel.textContent = 'Mengirim...';
+    const tempId = 'temp-' + Date.now();
+    const optimisticItem = {
+      id: tempId,
+      nama,
+      ulasan,
+      rating,
+      tanggal: new Date().toLocaleDateString('id-ID', {
+        day: '2-digit', month: 'short', year: 'numeric'
+      })
+    };
+    justAddedId = tempId;
+    reviews.unshift(optimisticItem);
+    render();
+
+    const payload = { nama, ulasan, rating };
+    form.reset();
+    rating = 0;
+    updateStars();
+
+    document.querySelector('.review-col')
+      .scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    toast('Terima kasih atas ulasanmu ♥');
 
     try {
-      await addReview({ nama, ulasan, rating });
-      toast('Terima kasih atas ulasanmu ♥');
-      form.reset();
-      rating = 0;
-      updateStars();
-      // Tunggu sebentar supaya data tercatat dulu, baru muat ulang
-      setTimeout(loadReviews, 1000);
+      await addReview(payload);
+      setTimeout(async () => {
+        await loadReviews({ silent: true });
+      }, SYNC_DELAY_MS);
     } catch (err) {
+      reviews = reviews.filter(r => r.id !== tempId);
+      render();
       toast('Gagal mengirim, coba lagi', true);
-    } finally {
-      submitBtn.disabled = false;
-      submitLabel.textContent = 'Kirim Testimoni';
     }
   });
 
   /* ── Init ── */
   if (checkConfig()) {
     loadReviews();
-    // Refresh otomatis tiap 30 detik — testimoni baru dari pembeli lain langsung muncul
-    setInterval(loadReviews, 30000);
+    setInterval(() => loadReviews({ silent: true }), AUTO_REFRESH_MS);
   }
 </script>
 </body>
