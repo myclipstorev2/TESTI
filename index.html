@@ -221,7 +221,6 @@
   .review-top .num { color: var(--accent); }
   .review-top-right { display: flex; gap: 12px; align-items: center; }
 
-  /* ── Like Button dengan Counter ── */
   .like-btn {
     display: inline-flex;
     align-items: center;
@@ -242,9 +241,7 @@
     border-color: var(--accent);
     color: var(--accent);
   }
-  .like-btn:disabled {
-    cursor: default;
-  }
+  .like-btn:disabled { cursor: default; }
   .like-btn .heart-icon {
     font-size: 12px;
     line-height: 1;
@@ -255,9 +252,7 @@
     border-color: var(--accent);
     color: white;
   }
-  .like-btn.liked .heart-icon {
-    animation: pop 0.35s ease;
-  }
+  .like-btn.liked .heart-icon { animation: pop 0.35s ease; }
   @keyframes pop {
     0%   { transform: scale(1); }
     40%  { transform: scale(1.4); }
@@ -294,6 +289,53 @@
   }
   .empty .heart { color: var(--accent); font-style: normal; }
 
+  /* ── Tombol Load More ── */
+  .load-more-wrap {
+    padding: 28px 0 8px;
+    text-align: center;
+    display: none;
+  }
+  .load-more-wrap.show { display: block; }
+
+  .load-more-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: transparent;
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    padding: 14px 28px;
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: all 0.25s;
+  }
+  .load-more-btn:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .load-more-btn:disabled {
+    opacity: 0.5;
+    cursor: wait;
+  }
+  .load-more-btn .arrow {
+    font-size: 14px;
+    transition: transform 0.25s;
+  }
+  .load-more-btn:hover:not(:disabled) .arrow {
+    transform: translateY(3px);
+  }
+  .load-more-btn .remaining {
+    color: var(--muted);
+    margin-left: 4px;
+  }
+  .load-more-btn:hover:not(:disabled) .remaining {
+    color: var(--bg);
+    opacity: 0.7;
+  }
+
   .toast {
     position: fixed;
     bottom: 24px;
@@ -325,9 +367,6 @@
   }
   .footer .heart { color: var(--accent); }
 
-  /* ══════════════════════════════════════════════
-     MOBILE — SUPER PADAT
-     ══════════════════════════════════════════════ */
   @media (max-width: 860px) {
     .header { padding: 24px 14px 14px; }
     .header-top { font-size: 9px; }
@@ -351,11 +390,7 @@
     .field { margin-bottom: 12px; }
     .field label { margin-bottom: 4px; font-size: 9px; }
     .field input { padding: 4px 0 6px; font-size: 14px; }
-    .field textarea {
-      min-height: 56px;
-      font-size: 15px;
-      padding: 4px 0 6px;
-    }
+    .field textarea { min-height: 56px; font-size: 15px; padding: 4px 0 6px; }
     .star-picker { font-size: 24px; gap: 3px; }
     .btn-submit { padding: 13px 14px; font-size: 10px; }
 
@@ -385,6 +420,9 @@
 
     .like-btn { padding: 3px 8px; font-size: 9px; gap: 4px; }
     .like-btn .heart-icon { font-size: 11px; }
+
+    .load-more-wrap { padding: 18px 0 4px; }
+    .load-more-btn { padding: 11px 20px; font-size: 10px; gap: 8px; }
 
     .footer {
       padding: 16px 14px;
@@ -503,6 +541,14 @@
       <div id="testiList">
         <div class="loading">Memuat testimoni…</div>
       </div>
+
+      <div class="load-more-wrap" id="loadMoreWrap">
+        <button class="load-more-btn" id="loadMoreBtn">
+          <span class="arrow">↓</span>
+          <span>Muat Lebih Banyak</span>
+          <span class="remaining" id="remainingText"></span>
+        </button>
+      </div>
     </section>
   </main>
 
@@ -526,12 +572,14 @@
   const SYNC_DELAY_MS   = 900;
   const LIKE_SYNC_MS    = 1200;
   const LIKED_KEY       = 'testimoni_liked_ids_v1';
+  const PAGE_SIZE       = 15;
 
   let rating = 0;
   let reviews = [];
   let isLoading = false;
   let justAddedId = null;
   let likedIds = loadLikedIds();
+  let visibleCount = PAGE_SIZE;
 
   const starPicker = document.getElementById('starPicker');
   const stars = starPicker.querySelectorAll('span');
@@ -540,11 +588,13 @@
   const submitBtn = document.getElementById('submitBtn');
   const submitLabel = document.getElementById('submitLabel');
   const connBanner = document.getElementById('connBanner');
+  const loadMoreWrap = document.getElementById('loadMoreWrap');
+  const loadMoreBtn = document.getElementById('loadMoreBtn');
+  const remainingText = document.getElementById('remainingText');
 
   document.getElementById('todayDate').textContent =
     new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
 
-  /* ── Toast ── */
   let toastTimer;
   function toast(msg, isError = false) {
     const el = document.getElementById('toast');
@@ -555,7 +605,6 @@
     toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
   }
 
-  /* ── Liked IDs (siapa yang sudah klik like) ── */
   function loadLikedIds() {
     try { return new Set(JSON.parse(localStorage.getItem(LIKED_KEY) || '[]')); }
     catch { return new Set(); }
@@ -577,13 +626,11 @@
       return w.substring(0, 4) + '***';
     }
 
-    // Multi-kata: kata pertama utuh (max 8 char), kata terakhir disensor
     const first = parts[0].length > 8 ? parts[0].substring(0, 8) : parts[0];
     const last = parts[parts.length - 1];
     return first + ' ' + last[0] + '***';
   }
 
-  /* ── Star picker ── */
   stars.forEach(star => {
     star.addEventListener('click', () => {
       rating = parseInt(star.dataset.value);
@@ -600,7 +647,6 @@
     stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.value) <= rating));
   }
 
-  /* ── Helpers ── */
   function escapeHtml(str) {
     const d = document.createElement('div');
     d.textContent = str;
@@ -620,7 +666,6 @@
     return true;
   }
 
-  /* ── Load ── */
   async function loadReviews({ silent = false } = {}) {
     if (isLoading) return;
     isLoading = true;
@@ -628,7 +673,9 @@
       const res = await fetch(`${SCRIPT_URL}?action=list&t=${Date.now()}`);
       const json = await res.json();
       if (json.success) {
+        const wasEmpty = reviews.length === 0;
         reviews = json.data;
+        if (wasEmpty) visibleCount = PAGE_SIZE;
         connBanner.classList.remove('show');
         render();
       } else {
@@ -644,7 +691,6 @@
     }
   }
 
-  /* ── POST ── */
   async function addReview(payload) {
     await fetch(SCRIPT_URL, {
       method: 'POST',
@@ -665,19 +711,21 @@
     return true;
   }
 
-  /* ── Render ── */
   function render() {
     listEl.innerHTML = '';
 
     if (reviews.length === 0) {
       listEl.innerHTML =
         '<div class="empty">Belum ada ulasan. Jadilah yang pertama <span class="heart">♥</span></div>';
+      loadMoreWrap.classList.remove('show');
       updateStats();
       return;
     }
 
-    reviews.forEach((item, idx) => {
-      const num = String(reviews.length - idx).padStart(2, '0');
+    const visible = reviews.slice(0, visibleCount);
+
+    visible.forEach((item, idx) => {
+      const num = String(reviews.length - idx).padStart(3, '0');
       const isLiked = likedIds.has(item.id);
       const displayName = sensorNama(item.nama);
 
@@ -714,13 +762,11 @@
       }, 2500);
     }
 
-    // Event: Like
     listEl.querySelectorAll('.like-btn').forEach(btn => {
       btn.addEventListener('click', async () => {
         const id = btn.dataset.id;
         if (likedIds.has(id)) return;
 
-        // Optimistic: ubah tampilan dulu
         likedIds.add(id);
         saveLikedIds();
         btn.classList.add('liked');
@@ -728,16 +774,12 @@
         btn.querySelector('.heart-icon').textContent = '♥';
         const countEl = btn.querySelector('.like-count');
         countEl.textContent = (parseInt(countEl.textContent) || 0) + 1;
-
         toast('Makasih udah like ♥');
 
-        // Kirim ke server
         try {
           await likeReview(id);
-          // Sync ulang untuk angka akurat
           setTimeout(() => loadReviews({ silent: true }), LIKE_SYNC_MS);
         } catch (err) {
-          // Rollback
           likedIds.delete(id);
           saveLikedIds();
           btn.classList.remove('liked');
@@ -749,17 +791,40 @@
       });
     });
 
+    updateLoadMore();
     updateStats();
   }
 
-  /* ── Stats ── */
+  function updateLoadMore() {
+    const left = reviews.length - visibleCount;
+    if (left > 0) {
+      loadMoreWrap.classList.add('show');
+      remainingText.textContent = `(+${left})`;
+      loadMoreBtn.disabled = false;
+    } else {
+      loadMoreWrap.classList.remove('show');
+    }
+  }
+
+  loadMoreBtn.addEventListener('click', () => {
+    loadMoreBtn.disabled = true;
+    const startIdx = visibleCount;
+    visibleCount = Math.min(visibleCount + PAGE_SIZE, reviews.length);
+    render();
+    setTimeout(() => {
+      const items = listEl.querySelectorAll('.review');
+      const target = items[startIdx];
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 80);
+  });
+
   function updateStats() {
     const countEl = document.getElementById('reviewsCount');
     const totalEl = document.getElementById('totalTesti');
     const avgEl = document.getElementById('avgScore');
     const starsEl = document.getElementById('avgStars');
 
-    countEl.textContent = String(reviews.length).padStart(2, '0') + ' ulasan';
+    countEl.textContent = String(reviews.length).padStart(3, '0') + ' ulasan';
 
     if (reviews.length === 0) {
       avgEl.textContent = '0.0';
@@ -774,7 +839,6 @@
     totalEl.textContent = `Dari ${reviews.length} pelanggan`;
   }
 
-  /* ── Submit ── */
   form.addEventListener('submit', async e => {
     e.preventDefault();
     if (rating === 0) {
@@ -798,6 +862,7 @@
     };
     justAddedId = tempId;
     reviews.unshift(optimisticItem);
+    visibleCount = Math.max(visibleCount, 1);
     render();
 
     const payload = { nama, ulasan, rating };
@@ -822,7 +887,6 @@
     }
   });
 
-  /* ── Init ── */
   if (checkConfig()) {
     loadReviews();
     setInterval(() => loadReviews({ silent: true }), AUTO_REFRESH_MS);
