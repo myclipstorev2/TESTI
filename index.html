@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CanvaStore — Canva Pro Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- Library generate QR — qrcodejs (stable) -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -35,15 +34,12 @@
     overflow-x: hidden;
   }
 
-  /* BG BLOBS */
   .bg-blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
   .bg-blobs svg { position: absolute; width: 100%; height: 100%; opacity: 0.85; }
 
-  /* ICON */
   .ico { width: 18px; height: 18px; flex-shrink: 0; display: inline-block; vertical-align: middle; }
   .ico-xl { width: 38px; height: 38px; }
 
-  /* TOPBAR */
   .topbar {
     background: var(--yellow);
     border-bottom: 3px solid var(--black);
@@ -78,7 +74,6 @@
     margin-left: auto;
   }
 
-  /* FOOTER */
   .footer-bar {
     background: var(--yellow);
     border-top: 3px solid var(--black);
@@ -118,7 +113,6 @@
     box-shadow: 2px 2px 0 var(--black);
   }
 
-  /* WRAP */
   .wrap {
     width: 100%;
     max-width: 480px;
@@ -129,7 +123,6 @@
     flex: 1;
   }
 
-  /* HEADER */
   .header { text-align: center; margin-bottom: 28px; }
   .logo-box {
     width: 80px; height: 80px;
@@ -150,7 +143,6 @@
   }
   .header p { font-size: 14px; font-weight: 600; opacity: 0.7; }
 
-  /* CARD */
   .card {
     background: white;
     border: 3px solid var(--black);
@@ -175,7 +167,6 @@
   }
   .label .ico { width: 16px; height: 16px; }
 
-  /* CHIPS */
   .chips {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -201,7 +192,6 @@
   .chip .dur { font-size: 14px; font-weight: 900; letter-spacing: -0.3px; margin-bottom: 2px; }
   .chip .hrg { font-size: 11px; font-weight: 700; opacity: 0.75; }
 
-  /* INPUTS */
   .field { margin-bottom: 12px; }
   .field:last-child { margin-bottom: 0; }
   .input-wrap { position: relative; }
@@ -234,7 +224,7 @@
   }
   .field input::placeholder { color: #999; font-weight: 500; }
 
-  /* QRIS */
+  /* QRIS — FIXED */
   .qris-box {
     background: white;
     border: 2.5px solid var(--black);
@@ -251,21 +241,28 @@
     background: white;
     padding: 6px;
     flex-shrink: 0;
-    position: relative;
     width: 152px;
     height: 152px;
+    overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
   }
   #qrisCanvas {
-    display: block;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
   }
   #qrisCanvas canvas,
   #qrisCanvas img {
     display: block !important;
     width: 140px !important;
     height: 140px !important;
+    max-width: 140px !important;
+    max-height: 140px !important;
     image-rendering: pixelated;
   }
   .qris-info { flex: 1; min-width: 0; }
@@ -322,7 +319,6 @@
   .btn-dl:hover { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--black); }
   .btn-dl .ico { width: 12px; height: 12px; }
 
-  /* UPLOAD */
   .upload {
     border: 2.5px dashed var(--black);
     border-radius: 14px;
@@ -349,7 +345,6 @@
     box-shadow: 3px 3px 0 var(--black);
   }
 
-  /* SUBMIT */
   .btn-submit {
     width: 100%;
     padding: 16px;
@@ -386,7 +381,6 @@
   }
   @keyframes spin { to { transform: rotate(360deg); } }
 
-  /* SUCCESS */
   .success {
     display: none;
     background: var(--cyan);
@@ -456,7 +450,11 @@
   @media (max-width: 420px) {
     .qris-box { flex-direction: column; text-align: center; }
     .qris-canvas-wrap { width: 180px; height: 180px; }
-    #qrisCanvas canvas, #qrisCanvas img { width: 168px !important; height: 168px !important; }
+    #qrisCanvas { width: 168px; height: 168px; }
+    #qrisCanvas canvas, #qrisCanvas img {
+      width: 168px !important; height: 168px !important;
+      max-width: 168px !important; max-height: 168px !important;
+    }
     .topbar-title { font-size: 16px; }
   }
 </style>
@@ -499,7 +497,6 @@
 <!-- MAIN -->
 <div class="wrap">
 
-  <!-- HEADER -->
   <div class="header">
     <div class="logo-box">
       <svg class="ico-xl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -514,10 +511,8 @@
     <p>Aktif Instan — Harga Pelajar</p>
   </div>
 
-  <!-- ORDER -->
   <div id="orderSection">
 
-    <!-- DATA PEMESAN (KUNING) -->
     <div class="card card-yellow">
       <div class="label">
         <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
@@ -557,7 +552,6 @@
       </div>
     </div>
 
-    <!-- QRIS DINAMIS (UNGU) -->
     <div class="card card-purple">
       <div class="label">
         <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
@@ -580,7 +574,6 @@
       </div>
     </div>
 
-    <!-- UPLOAD (CYAN) -->
     <div class="card card-cyan">
       <div class="label">
         <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
@@ -596,7 +589,6 @@
       </div>
     </div>
 
-    <!-- SUBMIT -->
     <button class="btn-submit" id="btnSubmit">
       <span class="spinner" id="spinner"></span>
       <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
@@ -604,7 +596,6 @@
     </button>
   </div>
 
-  <!-- SUCCESS -->
   <div class="success" id="successBox">
     <div class="check">
       <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
@@ -622,7 +613,6 @@
   </div>
 </div>
 
-<!-- FOOTER -->
 <div class="footer-bar">
   <div class="footer-inner">
     <div class="footer-brand">
@@ -635,7 +625,7 @@
 
 <script>
 // ============ KONFIG ============
-const SCRIPT_URL = 'https://script.google.com/macros/s/XXXXX/exec'; // ← GANTI DENGAN URL APPS SCRIPT ANDA
+const SCRIPT_URL = 'https://script.google.com/macros/s/XXXXX/exec'; // ← GANTI
 
 // ============ QRIS STRING ============
 const QRIS_BASE = '00020101021226610014COM.GO-JEK.WWW01189360091438038279540303UMI51440014ID.CO.QRIS.WWW0215ID10253820751960303UMI5204581553033605802ID5907MYCLIPS6007NGANJUK61056439562070703A016304AF5F';
@@ -664,54 +654,30 @@ function crc16(str) {
   return crc.toString(16).toUpperCase().padStart(4, '0');
 }
 
-// ============ PARSE TLV ============
-function parseTLV(str) {
-  const result = [];
-  let i = 0;
-  while (i < str.length) {
-    if (i + 4 > str.length) break;
-    const tag = str.substr(i, 2);
-    const len = parseInt(str.substr(i + 2, 2), 10);
-    if (isNaN(len)) break;
-    const val = str.substr(i + 4, len);
-    result.push({ tag, val });
-    i += 4 + len;
-  }
-  return result;
-}
-
-function buildTLV(list) {
-  return list.map(item => {
-    const len = item.val.length.toString().padStart(2, '0');
-    return item.tag + len + item.val;
-  }).join('');
-}
-
-// ============ SET NOMINAL ============
+// ============ SET NOMINAL (ROBUST) ============
 function setQrisAmount(qrisString, amount) {
-  const base = qrisString.slice(0, -4);
-  let tlv = parseTLV(base);
-  tlv = tlv.filter(item => item.tag !== '54' && item.tag !== '63');
+  // 1. Buang CRC lama (8 char terakhir = "6304" + 4 hex)
+  let body = qrisString.slice(0, -8);
 
-  const idx01 = tlv.findIndex(item => item.tag === '01');
-  if (idx01 !== -1) tlv[idx01].val = '12';
+  // 2. Hapus tag 54 lama kalau ada (regex: 54 + 2 digit + digit/dot)
+  body = body.replace(/54\d{2}[\d.]+/, '');
 
-  if (amount > 0) {
-    let insertIdx = tlv.findIndex(item => item.tag === '53');
-    if (insertIdx === -1) insertIdx = tlv.length - 1;
-    else insertIdx += 1;
-    tlv.splice(insertIdx, 0, { tag: '54', val: amount.toString() });
-  }
+  // 3. Buat tag 54 baru
+  const amountStr = amount.toString();
+  const newTag = '54' + String(amountStr.length).padStart(2, '0') + amountStr;
 
-  let rebuilt = buildTLV(tlv);
-  rebuilt += '6304';
-  rebuilt += crc16(rebuilt);
-  return rebuilt;
+  // 4. Sisipkan sebelum tag 58 (country code 5802ID)
+  const idx58 = body.indexOf('5802ID');
+  if (idx58 === -1) throw new Error('QRIS tidak valid: tag 58 tidak ditemukan');
+  body = body.slice(0, idx58) + newTag + body.slice(idx58);
+
+  // 5. Hitung ulang CRC
+  const withCRC = body + '6304';
+  return withCRC + crc16(withCRC);
 }
 
 // ============ GENERATE QR ============
 function generateQR(amount) {
-  // Update harga DULU biar langsung kelihatan
   document.getElementById('nominalDisplay').textContent = formatRp(amount);
   document.getElementById('qrisNominal').textContent = formatRp(amount);
 
@@ -720,7 +686,7 @@ function generateQR(amount) {
     console.log('✓ Dynamic QRIS:', dynamicQris);
 
     const wrap = document.getElementById('qrisCanvas');
-    wrap.innerHTML = ''; // clear dulu
+    wrap.innerHTML = '';
 
     new QRCode(wrap, {
       text: dynamicQris,
@@ -731,7 +697,6 @@ function generateQR(amount) {
       correctLevel: QRCode.CorrectLevel.M
     });
 
-    // Update tombol download setelah canvas muncul
     setTimeout(() => {
       const cv = wrap.querySelector('canvas');
       if (cv) {
@@ -741,7 +706,7 @@ function generateQR(amount) {
   } catch (e) {
     console.error('✗ QR Error:', e);
     document.getElementById('qrisCanvas').innerHTML =
-      '<div style="padding:16px;font-size:10px;color:#c00;font-weight:700;text-align:center;">QR gagal generate</div>';
+      '<div style="padding:16px;font-size:10px;color:#c00;font-weight:700;text-align:center;">QR gagal: ' + e.message + '</div>';
   }
 }
 
@@ -750,7 +715,7 @@ window.addEventListener('load', () => {
   if (typeof QRCode === 'undefined') {
     console.error('✗ QRCode library tidak load!');
     document.getElementById('qrisCanvas').innerHTML =
-      '<div style="padding:16px;font-size:10px;color:#c00;text-align:center;">Library gagal load. Cek koneksi internet.</div>';
+      '<div style="padding:16px;font-size:10px;color:#c00;text-align:center;">Library gagal load.</div>';
     return;
   }
   console.log('✓ QRCode library loaded');
