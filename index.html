@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CanvaStore — Canva Pro Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- Library generate QR -->
-<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+<!-- Library generate QR — qrcodejs (stable) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -252,23 +252,21 @@
     padding: 6px;
     flex-shrink: 0;
     position: relative;
-  }
-  #qrisCanvas {
-    display: block;
-    width: 140px;
-    height: 140px;
-    image-rendering: pixelated;
-  }
-  .qris-loading {
-    position: absolute;
-    inset: 6px;
-    background: white;
+    width: 152px;
+    height: 152px;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 10px;
-    font-weight: 700;
-    color: #999;
+  }
+  #qrisCanvas {
+    display: block;
+  }
+  #qrisCanvas canvas,
+  #qrisCanvas img {
+    display: block !important;
+    width: 140px !important;
+    height: 140px !important;
+    image-rendering: pixelated;
   }
   .qris-info { flex: 1; min-width: 0; }
   .qris-info h4 {
@@ -457,7 +455,8 @@
 
   @media (max-width: 420px) {
     .qris-box { flex-direction: column; text-align: center; }
-    #qrisCanvas { width: 180px; height: 180px; }
+    .qris-canvas-wrap { width: 180px; height: 180px; }
+    #qrisCanvas canvas, #qrisCanvas img { width: 168px !important; height: 168px !important; }
     .topbar-title { font-size: 16px; }
   }
 </style>
@@ -566,7 +565,7 @@
       </div>
       <div class="qris-box">
         <div class="qris-canvas-wrap">
-          <canvas id="qrisCanvas" width="280" height="280"></canvas>
+          <div id="qrisCanvas"></div>
         </div>
         <div class="qris-info">
           <h4>MYCLIPS</h4>
@@ -638,8 +637,7 @@
 // ============ KONFIG ============
 const SCRIPT_URL = 'https://script.google.com/macros/s/XXXXX/exec'; // ← GANTI DENGAN URL APPS SCRIPT ANDA
 
-// ============ QRIS STRING (dari decode qrisku.png) ============
-// String ini di-hardcode, jadi tidak perlu decode gambar lagi
+// ============ QRIS STRING ============
 const QRIS_BASE = '00020101021226610014COM.GO-JEK.WWW01189360091438038279540303UMI51440014ID.CO.QRIS.WWW0215ID10253820751960303UMI5204581553033605802ID5907MYCLIPS6007NGANJUK61056439562070703A016304AF5F';
 
 // ============ STATE ============
@@ -695,11 +693,9 @@ function setQrisAmount(qrisString, amount) {
   let tlv = parseTLV(base);
   tlv = tlv.filter(item => item.tag !== '54' && item.tag !== '63');
 
-  // Set jadi dynamic (tag 01 = 12)
   const idx01 = tlv.findIndex(item => item.tag === '01');
   if (idx01 !== -1) tlv[idx01].val = '12';
 
-  // Insert nominal setelah tag 53 (currency)
   if (amount > 0) {
     let insertIdx = tlv.findIndex(item => item.tag === '53');
     if (insertIdx === -1) insertIdx = tlv.length - 1;
@@ -715,29 +711,49 @@ function setQrisAmount(qrisString, amount) {
 
 // ============ GENERATE QR ============
 function generateQR(amount) {
-  const dynamicQris = setQrisAmount(QRIS_BASE, amount);
-  const canvas = document.getElementById('qrisCanvas');
-
-  QRCode.toCanvas(canvas, dynamicQris, {
-    width: 280,
-    margin: 1,
-    errorCorrectionLevel: 'M',
-    color: { dark: '#0F0F0F', light: '#FFFFFF' }
-  }, (err) => {
-    if (err) {
-      console.error('QR Error:', err);
-      return;
-    }
-    const dataUrl = canvas.toDataURL('image/png');
-    document.getElementById('btnDlQris').href = dataUrl;
-  });
-
+  // Update harga DULU biar langsung kelihatan
   document.getElementById('nominalDisplay').textContent = formatRp(amount);
   document.getElementById('qrisNominal').textContent = formatRp(amount);
+
+  try {
+    const dynamicQris = setQrisAmount(QRIS_BASE, amount);
+    console.log('✓ Dynamic QRIS:', dynamicQris);
+
+    const wrap = document.getElementById('qrisCanvas');
+    wrap.innerHTML = ''; // clear dulu
+
+    new QRCode(wrap, {
+      text: dynamicQris,
+      width: 280,
+      height: 280,
+      colorDark: '#0F0F0F',
+      colorLight: '#FFFFFF',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+
+    // Update tombol download setelah canvas muncul
+    setTimeout(() => {
+      const cv = wrap.querySelector('canvas');
+      if (cv) {
+        document.getElementById('btnDlQris').href = cv.toDataURL('image/png');
+      }
+    }, 150);
+  } catch (e) {
+    console.error('✗ QR Error:', e);
+    document.getElementById('qrisCanvas').innerHTML =
+      '<div style="padding:16px;font-size:10px;color:#c00;font-weight:700;text-align:center;">QR gagal generate</div>';
+  }
 }
 
-// ============ INIT — Generate QR pertama kali ============
+// ============ INIT ============
 window.addEventListener('load', () => {
+  if (typeof QRCode === 'undefined') {
+    console.error('✗ QRCode library tidak load!');
+    document.getElementById('qrisCanvas').innerHTML =
+      '<div style="padding:16px;font-size:10px;color:#c00;text-align:center;">Library gagal load. Cek koneksi internet.</div>';
+    return;
+  }
+  console.log('✓ QRCode library loaded');
   generateQR(selectedHarga);
 });
 
