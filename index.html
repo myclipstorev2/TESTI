@@ -3,894 +3,887 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TESTI MYCLIPS STORE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>CanvaStore — Canva Pro Premium</title>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Library untuk QRIS Dinamis -->
+<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
   :root {
-    --bg:          #F7EAE7;
-    --ink:         #211317;
-    --ink-soft:    #4A2D35;
-    --muted:       #96747C;
-    --line:        #E4CBCB;
-    --placeholder: #C4A3A6;
-    --accent:      #D02C5A;
-    --accent-deep: #A11E45;
-    --highlight:   #FCE4E8;
+    --cream: #FAF6E9;
+    --yellow: #FDE047;
+    --pink: #F472B6;
+    --purple: #C4A5F5;
+    --cyan: #5EEAD4;
+    --blue: #7DD3FC;
+    --green: #BEF264;
+    --black: #0F0F0F;
   }
 
-  html { scroll-behavior: smooth; }
+  html, body { min-height: 100%; }
 
   body {
-    background: var(--bg);
-    color: var(--ink);
-    font-family: 'Inter', system-ui, sans-serif;
-    font-size: 15px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.55;
-    mix-blend-mode: multiply;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.09'/%3E%3C/svg%3E");
-  }
-
-  .mono {
-    font-family: 'JetBrains Mono', ui-monospace, monospace;
-    font-size: 11px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-  }
-  .wrap { max-width: 1240px; margin: 0 auto; }
-
-  .conn-banner {
-    display: none;
-    padding: 10px 24px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.08em;
-    text-align: center;
-    background: #FCE4E8;
-    color: #A11E45;
-    border-bottom: 1px solid #E4CBCB;
-  }
-  .conn-banner.show { display: block; }
-
-  .marquee { border-bottom: 1px solid var(--line); overflow: hidden; padding: 14px 0; }
-  .marquee-track { display: flex; width: max-content; white-space: nowrap; animation: scroll 45s linear infinite; }
-  .marquee-content { display: flex; flex-shrink: 0; }
-  .marquee-content span {
-    color: var(--muted); margin: 0 32px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
-  }
-  .marquee-content span.heart { color: var(--accent); }
-  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
-
-  .header { padding: 72px 40px 48px; border-bottom: 1px solid var(--line); }
-  .header-top { display: flex; justify-content: space-between; color: var(--muted); }
-  .header-top .pink { color: var(--accent); }
-  .header h1 {
-    font-family: 'Instrument Serif', serif;
-    font-weight: 400;
-    font-size: clamp(52px, 9vw, 112px);
-    line-height: 0.9;
-    letter-spacing: -0.025em;
-    margin-top: 32px;
-  }
-  .header h1 em { font-style: italic; color: var(--accent); }
-
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr;
-    gap: 80px;
-    padding: 64px 40px 96px;
-  }
-  .form-sticky { position: sticky; top: 40px; }
-  .form-col h2 {
-    font-family: 'Instrument Serif', serif;
-    font-weight: 400;
-    font-size: 32px;
-    margin-bottom: 32px;
-    letter-spacing: -0.01em;
-  }
-  .form-col h2 em { font-style: italic; color: var(--accent); }
-
-  .field { margin-bottom: 28px; }
-  .field label { display: block; margin-bottom: 10px; color: var(--muted); }
-  .field input,
-  .field textarea {
-    width: 100%;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--line);
-    padding: 8px 0 12px;
-    font-family: inherit;
-    font-size: 16px;
-    color: var(--ink);
-    transition: border-color 0.25s;
-  }
-  .field input:focus,
-  .field textarea:focus { outline: none; border-bottom-color: var(--accent); }
-  .field input::placeholder,
-  .field textarea::placeholder { color: var(--placeholder); }
-  .field textarea {
-    resize: vertical;
-    min-height: 90px;
-    font-family: 'Instrument Serif', serif;
-    font-size: 18px;
-    line-height: 1.5;
-  }
-
-  .star-picker { display: flex; gap: 6px; font-size: 30px; line-height: 1; cursor: pointer; user-select: none; }
-  .star-picker span { color: var(--line); transition: color 0.15s, transform 0.15s; }
-  .star-picker span.active { color: var(--accent); }
-  .star-picker span:hover { transform: translateY(-3px); }
-
-  .btn-submit {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    background: var(--ink);
-    color: var(--bg);
-    border: none;
-    padding: 20px 24px;
-    cursor: pointer;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    transition: background 0.25s, opacity 0.25s;
-  }
-  .btn-submit:hover:not(:disabled) { background: var(--accent); }
-  .btn-submit:disabled { opacity: 0.6; cursor: wait; }
-  .btn-submit .arrow { font-size: 16px; transition: transform 0.25s; }
-  .btn-submit:hover:not(:disabled) .arrow { transform: translateX(6px); }
-
-  .stats {
-    display: flex;
-    align-items: center;
-    gap: 32px;
-    padding-bottom: 40px;
-    border-bottom: 1px solid var(--line);
-    margin-bottom: 40px;
-  }
-  .stats-num { display: flex; align-items: baseline; gap: 8px; }
-  .stats-num .big {
-    font-family: 'Instrument Serif', serif;
-    font-size: 72px;
-    line-height: 1;
-    letter-spacing: -0.03em;
-    color: var(--accent);
-  }
-  .stats-num .of { color: var(--muted); }
-  .stats-info { display: flex; flex-direction: column; gap: 6px; }
-  .stats-stars { font-size: 18px; letter-spacing: 3px; }
-  .stats-stars .on { color: var(--accent); }
-  .stats-stars .off { color: var(--line); }
-  .stats-info .label { color: var(--muted); }
-
-  .reviews-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    margin-bottom: 24px;
-  }
-  .reviews-head h3 {
-    font-family: 'Instrument Serif', serif;
-    font-weight: 400;
-    font-size: 24px;
-    letter-spacing: -0.01em;
-  }
-  .reviews-head span { color: var(--muted); }
-
-  .review {
-    padding: 22px 0;
-    border-bottom: 1px solid var(--line);
-    animation: fadeIn 0.45s ease;
-  }
-  .review:first-child { border-top: 1px solid var(--line); }
-  @keyframes fadeIn {
-    from { opacity: 0; transform: translateY(10px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .review.is-new { animation: fadeIn 0.45s ease, highlight 2.4s ease; }
-  @keyframes highlight {
-    0%   { background: var(--highlight); }
-    100% { background: transparent; }
-  }
-
-  .review-top {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: var(--muted);
-    margin-bottom: 10px;
-  }
-  .review-top .num { color: var(--accent); }
-  .review-top-right { display: flex; gap: 12px; align-items: center; }
-
-  .like-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    background: none;
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    padding: 4px 10px;
-    cursor: pointer;
-    color: var(--muted);
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    letter-spacing: 0.05em;
-    transition: all 0.2s ease;
-    line-height: 1;
-  }
-  .like-btn:hover:not(:disabled) {
-    border-color: var(--accent);
-    color: var(--accent);
-  }
-  .like-btn:disabled { cursor: default; }
-  .like-btn .heart-icon {
-    font-size: 12px;
-    line-height: 1;
-    transition: transform 0.2s;
-  }
-  .like-btn.liked {
-    background: var(--accent);
-    border-color: var(--accent);
-    color: white;
-  }
-  .like-btn.liked .heart-icon { animation: pop 0.35s ease; }
-  @keyframes pop {
-    0%   { transform: scale(1); }
-    40%  { transform: scale(1.4); }
-    70%  { transform: scale(0.9); }
-    100% { transform: scale(1); }
-  }
-  .like-count {
+    background: var(--cream);
+    color: var(--black);
+    font-family: 'Archivo', sans-serif;
     font-weight: 500;
-    min-width: 10px;
-    text-align: center;
+    background-image: radial-gradient(circle, rgba(0,0,0,0.07) 1px, transparent 1px);
+    background-size: 22px 22px;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
   }
 
-  .review-name {
-    font-family: 'Instrument Serif', serif;
-    font-size: 22px;
-    line-height: 1.1;
-    letter-spacing: -0.01em;
+  /* BG BLOBS */
+  .bg-blobs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .bg-blobs svg { position: absolute; width: 100%; height: 100%; opacity: 0.85; }
+
+  /* ICON */
+  .ico { width: 18px; height: 18px; flex-shrink: 0; display: inline-block; vertical-align: middle; }
+  .ico-xl { width: 38px; height: 38px; }
+
+  /* TOPBAR */
+  .topbar {
+    background: var(--yellow);
+    border-bottom: 3px solid var(--black);
+    padding: 14px 20px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .topbar-inner { max-width: 480px; margin: 0 auto; display: flex; align-items: center; gap: 10px; }
+  .topbar-logo {
+    width: 38px; height: 38px;
+    background: var(--pink);
+    border: 2.5px solid var(--black);
+    border-radius: 11px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 2.5px 2.5px 0 var(--black);
+    color: var(--black);
+    flex-shrink: 0;
+  }
+  .topbar-logo .ico { width: 20px; height: 20px; }
+  .topbar-title { font-size: 18px; font-weight: 900; letter-spacing: -0.6px; }
+  .topbar-pill {
+    background: white;
+    border: 2.5px solid var(--black);
+    border-radius: 30px;
+    padding: 4px 11px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    color: var(--black);
+    margin-left: auto;
+  }
+
+  /* FOOTER */
+  .footer-bar {
+    background: var(--yellow);
+    border-top: 3px solid var(--black);
+    padding: 16px 20px;
+    margin-top: auto;
+    position: relative;
+    z-index: 1;
+  }
+  .footer-inner {
+    max-width: 480px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--black);
+    flex-wrap: wrap;
+  }
+  .footer-brand { display: flex; align-items: center; gap: 8px; }
+  .footer-brand .dot {
+    width: 8px; height: 8px;
+    background: var(--pink);
+    border: 2px solid var(--black);
+    border-radius: 50%;
+  }
+  .footer-pill {
+    background: white;
+    border: 2px solid var(--black);
+    border-radius: 30px;
+    padding: 4px 10px;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 2px 2px 0 var(--black);
+  }
+
+  /* WRAP */
+  .wrap {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 40px 20px 60px;
+    position: relative;
+    z-index: 1;
+    flex: 1;
+  }
+
+  /* HEADER */
+  .header { text-align: center; margin-bottom: 28px; }
+  .logo-box {
+    width: 80px; height: 80px;
+    background: var(--pink);
+    border: 3px solid var(--black);
+    border-radius: 22px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 5px 5px 0 var(--black);
+    transform: rotate(-4deg);
+    color: var(--black);
+  }
+  .header h1 {
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: -1px;
     margin-bottom: 6px;
   }
-  .review-stars { font-size: 12px; letter-spacing: 3px; margin-bottom: 8px; }
-  .review-stars .on { color: var(--accent); }
-  .review-stars .off { color: var(--line); }
-  .review-text { color: var(--ink-soft); font-size: 14.5px; line-height: 1.5; max-width: 60ch; }
+  .header p { font-size: 14px; font-weight: 600; opacity: 0.7; }
 
-  .empty,
-  .loading {
-    padding: 48px 0;
-    color: var(--muted);
-    font-family: 'Instrument Serif', serif;
-    font-size: 20px;
-    font-style: italic;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
+  /* CARD */
+  .card {
+    background: white;
+    border: 3px solid var(--black);
+    border-radius: 22px;
+    padding: 22px;
+    box-shadow: 6px 6px 0 var(--black);
+    margin-bottom: 18px;
   }
-  .empty .heart { color: var(--accent); font-style: normal; }
+  .card-yellow { background: var(--yellow); }
+  .card-purple { background: var(--purple); }
+  .card-cyan   { background: var(--cyan); }
 
-  /* ── Tombol Load More ── */
-  .load-more-wrap {
-    padding: 28px 0 8px;
+  .label {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .label .ico { width: 16px; height: 16px; }
+
+  /* CHIPS */
+  .chips {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .chip {
+    border: 2.5px solid var(--black);
+    border-radius: 12px;
+    padding: 12px 6px;
     text-align: center;
-    display: none;
+    cursor: pointer;
+    background: white;
+    transition: all 0.12s;
+    box-shadow: 3px 3px 0 var(--black);
   }
-  .load-more-wrap.show { display: block; }
+  .chip:hover { transform: translate(1px, 1px); box-shadow: 2px 2px 0 var(--black); }
+  .chip.active {
+    background: var(--pink);
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 var(--black);
+  }
+  .chip .dur { font-size: 14px; font-weight: 900; letter-spacing: -0.3px; margin-bottom: 2px; }
+  .chip .hrg { font-size: 11px; font-weight: 700; opacity: 0.75; }
 
-  .load-more-btn {
+  /* INPUTS */
+  .field { margin-bottom: 12px; }
+  .field:last-child { margin-bottom: 0; }
+  .input-wrap { position: relative; }
+  .input-wrap .ico {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0.55;
+    pointer-events: none;
+    color: var(--black);
+  }
+  .field input {
+    width: 100%;
+    background: white;
+    border: 2.5px solid var(--black);
+    border-radius: 12px;
+    padding: 13px 14px 13px 42px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--black);
+    transition: all 0.12s;
+  }
+  .field input:focus {
+    outline: none;
+    background: var(--cream);
+    box-shadow: 3px 3px 0 var(--black);
+    transform: translate(-1px, -1px);
+  }
+  .field input::placeholder { color: #999; font-weight: 500; }
+
+  /* QRIS */
+  .qris-box {
+    background: white;
+    border: 2.5px solid var(--black);
+    border-radius: 14px;
+    padding: 16px;
+    box-shadow: 4px 4px 0 var(--black);
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+  .qris-canvas-wrap {
+    border: 2.5px solid var(--black);
+    border-radius: 10px;
+    background: white;
+    padding: 6px;
+    flex-shrink: 0;
+    position: relative;
+  }
+  #qrisCanvas {
+    display: block;
+    width: 140px;
+    height: 140px;
+    image-rendering: pixelated;
+  }
+  .qris-loading {
+    position: absolute;
+    inset: 6px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #999;
+  }
+  .qris-info { flex: 1; min-width: 0; }
+  .qris-info h4 {
+    font-size: 14px;
+    font-weight: 900;
+    margin-bottom: 4px;
+    letter-spacing: -0.3px;
+  }
+  .qris-info .nm-id {
+    font-size: 10px;
+    font-weight: 600;
+    opacity: 0.7;
+    margin-bottom: 8px;
+  }
+  .qris-info .nominal {
+    display: inline-block;
+    background: var(--yellow);
+    border: 2px solid var(--black);
+    border-radius: 8px;
+    padding: 3px 10px;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: -0.3px;
+    margin-bottom: 8px;
+    box-shadow: 2px 2px 0 var(--black);
+  }
+  .qris-info p {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.75;
+    margin-bottom: 10px;
+    line-height: 1.45;
+  }
+  .btn-dl {
     display: inline-flex;
     align-items: center;
-    gap: 10px;
-    background: transparent;
-    border: 1px solid var(--ink);
-    color: var(--ink);
-    padding: 14px 28px;
-    cursor: pointer;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    transition: all 0.25s;
-  }
-  .load-more-btn:hover:not(:disabled) {
-    background: var(--ink);
-    color: var(--bg);
-  }
-  .load-more-btn:disabled {
-    opacity: 0.5;
-    cursor: wait;
-  }
-  .load-more-btn .arrow {
-    font-size: 14px;
-    transition: transform 0.25s;
-  }
-  .load-more-btn:hover:not(:disabled) .arrow {
-    transform: translateY(3px);
-  }
-  .load-more-btn .remaining {
-    color: var(--muted);
-    margin-left: 4px;
-  }
-  .load-more-btn:hover:not(:disabled) .remaining {
-    color: var(--bg);
-    opacity: 0.7;
-  }
-
-  .toast {
-    position: fixed;
-    bottom: 24px;
-    left: 50%;
-    transform: translateX(-50%) translateY(80px);
-    background: var(--ink);
-    color: var(--bg);
-    padding: 12px 20px;
-    font-family: 'JetBrains Mono', monospace;
+    gap: 6px;
+    padding: 7px 12px;
+    background: var(--yellow);
+    border: 2px solid var(--black);
+    border-radius: 8px;
+    font-family: 'Archivo', sans-serif;
     font-size: 10px;
-    letter-spacing: 0.1em;
+    font-weight: 800;
+    letter-spacing: 0.4px;
     text-transform: uppercase;
-    border-radius: 2px;
-    transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.3);
-    z-index: 10000;
-    pointer-events: none;
-    max-width: calc(100vw - 32px);
+    text-decoration: none;
+    color: var(--black);
+    box-shadow: 2px 2px 0 var(--black);
+    transition: all 0.12s;
+    cursor: pointer;
+  }
+  .btn-dl:hover { transform: translate(1px, 1px); box-shadow: 1px 1px 0 var(--black); }
+  .btn-dl .ico { width: 12px; height: 12px; }
+
+  /* UPLOAD */
+  .upload {
+    border: 2.5px dashed var(--black);
+    border-radius: 14px;
+    padding: 24px 16px;
     text-align: center;
+    cursor: pointer;
+    transition: all 0.15s;
+    background: white;
+    color: var(--black);
   }
-  .toast.show { transform: translateX(-50%) translateY(0); }
-  .toast.error { background: var(--accent-deep); }
+  .upload:hover, .upload.dragover { background: var(--yellow); border-style: solid; }
+  .upload.has-file { background: white; border-style: solid; }
+  .upload input { display: none; }
+  .upload .upload-icon { display: flex; justify-content: center; margin-bottom: 8px; }
+  .upload .txt { font-size: 13px; font-weight: 800; letter-spacing: -0.2px; margin-bottom: 2px; }
+  .upload .sub { font-size: 11px; font-weight: 600; opacity: 0.65; }
+  .preview {
+    max-width: 130px;
+    max-height: 130px;
+    border-radius: 10px;
+    margin: 0 auto 8px;
+    display: block;
+    border: 2.5px solid var(--black);
+    box-shadow: 3px 3px 0 var(--black);
+  }
 
-  .footer {
-    padding: 40px;
-    border-top: 1px solid var(--line);
+  /* SUBMIT */
+  .btn-submit {
+    width: 100%;
+    padding: 16px;
+    background: var(--pink);
+    border: 3px solid var(--black);
+    border-radius: 14px;
+    font-family: 'Archivo', sans-serif;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 5px 5px 0 var(--black);
     display: flex;
-    justify-content: space-between;
-    color: var(--muted);
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.12s;
+    color: var(--black);
+    margin-top: 4px;
   }
-  .footer .heart { color: var(--accent); }
+  .btn-submit .ico { width: 18px; height: 18px; }
+  .btn-submit:hover:not(:disabled) { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--black); }
+  .btn-submit:active:not(:disabled) { transform: translate(5px, 5px); box-shadow: 0 0 0 var(--black); }
+  .btn-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
-  @media (max-width: 860px) {
-    .header { padding: 24px 14px 14px; }
-    .header-top { font-size: 9px; }
-    .header h1 {
-      font-size: clamp(34px, 12vw, 52px);
-      margin-top: 10px;
-      line-height: 0.95;
-    }
-
-    .marquee { padding: 8px 0; }
-    .marquee-content span { margin: 0 16px; font-size: 9px; }
-
-    .grid {
-      grid-template-columns: 1fr;
-      gap: 18px;
-      padding: 16px 14px 32px;
-    }
-    .form-sticky { position: static; }
-
-    .form-col h2 { font-size: 19px; margin-bottom: 12px; }
-    .field { margin-bottom: 12px; }
-    .field label { margin-bottom: 4px; font-size: 9px; }
-    .field input { padding: 4px 0 6px; font-size: 14px; }
-    .field textarea { min-height: 56px; font-size: 15px; padding: 4px 0 6px; }
-    .star-picker { font-size: 24px; gap: 3px; }
-    .btn-submit { padding: 13px 14px; font-size: 10px; }
-
-    .stats {
-      gap: 14px;
-      padding-bottom: 14px;
-      margin-bottom: 14px;
-    }
-    .stats-num { gap: 4px; }
-    .stats-num .big { font-size: 38px; }
-    .stats-num .of { font-size: 9px; }
-    .stats-stars { font-size: 13px; letter-spacing: 1.5px; }
-    .stats-info { gap: 2px; }
-    .stats-info .label { font-size: 9px; }
-
-    .reviews-head { margin-bottom: 8px; }
-    .reviews-head h3 { font-size: 16px; }
-    .reviews-head span { font-size: 9px; }
-
-    .review { padding: 12px 0; }
-    .review-top { margin-bottom: 5px; gap: 8px; }
-    .review-top .mono { font-size: 9px; }
-    .review-top-right { gap: 8px; }
-    .review-name { font-size: 17px; margin-bottom: 4px; }
-    .review-stars { font-size: 10px; letter-spacing: 1.5px; margin-bottom: 5px; }
-    .review-text { font-size: 13px; line-height: 1.45; }
-
-    .like-btn { padding: 3px 8px; font-size: 9px; gap: 4px; }
-    .like-btn .heart-icon { font-size: 11px; }
-
-    .load-more-wrap { padding: 18px 0 4px; }
-    .load-more-btn { padding: 11px 20px; font-size: 10px; gap: 8px; }
-
-    .footer {
-      padding: 16px 14px;
-      flex-direction: column;
-      gap: 4px;
-      font-size: 9px;
-    }
-
-    .toast { padding: 10px 16px; font-size: 9px; bottom: 12px; }
+  .spinner {
+    width: 16px; height: 16px;
+    border: 3px solid rgba(0,0,0,0.2);
+    border-top-color: var(--black);
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    display: none;
   }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-  @media (max-width: 400px) {
-    .header h1 { font-size: 32px; }
-    .grid { padding: 14px 12px 28px; gap: 14px; }
-    .review-name { font-size: 16px; }
-    .stats-num .big { font-size: 34px; }
-    .review-text { font-size: 12.5px; }
+  /* SUCCESS */
+  .success {
+    display: none;
+    background: var(--cyan);
+    border: 3px solid var(--black);
+    border-radius: 22px;
+    padding: 36px 24px;
+    text-align: center;
+    box-shadow: 6px 6px 0 var(--black);
+    animation: popIn 0.4s cubic-bezier(0.5, 1.5, 0.5, 1);
+  }
+  @keyframes popIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+  .success .check {
+    width: 66px; height: 66px;
+    background: var(--yellow);
+    border: 3px solid var(--black);
+    border-radius: 18px;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+    box-shadow: 4px 4px 0 var(--black);
+    transform: rotate(-5deg);
+    color: var(--black);
+  }
+  .success .check .ico { width: 34px; height: 34px; }
+  .success h2 { font-size: 22px; font-weight: 900; letter-spacing: -0.8px; margin-bottom: 8px; }
+  .success p { font-size: 13px; font-weight: 600; margin-bottom: 20px; line-height: 1.5; }
+  .success p strong { background: var(--yellow); padding: 1px 6px; border: 2px solid var(--black); border-radius: 5px; }
+  .btn-canva {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px;
+    background: var(--pink);
+    border: 3px solid var(--black);
+    border-radius: 14px;
+    color: var(--black);
+    text-decoration: none;
+    font-family: 'Archivo', sans-serif;
+    font-size: 14px;
+    font-weight: 900;
+    letter-spacing: 0.3px;
+    text-transform: uppercase;
+    box-shadow: 5px 5px 0 var(--black);
+    transition: all 0.12s;
+  }
+  .btn-canva .ico { width: 18px; height: 18px; }
+  .btn-canva:hover { transform: translate(2px, 2px); box-shadow: 3px 3px 0 var(--black); }
+
+  .warning {
+    margin-top: 16px;
+    padding: 10px 14px;
+    background: var(--yellow);
+    border: 2.5px solid var(--black);
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    box-shadow: 2px 2px 0 var(--black);
+  }
+  .warning .ico { width: 12px; height: 12px; }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 420px) {
+    .qris-box { flex-direction: column; text-align: center; }
+    #qrisCanvas { width: 180px; height: 180px; }
+    .topbar-title { font-size: 16px; }
   }
 </style>
 </head>
 <body>
 
-<div id="connBanner" class="conn-banner"></div>
+<!-- BG BLOBS -->
+<div class="bg-blobs" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path d="M 1080 60 C 1140 60 1180 100 1180 160 C 1180 220 1140 260 1080 260 C 1020 260 980 220 980 160 C 980 100 1020 60 1080 60 Z" fill="#F472B6" opacity="0.35"/>
+    <path d="M 1100 130 m -50 0 a 30 30 0 1 0 100 0 a 30 30 0 1 0 -100 0" fill="#C4A5F5" opacity="0.4"/>
+    <path d="M 100 80 C 160 70 200 120 190 180 C 180 240 120 260 70 240 C 20 220 10 160 30 120 C 50 90 70 85 100 80 Z" fill="#FDE047" opacity="0.5"/>
+    <path d="M 120 680 C 200 650 280 690 280 760 C 280 830 200 870 120 840 C 40 810 30 710 120 680 Z" fill="#5EEAD4" opacity="0.4"/>
+    <path d="M 1050 620 C 1120 590 1190 630 1200 700 L 1200 850 L 950 850 C 930 760 970 650 1050 620 Z" fill="#C4A5F5" opacity="0.45"/>
+    <path d="M 60 400 m -40 0 a 40 40 0 1 0 80 0 a 40 40 0 1 0 -80 0" fill="#F472B6" opacity="0.25"/>
+    <path d="M 1150 400 m -35 0 a 35 35 0 1 0 70 0 a 35 35 0 1 0 -70 0" fill="#FDE047" opacity="0.4"/>
+    <path d="M 600 60 m -30 0 a 30 30 0 1 0 60 0 a 30 30 0 1 0 -60 0" fill="#5EEAD4" opacity="0.35"/>
+    <path d="M 220 320 l 6 14 15 2 -11 10 3 15 -13 -7 -13 7 3 -15 -11 -10 15 -2 z" fill="#0F0F0F" opacity="0.15"/>
+    <path d="M 950 480 l 6 14 15 2 -11 10 3 15 -13 -7 -13 7 3 -15 -11 -10 15 -2 z" fill="#0F0F0F" opacity="0.12"/>
+  </svg>
+</div>
 
-<div class="marquee">
-  <div class="marquee-track">
-    <div class="marquee-content">
-      <span class="heart">♥</span>
-      <span>Testimoni Pelanggan</span>
-      <span>Setiap ulasan berarti bagi kami</span>
-      <span class="heart">♥</span>
-      <span>Terima kasih telah berbelanja</span>
-      <span>★★★★★</span>
-      <span>Kepercayaan Anda prioritas kami</span>
-      <span class="heart">♥</span>
-      <span>Testimoni Pelanggan</span>
-      <span>Setiap ulasan berarti bagi kami</span>
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-logo">
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+      </svg>
     </div>
-    <div class="marquee-content" aria-hidden="true">
-      <span class="heart">♥</span>
-      <span>Testimoni Pelanggan</span>
-      <span>Setiap ulasan berarti bagi kami</span>
-      <span class="heart">♥</span>
-      <span>Terima kasih telah berbelanja</span>
-      <span>★★★★★</span>
-      <span>Kepercayaan Anda prioritas kami</span>
-      <span class="heart">♥</span>
-      <span>Testimoni Pelanggan</span>
-      <span>Setiap ulasan berarti bagi kami</span>
+    <div class="topbar-title">MYCLIPS</div>
+    <div class="topbar-pill">Canva Store</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="wrap">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="logo-box">
+      <svg class="ico-xl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/>
+        <circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/>
+        <circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/>
+        <circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/>
+        <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/>
+      </svg>
+    </div>
+    <h1>Canva Pro Premium</h1>
+    <p>Aktif Instan — Harga Pelajar</p>
+  </div>
+
+  <!-- ORDER -->
+  <div id="orderSection">
+
+    <!-- DATA PEMESAN (KUNING) -->
+    <div class="card card-yellow">
+      <div class="label">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+        Pilih Durasi
+      </div>
+      <div class="chips" id="chips">
+        <div class="chip" data-paket="1 Bulan" data-harga="15000">
+          <div class="dur">1 Bln</div>
+          <div class="hrg">Rp 15K</div>
+        </div>
+        <div class="chip active" data-paket="2 Bulan" data-harga="25000">
+          <div class="dur">2 Bln</div>
+          <div class="hrg">Rp 25K</div>
+        </div>
+        <div class="chip" data-paket="3 Bulan" data-harga="35000">
+          <div class="dur">3 Bln</div>
+          <div class="hrg">Rp 35K</div>
+        </div>
+      </div>
+
+      <div class="label" style="margin-top:6px;">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+        Data Pemesan
+      </div>
+
+      <div class="field">
+        <div class="input-wrap">
+          <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+          <input type="tel" id="wa" placeholder="No. WhatsApp">
+        </div>
+      </div>
+      <div class="field">
+        <div class="input-wrap">
+          <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <input type="email" id="email" placeholder="Email aktif">
+        </div>
+      </div>
+    </div>
+
+    <!-- QRIS DINAMIS (UNGU) -->
+    <div class="card card-purple">
+      <div class="label">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
+        Scan QRIS — <span id="qrisNominal" style="margin-left:auto;">Rp 25.000</span>
+      </div>
+      <div class="qris-box">
+        <div class="qris-canvas-wrap">
+          <canvas id="qrisCanvas" width="280" height="280"></canvas>
+          <div class="qris-loading" id="qrisLoading">Memuat…</div>
+        </div>
+        <div class="qris-info">
+          <h4>MYCLIPS</h4>
+          <div class="nm-id">NMID: ID1025382075196</div>
+          <div class="nominal" id="nominalDisplay">Rp 25.000</div>
+          <p>Scan pakai m-banking / e-wallet. Nominal otomatis terisi.</p>
+          <a href="#" download="QRIS-MYCLIPS.png" class="btn-dl" id="btnDlQris">
+            <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            Simpan
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPLOAD (CYAN) -->
+    <div class="card card-cyan">
+      <div class="label">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+        Upload Bukti Transfer
+      </div>
+      <div class="upload" id="uploadZone">
+        <input type="file" id="fileInput" accept="image/*">
+        <div class="upload-icon">
+          <svg width="34" height="34" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+        </div>
+        <div class="txt">KLIK UNTUK UPLOAD</div>
+        <div class="sub">JPG / PNG · Max 5MB</div>
+      </div>
+    </div>
+
+    <!-- SUBMIT -->
+    <button class="btn-submit" id="btnSubmit">
+      <span class="spinner" id="spinner"></span>
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+      <span id="btnText">Dapatkan Akses</span>
+    </button>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success" id="successBox">
+    <div class="check">
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2>Berhasil!</h2>
+    <p>Klik tombol di bawah untuk akses Canva Pro.<br>Link hanya bisa dipakai <strong>1 KALI</strong>.</p>
+    <a href="#" id="canvaLink" class="btn-canva" target="_blank">
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+      Masuk ke Canva Pro
+    </a>
+    <div class="warning">
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+      Link hangus setelah diklik
     </div>
   </div>
 </div>
 
-<div class="wrap">
-
-  <header class="header">
-    <div class="header-top mono">
-      <span class="pink">♥ — Testimoni</span>
-      <span id="todayDate">—</span>
+<!-- FOOTER -->
+<div class="footer-bar">
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <span class="dot"></span>
+      <span>© 2025 MYCLIPS</span>
     </div>
-    <h1>Kata mereka tentang<br> <em>MYCLIPS STORE.</em></h1>
-  </header>
-
-  <main class="grid">
-
-    <section class="form-col">
-      <div class="form-sticky">
-        <h2>Tulis <em>ulasanmu</em></h2>
-        <form id="testiForm" autocomplete="off">
-          <div class="field">
-            <label class="mono" for="nama">Nama</label>
-            <input type="text" id="nama" placeholder="Nama kamu" maxlength="40" required>
-          </div>
-
-          <div class="field">
-            <label class="mono">Rating</label>
-            <div class="star-picker" id="starPicker" role="radiogroup" aria-label="Rating bintang">
-              <span data-value="1" role="radio" aria-label="1 bintang">★</span>
-              <span data-value="2" role="radio" aria-label="2 bintang">★</span>
-              <span data-value="3" role="radio" aria-label="3 bintang">★</span>
-              <span data-value="4" role="radio" aria-label="4 bintang">★</span>
-              <span data-value="5" role="radio" aria-label="5 bintang">★</span>
-            </div>
-          </div>
-
-          <div class="field">
-            <label class="mono" for="ulasan">Ulasan</label>
-            <textarea id="ulasan" placeholder="Ceritakan pengalamanmu..." maxlength="500" required></textarea>
-          </div>
-
-          <button type="submit" class="btn-submit" id="submitBtn">
-            <span id="submitLabel">Kirim Testimoni</span>
-            <span class="arrow">→</span>
-          </button>
-        </form>
-      </div>
-    </section>
-
-    <section class="review-col">
-      <div class="stats">
-        <div class="stats-num">
-          <span class="big" id="avgScore">0.0</span>
-          <span class="of mono">/ 5.0</span>
-        </div>
-        <div class="stats-info">
-          <div class="stats-stars" id="avgStars"></div>
-          <div class="label mono" id="totalTesti">Memuat...</div>
-        </div>
-      </div>
-
-      <div class="reviews-head">
-        <h3>Ulasan terbaru</h3>
-        <span class="mono" id="reviewsCount">— ulasan</span>
-      </div>
-
-      <div id="testiList">
-        <div class="loading">Memuat testimoni…</div>
-      </div>
-
-      <div class="load-more-wrap" id="loadMoreWrap">
-        <button class="load-more-btn" id="loadMoreBtn">
-          <span class="arrow">↓</span>
-          <span>Muat Lebih Banyak</span>
-          <span class="remaining" id="remainingText"></span>
-        </button>
-      </div>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <span class="mono">© MYCLIPS STORE</span>
-    <span class="mono">Since 2025<span class="heart"> </span></span>
-  </footer>
-
+    <div class="footer-pill">Canva Reseller</div>
+  </div>
 </div>
 
-<div class="toast" id="toast"></div>
+<!-- Gambar QRIS asli (hidden, buat di-decode) -->
+<img id="qrisSource" src="qrisku.png" alt="" style="display:none;">
 
 <script>
-  /* ═══════════════════════════════════════════
-     ⚠️  GANTI URL DI BAWAH INI
-     ═══════════════════════════════════════════ */
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxHL30_WaubAWiKOZYIZx-HhZkwRszOgw4m0y3suoB7lWLpelBjPi-8WGboQ3l7zCtM/exec';
-  /* ═══════════════════════════════════════════ */
+// ============ KONFIG ============
+const SCRIPT_URL = 'https://script.google.com/macros/s/XXXXX/exec'; // ← GANTI DENGAN URL APPS SCRIPT ANDA
 
-  const AUTO_REFRESH_MS = 10000;
-  const SYNC_DELAY_MS   = 900;
-  const LIKE_SYNC_MS    = 1200;
-  const LIKED_KEY       = 'testimoni_liked_ids_v1';
-  const PAGE_SIZE       = 15;
+// ============ STATE ============
+let selectedPaket = '2 Bulan';
+let selectedHarga = 25000;
+let selectedFile = null;
+let qrisBaseString = null;
 
-  let rating = 0;
-  let reviews = [];
-  let isLoading = false;
-  let justAddedId = null;
-  let likedIds = loadLikedIds();
-  let visibleCount = PAGE_SIZE;
+// ============ FORMAT RUPIAH ============
+function formatRp(n) {
+  return 'Rp ' + n.toLocaleString('id-ID');
+}
 
-  const starPicker = document.getElementById('starPicker');
-  const stars = starPicker.querySelectorAll('span');
-  const form = document.getElementById('testiForm');
-  const listEl = document.getElementById('testiList');
-  const submitBtn = document.getElementById('submitBtn');
-  const submitLabel = document.getElementById('submitLabel');
-  const connBanner = document.getElementById('connBanner');
-  const loadMoreWrap = document.getElementById('loadMoreWrap');
-  const loadMoreBtn = document.getElementById('loadMoreBtn');
-  const remainingText = document.getElementById('remainingText');
-
-  document.getElementById('todayDate').textContent =
-    new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' });
-
-  let toastTimer;
-  function toast(msg, isError = false) {
-    const el = document.getElementById('toast');
-    el.textContent = msg;
-    el.classList.toggle('error', isError);
-    el.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
-  }
-
-  function loadLikedIds() {
-    try { return new Set(JSON.parse(localStorage.getItem(LIKED_KEY) || '[]')); }
-    catch { return new Set(); }
-  }
-  function saveLikedIds() {
-    localStorage.setItem(LIKED_KEY, JSON.stringify([...likedIds]));
-  }
-
-  /* ── Sensor Nama ── */
-  function sensorNama(nama) {
-    const parts = String(nama).trim().split(/\s+/).filter(Boolean);
-    if (parts.length === 0) return nama;
-
-    if (parts.length === 1) {
-      const w = parts[0];
-      if (w.length <= 2) return w[0] + '*';
-      if (w.length === 3) return w.substring(0, 2) + '*';
-      if (w.length <= 6) return w.substring(0, 3) + '***';
-      return w.substring(0, 4) + '***';
+// ============ CRC16 CCITT ============
+function crc16(str) {
+  let crc = 0xFFFF;
+  for (let i = 0; i < str.length; i++) {
+    crc ^= str.charCodeAt(i) << 8;
+    for (let j = 0; j < 8; j++) {
+      if (crc & 0x8000) crc = (crc << 1) ^ 0x1021;
+      else crc = crc << 1;
+      crc &= 0xFFFF;
     }
+  }
+  return crc.toString(16).toUpperCase().padStart(4, '0');
+}
 
-    const first = parts[0].length > 8 ? parts[0].substring(0, 8) : parts[0];
-    const last = parts[parts.length - 1];
-    return first + ' ' + last[0] + '***';
+// ============ PARSE TLV ============
+function parseTLV(str) {
+  const result = [];
+  let i = 0;
+  while (i < str.length) {
+    if (i + 4 > str.length) break;
+    const tag = str.substr(i, 2);
+    const len = parseInt(str.substr(i + 2, 2), 10);
+    if (isNaN(len)) break;
+    const val = str.substr(i + 4, len);
+    result.push({ tag, val });
+    i += 4 + len;
+  }
+  return result;
+}
+
+function buildTLV(list) {
+  return list.map(item => {
+    const len = item.val.length.toString().padStart(2, '0');
+    return item.tag + len + item.val;
+  }).join('');
+}
+
+// ============ SET NOMINAL ============
+function setQrisAmount(qrisString, amount) {
+  const base = qrisString.slice(0, -4);
+  let tlv = parseTLV(base);
+  tlv = tlv.filter(item => item.tag !== '54' && item.tag !== '63');
+
+  // Ubah jadi dynamic QR
+  const idx01 = tlv.findIndex(item => item.tag === '01');
+  if (idx01 !== -1) tlv[idx01].val = '12';
+
+  // Insert nominal setelah tag 53 (currency)
+  if (amount > 0) {
+    let insertIdx = tlv.findIndex(item => item.tag === '53');
+    if (insertIdx === -1) insertIdx = tlv.length - 1;
+    else insertIdx += 1;
+    tlv.splice(insertIdx, 0, { tag: '54', val: amount.toString() });
   }
 
-  stars.forEach(star => {
-    star.addEventListener('click', () => {
-      rating = parseInt(star.dataset.value);
-      updateStars();
-    });
-    star.addEventListener('mouseenter', () => {
-      const val = parseInt(star.dataset.value);
-      stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.value) <= val));
-    });
+  let rebuilt = buildTLV(tlv);
+  rebuilt += '6304';
+  rebuilt += crc16(rebuilt);
+  return rebuilt;
+}
+
+// ============ GENERATE QR ============
+function generateQR(amount) {
+  if (!qrisBaseString) return;
+
+  const dynamicQris = setQrisAmount(qrisBaseString, amount);
+  const canvas = document.getElementById('qrisCanvas');
+
+  QRCode.toCanvas(canvas, dynamicQris, {
+    width: 280,
+    margin: 1,
+    errorCorrectionLevel: 'M',
+    color: { dark: '#0F0F0F', light: '#FFFFFF' }
+  }, (err) => {
+    if (err) {
+      console.error('QR Error:', err);
+      return;
+    }
+    document.getElementById('qrisLoading').style.display = 'none';
+    const dataUrl = canvas.toDataURL('image/png');
+    document.getElementById('btnDlQris').href = dataUrl;
   });
-  starPicker.addEventListener('mouseleave', updateStars);
 
-  function updateStars() {
-    stars.forEach(s => s.classList.toggle('active', parseInt(s.dataset.value) <= rating));
-  }
+  document.getElementById('nominalDisplay').textContent = formatRp(amount);
+  document.getElementById('qrisNominal').textContent = formatRp(amount);
+}
 
-  function escapeHtml(str) {
-    const d = document.createElement('div');
-    d.textContent = str;
-    return d.innerHTML;
-  }
-  function renderStars(r) {
-    return `<span class="on">${'★'.repeat(r)}</span><span class="off">${'☆'.repeat(5 - r)}</span>`;
-  }
+// ============ DECODE QRIS ============
+window.addEventListener('load', () => {
+  const img = document.getElementById('qrisSource');
 
-  function checkConfig() {
-    if (SCRIPT_URL.includes('PASTE_URL')) {
-      connBanner.textContent = '⚠ URL Google Apps Script belum diisi';
-      connBanner.classList.add('show');
-      listEl.innerHTML = '<div class="empty">Konfigurasi belum selesai.</div>';
-      return false;
-    }
-    return true;
-  }
-
-  async function loadReviews({ silent = false } = {}) {
-    if (isLoading) return;
-    isLoading = true;
+  function decodeImage() {
     try {
-      const res = await fetch(`${SCRIPT_URL}?action=list&t=${Date.now()}`);
-      const json = await res.json();
-      if (json.success) {
-        const wasEmpty = reviews.length === 0;
-        reviews = json.data;
-        if (wasEmpty) visibleCount = PAGE_SIZE;
-        connBanner.classList.remove('show');
-        render();
+      const c = document.createElement('canvas');
+      c.width = img.naturalWidth;
+      c.height = img.naturalHeight;
+      const ctx = c.getContext('2d');
+      ctx.drawImage(img, 0, 0);
+      const imageData = ctx.getImageData(0, 0, c.width, c.height);
+      const code = jsQR(imageData.data, c.width, c.height);
+
+      if (code && code.data) {
+        qrisBaseString = code.data;
+        console.log('✓ QRIS berhasil di-decode:', qrisBaseString);
+        generateQR(selectedHarga);
       } else {
-        throw new Error(json.message || 'Gagal memuat');
+        console.error('✗ QRIS tidak terbaca');
+        document.getElementById('qrisLoading').textContent = 'QR tidak terbaca';
       }
-    } catch (err) {
-      if (silent) return;
-      connBanner.textContent = '⚠ Tidak dapat terhubung ke server. Coba refresh halaman.';
-      connBanner.classList.add('show');
-      listEl.innerHTML = '<div class="empty">Gagal memuat testimoni.</div>';
-    } finally {
-      isLoading = false;
+    } catch (e) {
+      console.error(e);
+      document.getElementById('qrisLoading').textContent = 'Gagal decode';
     }
   }
 
-  async function addReview(payload) {
-    await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'add', ...payload })
-    });
-    return true;
-  }
-
-  async function likeReview(id) {
-    await fetch(SCRIPT_URL, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify({ action: 'like', id })
-    });
-    return true;
-  }
-
-  function render() {
-    listEl.innerHTML = '';
-
-    if (reviews.length === 0) {
-      listEl.innerHTML =
-        '<div class="empty">Belum ada ulasan. Jadilah yang pertama <span class="heart">♥</span></div>';
-      loadMoreWrap.classList.remove('show');
-      updateStats();
-      return;
-    }
-
-    const visible = reviews.slice(0, visibleCount);
-
-    visible.forEach((item, idx) => {
-      const num = String(reviews.length - idx).padStart(3, '0');
-      const isLiked = likedIds.has(item.id);
-      const displayName = sensorNama(item.nama);
-
-      const article = document.createElement('article');
-      article.className = 'review';
-      if (item.id && item.id === justAddedId) article.classList.add('is-new');
-      article.style.animationDelay = `${Math.min(idx * 0.03, 0.3)}s`;
-      article.innerHTML = `
-        <div class="review-top">
-          <span class="mono num">♥ No. ${num}</span>
-          <div class="review-top-right">
-            <span class="mono">${escapeHtml(item.tanggal)}</span>
-            <button class="like-btn${isLiked ? ' liked' : ''}"
-                    data-id="${escapeHtml(item.id)}"
-                    ${isLiked ? 'disabled' : ''}>
-              <span class="heart-icon">${isLiked ? '♥' : '♡'}</span>
-              <span class="like-count">${item.likes || 0}</span>
-            </button>
-          </div>
-        </div>
-        <div class="review-name">${escapeHtml(displayName)}</div>
-        <div class="review-stars">${renderStars(item.rating)}</div>
-        <div class="review-text">${escapeHtml(item.ulasan)}</div>
-      `;
-      listEl.appendChild(article);
-    });
-
-    if (justAddedId) {
-      const flag = justAddedId;
-      justAddedId = null;
-      setTimeout(() => {
-        const el = document.querySelector(`.like-btn[data-id="${flag}"]`);
-        if (el) el.closest('.review')?.classList.remove('is-new');
-      }, 2500);
-    }
-
-    listEl.querySelectorAll('.like-btn').forEach(btn => {
-      btn.addEventListener('click', async () => {
-        const id = btn.dataset.id;
-        if (likedIds.has(id)) return;
-
-        likedIds.add(id);
-        saveLikedIds();
-        btn.classList.add('liked');
-        btn.disabled = true;
-        btn.querySelector('.heart-icon').textContent = '♥';
-        const countEl = btn.querySelector('.like-count');
-        countEl.textContent = (parseInt(countEl.textContent) || 0) + 1;
-        toast('Makasih udah like ♥');
-
-        try {
-          await likeReview(id);
-          setTimeout(() => loadReviews({ silent: true }), LIKE_SYNC_MS);
-        } catch (err) {
-          likedIds.delete(id);
-          saveLikedIds();
-          btn.classList.remove('liked');
-          btn.disabled = false;
-          btn.querySelector('.heart-icon').textContent = '♡';
-          countEl.textContent = (parseInt(countEl.textContent) || 1) - 1;
-          toast('Gagal, coba lagi', true);
-        }
-      });
-    });
-
-    updateLoadMore();
-    updateStats();
-  }
-
-  function updateLoadMore() {
-    const left = reviews.length - visibleCount;
-    if (left > 0) {
-      loadMoreWrap.classList.add('show');
-      remainingText.textContent = `(+${left})`;
-      loadMoreBtn.disabled = false;
-    } else {
-      loadMoreWrap.classList.remove('show');
-    }
-  }
-
-  loadMoreBtn.addEventListener('click', () => {
-    loadMoreBtn.disabled = true;
-    const startIdx = visibleCount;
-    visibleCount = Math.min(visibleCount + PAGE_SIZE, reviews.length);
-    render();
-    setTimeout(() => {
-      const items = listEl.querySelectorAll('.review');
-      const target = items[startIdx];
-      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }, 80);
-  });
-
-  function updateStats() {
-    const countEl = document.getElementById('reviewsCount');
-    const totalEl = document.getElementById('totalTesti');
-    const avgEl = document.getElementById('avgScore');
-    const starsEl = document.getElementById('avgStars');
-
-    countEl.textContent = String(reviews.length).padStart(3, '0') + ' ulasan';
-
-    if (reviews.length === 0) {
-      avgEl.textContent = '0.0';
-      starsEl.innerHTML = renderStars(0);
-      totalEl.textContent = 'Belum ada ulasan';
-      return;
-    }
-
-    const avg = reviews.reduce((s, t) => s + t.rating, 0) / reviews.length;
-    avgEl.textContent = avg.toFixed(1);
-    starsEl.innerHTML = renderStars(Math.round(avg));
-    totalEl.textContent = `Dari ${reviews.length} pelanggan`;
-  }
-
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (rating === 0) {
-      toast('Pilih rating bintang dulu ♥', true);
-      return;
-    }
-    const nama = document.getElementById('nama').value.trim();
-    const ulasan = document.getElementById('ulasan').value.trim();
-    if (!nama || !ulasan) return;
-
-    const tempId = 'temp-' + Date.now();
-    const optimisticItem = {
-      id: tempId,
-      nama,
-      ulasan,
-      rating,
-      likes: 0,
-      tanggal: new Date().toLocaleDateString('id-ID', {
-        day: '2-digit', month: 'short', year: 'numeric'
-      })
+  if (img.complete && img.naturalWidth > 0) {
+    decodeImage();
+  } else {
+    img.onload = decodeImage;
+    img.onerror = () => {
+      document.getElementById('qrisLoading').textContent = 'qrisku.png tidak ditemukan';
     };
-    justAddedId = tempId;
-    reviews.unshift(optimisticItem);
-    visibleCount = Math.max(visibleCount, 1);
-    render();
-
-    const payload = { nama, ulasan, rating };
-    form.reset();
-    rating = 0;
-    updateStars();
-
-    document.querySelector('.review-col')
-      .scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-    toast('Terima kasih atas ulasanmu ♥');
-
-    try {
-      await addReview(payload);
-      setTimeout(async () => {
-        await loadReviews({ silent: true });
-      }, SYNC_DELAY_MS);
-    } catch (err) {
-      reviews = reviews.filter(r => r.id !== tempId);
-      render();
-      toast('Gagal mengirim, coba lagi', true);
-    }
-  });
-
-  if (checkConfig()) {
-    loadReviews();
-    setInterval(() => loadReviews({ silent: true }), AUTO_REFRESH_MS);
   }
+});
+
+// ============ CHIP PAKET ============
+document.querySelectorAll('.chip').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    selectedPaket = el.dataset.paket;
+    selectedHarga = parseInt(el.dataset.harga, 10);
+    generateQR(selectedHarga);
+  });
+});
+
+// ============ UPLOAD ============
+const uploadZone = document.getElementById('uploadZone');
+const fileInput = document.getElementById('fileInput');
+
+uploadZone.addEventListener('click', () => fileInput.click());
+uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', (e) => {
+  e.preventDefault();
+  uploadZone.classList.remove('dragover');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', (e) => { if (e.target.files[0]) handleFile(e.target.files[0]); });
+
+function handleFile(file) {
+  if (file.size > 5 * 1024 * 1024) return alert('File terlalu besar. Max 5MB.');
+  if (!file.type.startsWith('image/')) return alert('Hanya file gambar.');
+  selectedFile = file;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    uploadZone.classList.add('has-file');
+    uploadZone.innerHTML = `
+      <input type="file" id="fileInput" accept="image/*">
+      <img src="${e.target.result}" class="preview">
+      <div class="txt">✓ ${file.name}</div>
+      <div class="sub">Klik untuk ganti</div>
+    `;
+    uploadZone.addEventListener('click', () => document.getElementById('fileInput').click());
+    document.getElementById('fileInput').addEventListener('change', (ev) => {
+      if (ev.target.files[0]) handleFile(ev.target.files[0]);
+    });
+  };
+  reader.readAsDataURL(file);
+}
+
+// ============ SUBMIT ============
+const btnSubmit = document.getElementById('btnSubmit');
+const spinner = document.getElementById('spinner');
+const btnText = document.getElementById('btnText');
+
+btnSubmit.addEventListener('click', async () => {
+  const wa = document.getElementById('wa').value.trim();
+  const email = document.getElementById('email').value.trim();
+
+  if (!wa) return alert('Isi No. WhatsApp dulu ya!');
+  if (!email) return alert('Isi email dulu ya!');
+  if (!selectedFile) return alert('Upload bukti transfer dulu ya!');
+
+  btnSubmit.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'MEMPROSES...';
+
+  try {
+    const base64 = await fileToBase64(selectedFile);
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      body: JSON.stringify({
+        whatsapp: wa,
+        email,
+        paket: selectedPaket,
+        harga: selectedHarga,
+        screenshot: base64.split(',')[1],
+        mimeType: selectedFile.type
+      })
+    });
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('orderSection').classList.add('hidden');
+      const sb = document.getElementById('successBox');
+      sb.style.display = 'block';
+      document.getElementById('canvaLink').href = data.oneTimeLink;
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } else {
+      throw new Error(data.error || 'Gagal');
+    }
+  } catch (err) {
+    alert('Gagal: ' + err.message);
+    btnSubmit.disabled = false;
+    spinner.style.display = 'none';
+    btnText.textContent = 'Dapatkan Akses';
+  }
+});
+
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
 </script>
+
 </body>
 </html>
