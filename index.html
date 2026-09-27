@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CanvaStore — Canva Pro Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- Library untuk QRIS Dinamis -->
-<script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
+<!-- Library generate QR -->
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -17,8 +16,6 @@
     --pink: #F472B6;
     --purple: #C4A5F5;
     --cyan: #5EEAD4;
-    --blue: #7DD3FC;
-    --green: #BEF264;
     --black: #0F0F0F;
   }
 
@@ -570,7 +567,6 @@
       <div class="qris-box">
         <div class="qris-canvas-wrap">
           <canvas id="qrisCanvas" width="280" height="280"></canvas>
-          <div class="qris-loading" id="qrisLoading">Memuat…</div>
         </div>
         <div class="qris-info">
           <h4>MYCLIPS</h4>
@@ -638,18 +634,18 @@
   </div>
 </div>
 
-<!-- Gambar QRIS asli (hidden, buat di-decode) -->
-<img id="qrisSource" src="qrisku.png" alt="" style="display:none;">
-
 <script>
 // ============ KONFIG ============
 const SCRIPT_URL = 'https://script.google.com/macros/s/XXXXX/exec'; // ← GANTI DENGAN URL APPS SCRIPT ANDA
+
+// ============ QRIS STRING (dari decode qrisku.png) ============
+// String ini di-hardcode, jadi tidak perlu decode gambar lagi
+const QRIS_BASE = '00020101021226610014COM.GO-JEK.WWW01189360091438038279540303UMI51440014ID.CO.QRIS.WWW0215ID10253820751960303UMI5204581553033605802ID5907MYCLIPS6007NGANJUK61056439562070703A016304AF5F';
 
 // ============ STATE ============
 let selectedPaket = '2 Bulan';
 let selectedHarga = 25000;
 let selectedFile = null;
-let qrisBaseString = null;
 
 // ============ FORMAT RUPIAH ============
 function formatRp(n) {
@@ -699,7 +695,7 @@ function setQrisAmount(qrisString, amount) {
   let tlv = parseTLV(base);
   tlv = tlv.filter(item => item.tag !== '54' && item.tag !== '63');
 
-  // Ubah jadi dynamic QR
+  // Set jadi dynamic (tag 01 = 12)
   const idx01 = tlv.findIndex(item => item.tag === '01');
   if (idx01 !== -1) tlv[idx01].val = '12';
 
@@ -719,9 +715,7 @@ function setQrisAmount(qrisString, amount) {
 
 // ============ GENERATE QR ============
 function generateQR(amount) {
-  if (!qrisBaseString) return;
-
-  const dynamicQris = setQrisAmount(qrisBaseString, amount);
+  const dynamicQris = setQrisAmount(QRIS_BASE, amount);
   const canvas = document.getElementById('qrisCanvas');
 
   QRCode.toCanvas(canvas, dynamicQris, {
@@ -734,7 +728,6 @@ function generateQR(amount) {
       console.error('QR Error:', err);
       return;
     }
-    document.getElementById('qrisLoading').style.display = 'none';
     const dataUrl = canvas.toDataURL('image/png');
     document.getElementById('btnDlQris').href = dataUrl;
   });
@@ -743,42 +736,9 @@ function generateQR(amount) {
   document.getElementById('qrisNominal').textContent = formatRp(amount);
 }
 
-// ============ DECODE QRIS ============
+// ============ INIT — Generate QR pertama kali ============
 window.addEventListener('load', () => {
-  const img = document.getElementById('qrisSource');
-
-  function decodeImage() {
-    try {
-      const c = document.createElement('canvas');
-      c.width = img.naturalWidth;
-      c.height = img.naturalHeight;
-      const ctx = c.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      const imageData = ctx.getImageData(0, 0, c.width, c.height);
-      const code = jsQR(imageData.data, c.width, c.height);
-
-      if (code && code.data) {
-        qrisBaseString = code.data;
-        console.log('✓ QRIS berhasil di-decode:', qrisBaseString);
-        generateQR(selectedHarga);
-      } else {
-        console.error('✗ QRIS tidak terbaca');
-        document.getElementById('qrisLoading').textContent = 'QR tidak terbaca';
-      }
-    } catch (e) {
-      console.error(e);
-      document.getElementById('qrisLoading').textContent = 'Gagal decode';
-    }
-  }
-
-  if (img.complete && img.naturalWidth > 0) {
-    decodeImage();
-  } else {
-    img.onload = decodeImage;
-    img.onerror = () => {
-      document.getElementById('qrisLoading').textContent = 'qrisku.png tidak ditemukan';
-    };
-  }
+  generateQR(selectedHarga);
 });
 
 // ============ CHIP PAKET ============
