@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CanvaStore — Canva Pro Premium</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -224,7 +223,6 @@
   }
   .field input::placeholder { color: #999; font-weight: 500; }
 
-  /* QRIS — FIXED */
   .qris-box {
     background: white;
     border: 2.5px solid var(--black);
@@ -235,7 +233,7 @@
     gap: 16px;
     align-items: center;
   }
-  .qris-canvas-wrap {
+  .qris-img-wrap {
     border: 2.5px solid var(--black);
     border-radius: 10px;
     background: white;
@@ -248,22 +246,11 @@
     align-items: center;
     justify-content: center;
   }
-  #qrisCanvas {
+  .qris-img-wrap img {
+    display: block;
     width: 140px;
     height: 140px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-  }
-  #qrisCanvas canvas,
-  #qrisCanvas img {
-    display: block !important;
-    width: 140px !important;
-    height: 140px !important;
-    max-width: 140px !important;
-    max-height: 140px !important;
-    image-rendering: pixelated;
+    object-fit: contain;
   }
   .qris-info { flex: 1; min-width: 0; }
   .qris-info h4 {
@@ -283,19 +270,19 @@
     background: var(--yellow);
     border: 2px solid var(--black);
     border-radius: 8px;
-    padding: 3px 10px;
-    font-size: 14px;
+    padding: 4px 12px;
+    font-size: 15px;
     font-weight: 900;
     letter-spacing: -0.3px;
     margin-bottom: 8px;
     box-shadow: 2px 2px 0 var(--black);
   }
-  .qris-info p {
+  .qris-info .step {
     font-size: 11px;
     font-weight: 600;
-    opacity: 0.75;
-    margin-bottom: 10px;
-    line-height: 1.45;
+    opacity: 0.8;
+    margin-bottom: 8px;
+    line-height: 1.5;
   }
   .btn-dl {
     display: inline-flex;
@@ -449,19 +436,14 @@
 
   @media (max-width: 420px) {
     .qris-box { flex-direction: column; text-align: center; }
-    .qris-canvas-wrap { width: 180px; height: 180px; }
-    #qrisCanvas { width: 168px; height: 168px; }
-    #qrisCanvas canvas, #qrisCanvas img {
-      width: 168px !important; height: 168px !important;
-      max-width: 168px !important; max-height: 168px !important;
-    }
+    .qris-img-wrap { width: 180px; height: 180px; }
+    .qris-img-wrap img { width: 168px; height: 168px; }
     .topbar-title { font-size: 16px; }
   }
 </style>
 </head>
 <body>
 
-<!-- BG BLOBS -->
 <div class="bg-blobs" aria-hidden="true">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
     <path d="M 1080 60 C 1140 60 1180 100 1180 160 C 1180 220 1140 260 1080 260 C 1020 260 980 220 980 160 C 980 100 1020 60 1080 60 Z" fill="#F472B6" opacity="0.35"/>
@@ -477,7 +459,6 @@
   </svg>
 </div>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="topbar-inner">
     <div class="topbar-logo">
@@ -494,7 +475,6 @@
   </div>
 </div>
 
-<!-- MAIN -->
 <div class="wrap">
 
   <div class="header">
@@ -558,17 +538,19 @@
         Scan QRIS — <span id="qrisNominal" style="margin-left:auto;">Rp 25.000</span>
       </div>
       <div class="qris-box">
-        <div class="qris-canvas-wrap">
-          <div id="qrisCanvas"></div>
+        <div class="qris-img-wrap">
+          <img src="qrisku.png" alt="QRIS MYCLIPS">
         </div>
         <div class="qris-info">
           <h4>MYCLIPS</h4>
           <div class="nm-id">NMID: ID1025382075196</div>
           <div class="nominal" id="nominalDisplay">Rp 25.000</div>
-          <p>Scan pakai m-banking / e-wallet. Nominal otomatis terisi.</p>
-          <a href="#" download="QRIS-MYCLIPS.png" class="btn-dl" id="btnDlQris">
+          <div class="step">
+            Scan QRIS di samping, lalu <strong>transfer sesuai nominal di atas</strong>.
+          </div>
+          <a href="qrisku.png" download="QRIS-MYCLIPS.png" class="btn-dl">
             <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-            Simpan
+            Simpan QRIS
           </a>
         </div>
       </div>
@@ -625,10 +607,7 @@
 
 <script>
 // ============ KONFIG ============
-const SCRIPT_URL = 'https://script.google.com/macros/s/XXXXX/exec'; // ← GANTI
-
-// ============ QRIS STRING ============
-const QRIS_BASE = '00020101021226610014COM.GO-JEK.WWW01189360091438038279540303UMI51440014ID.CO.QRIS.WWW0215ID10253820751960303UMI5204581553033605802ID5907MYCLIPS6007NGANJUK61056439562070703A016304AF5F';
+const SCRIPT_URL = 'https://script.google.com/macros/s/XXXXX/exec'; // ← GANTI DENGAN URL APPS SCRIPT ANDA
 
 // ============ STATE ============
 let selectedPaket = '2 Bulan';
@@ -640,88 +619,6 @@ function formatRp(n) {
   return 'Rp ' + n.toLocaleString('id-ID');
 }
 
-// ============ CRC16 CCITT ============
-function crc16(str) {
-  let crc = 0xFFFF;
-  for (let i = 0; i < str.length; i++) {
-    crc ^= str.charCodeAt(i) << 8;
-    for (let j = 0; j < 8; j++) {
-      if (crc & 0x8000) crc = (crc << 1) ^ 0x1021;
-      else crc = crc << 1;
-      crc &= 0xFFFF;
-    }
-  }
-  return crc.toString(16).toUpperCase().padStart(4, '0');
-}
-
-// ============ SET NOMINAL (ROBUST) ============
-function setQrisAmount(qrisString, amount) {
-  // 1. Buang CRC lama (8 char terakhir = "6304" + 4 hex)
-  let body = qrisString.slice(0, -8);
-
-  // 2. Hapus tag 54 lama kalau ada (regex: 54 + 2 digit + digit/dot)
-  body = body.replace(/54\d{2}[\d.]+/, '');
-
-  // 3. Buat tag 54 baru
-  const amountStr = amount.toString();
-  const newTag = '54' + String(amountStr.length).padStart(2, '0') + amountStr;
-
-  // 4. Sisipkan sebelum tag 58 (country code 5802ID)
-  const idx58 = body.indexOf('5802ID');
-  if (idx58 === -1) throw new Error('QRIS tidak valid: tag 58 tidak ditemukan');
-  body = body.slice(0, idx58) + newTag + body.slice(idx58);
-
-  // 5. Hitung ulang CRC
-  const withCRC = body + '6304';
-  return withCRC + crc16(withCRC);
-}
-
-// ============ GENERATE QR ============
-function generateQR(amount) {
-  document.getElementById('nominalDisplay').textContent = formatRp(amount);
-  document.getElementById('qrisNominal').textContent = formatRp(amount);
-
-  try {
-    const dynamicQris = setQrisAmount(QRIS_BASE, amount);
-    console.log('✓ Dynamic QRIS:', dynamicQris);
-
-    const wrap = document.getElementById('qrisCanvas');
-    wrap.innerHTML = '';
-
-    new QRCode(wrap, {
-      text: dynamicQris,
-      width: 280,
-      height: 280,
-      colorDark: '#0F0F0F',
-      colorLight: '#FFFFFF',
-      correctLevel: QRCode.CorrectLevel.M
-    });
-
-    setTimeout(() => {
-      const cv = wrap.querySelector('canvas');
-      if (cv) {
-        document.getElementById('btnDlQris').href = cv.toDataURL('image/png');
-      }
-    }, 150);
-  } catch (e) {
-    console.error('✗ QR Error:', e);
-    document.getElementById('qrisCanvas').innerHTML =
-      '<div style="padding:16px;font-size:10px;color:#c00;font-weight:700;text-align:center;">QR gagal: ' + e.message + '</div>';
-  }
-}
-
-// ============ INIT ============
-window.addEventListener('load', () => {
-  if (typeof QRCode === 'undefined') {
-    console.error('✗ QRCode library tidak load!');
-    document.getElementById('qrisCanvas').innerHTML =
-      '<div style="padding:16px;font-size:10px;color:#c00;text-align:center;">Library gagal load.</div>';
-    return;
-  }
-  console.log('✓ QRCode library loaded');
-  generateQR(selectedHarga);
-});
-
 // ============ CHIP PAKET ============
 document.querySelectorAll('.chip').forEach(el => {
   el.addEventListener('click', () => {
@@ -729,7 +626,8 @@ document.querySelectorAll('.chip').forEach(el => {
     el.classList.add('active');
     selectedPaket = el.dataset.paket;
     selectedHarga = parseInt(el.dataset.harga, 10);
-    generateQR(selectedHarga);
+    document.getElementById('nominalDisplay').textContent = formatRp(selectedHarga);
+    document.getElementById('qrisNominal').textContent = formatRp(selectedHarga);
   });
 });
 
