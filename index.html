@@ -2,253 +2,458 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MYCLIPS STORE — Canva Pro/Tim</title>
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
-:root{--cream:#FAF6E9;--k:#000;--yel:#FFD93D;--pur:#B79CFF;--cy:#5CE1E6;--pk:#FF6FB5;--gr:#7BE495;--wa:#25D366}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Archivo',sans-serif;color:var(--k);background-color:var(--cream);background-image:radial-gradient(rgba(0,0,0,.22) 1.4px,transparent 1.4px);background-size:20px 20px;padding-bottom:80px;min-height:100vh}
-.topbar{position:sticky;top:0;z-index:20;background:var(--yel);border-bottom:3px solid var(--k);display:flex;align-items:center;gap:10px;padding:10px 16px}
-.topbar h1{font-size:18px;font-weight:900;flex:1}
-.logo-s{width:38px;height:38px;background:var(--pk);border:3px solid var(--k);display:grid;place-items:center;overflow:hidden}
-.logo-s img{width:100%;height:100%;object-fit:contain}
-.pill{background:#fff;border:2.5px solid var(--k);padding:3px 10px;font-weight:800;font-size:12px;border-radius:99px}
-.wrap{max-width:560px;margin:0 auto;padding:20px 16px}
-.head{display:flex;align-items:center;gap:16px;margin-bottom:20px}
-.logo-b{width:80px;height:80px;background:var(--pk);border:3px solid var(--k);box-shadow:6px 6px 0 var(--k);transform:rotate(-4deg);display:grid;place-items:center;overflow:hidden;flex-shrink:0}
-.logo-b img{width:100%;height:100%;object-fit:contain}
-.head h2{font-size:30px;font-weight:900;line-height:1.05}
-.head p{font-weight:600;margin-top:4px}
-.card{border:3px solid var(--k);box-shadow:6px 6px 0 var(--k);padding:18px;margin-bottom:22px}
-.c-yel{background:var(--yel)}.c-pur{background:var(--pur)}.c-cy{background:var(--cy)}.c-gr{background:var(--gr)}
-.lbl{font-weight:800;font-size:15px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:8px}
-.lbl+.lbl,.chips+.lbl{margin-top:14px}
-.btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;border:3px solid var(--k);box-shadow:4px 4px 0 var(--k);padding:13px;font:800 15px 'Archivo',sans-serif;color:var(--k);text-decoration:none;cursor:pointer;transition:transform .08s,box-shadow .08s}
-.btn:active:not(:disabled){transform:translate(4px,4px);box-shadow:0 0 0 var(--k)}
-.btn:disabled{opacity:.7;cursor:wait}
-.b-wa{background:var(--wa)}.b-yel{background:var(--yel)}.b-pk{background:var(--pk)}.b-gr{background:var(--gr)}.b-cr{background:var(--cream)}
-.actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:22px}
-.actions .btn{font-size:13px;padding:11px 6px}
-.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.chip{background:#fff;border:3px solid var(--k);box-shadow:3px 3px 0 var(--k);padding:10px 4px;text-align:center;font:800 14px 'Archivo',sans-serif;cursor:pointer;transition:transform .08s,box-shadow .08s}
-.chip small{display:block;font-weight:600;font-size:12px;margin-top:2px}
-.chip.on{background:var(--pk);transform:translate(3px,3px);box-shadow:0 0 0 var(--k)}
-.in{position:relative;margin-bottom:10px}
-.in span{position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:17px}
-.in input{width:100%;background:#fff;border:2.5px solid var(--k);padding:12px 12px 12px 42px;font:600 15px 'Archivo',sans-serif;outline:none}
-.in input:focus{box-shadow:3px 3px 0 var(--k)}
-.qris{display:flex;gap:14px;align-items:flex-start}
-.qbox{background:#fff;border:3px solid var(--k);padding:6px;width:150px;flex-shrink:0}
-.qbox img{width:100%;display:block}
-.qinfo{flex:1;font-size:14px;font-weight:500}
-.qinfo b.m{font-size:18px;font-weight:900;display:block}
-.hl{background:var(--yel);border:2.5px solid var(--k);padding:4px 8px;display:inline-block;font-weight:900;margin:6px 0}
-.qinfo p{margin:6px 0 10px}
-.up{display:block;border:3px dashed var(--k);background:#fff;padding:22px 10px;text-align:center;cursor:pointer;font-weight:900}
-.up:hover{background:var(--yel)}
-.up small{display:block;font-weight:600;margin-top:4px}
-.up.has{background:var(--cy)}
-.up img{max-width:100%;max-height:200px;border:2.5px solid var(--k);margin-bottom:8px}
-.note{background:#fff;border:2.5px dashed var(--k);padding:12px;font-size:14px;margin-bottom:14px;line-height:1.55}
-.hide{display:none!important}
-.ok{text-align:center}
-.ok .tick{width:84px;height:84px;background:var(--yel);border:3px solid var(--k);box-shadow:4px 4px 0 var(--k);transform:rotate(-5deg);display:grid;place-items:center;font-size:44px;margin:0 auto 14px}
-.ok h3{font-size:28px;font-weight:900;margin-bottom:6px}
-.ok p{font-weight:600;margin-bottom:16px}
-.warn{background:var(--yel);border:2.5px solid var(--k);padding:8px;margin-top:16px;font-size:13px;font-weight:700}
-.kode{background:#fff;border:2.5px solid var(--k);padding:8px;margin-top:14px;font-weight:700;font-size:14px}
-.kode b{font-size:18px;letter-spacing:1px;display:block;margin-top:2px}
-.foot{position:fixed;bottom:0;left:0;right:0;background:var(--yel);border-top:3px solid var(--k);display:flex;justify-content:space-between;align-items:center;padding:10px 16px;font-weight:800;font-size:13px;z-index:20}
-.spin{width:16px;height:16px;border:3px solid var(--k);border-top-color:transparent;border-radius:50%;animation:s .7s linear infinite}
-@keyframes s{to{transform:rotate(360deg)}}
-#toast{position:fixed;left:50%;bottom:70px;transform:translate(-50%,120px);background:var(--k);color:#fff;border:3px solid var(--k);padding:12px 18px;font-weight:700;font-size:14px;z-index:50;transition:transform .3s;max-width:90%;text-align:center}
-#toast.show{transform:translate(-50%,0)}
-#toast.err{background:#E63946}#toast.suc{background:#1B9E4B}
-@media(max-width:480px){.qris{flex-direction:column;align-items:stretch}.qbox{width:100%;max-width:220px;margin:0 auto}.head h2{font-size:25px}}
-@media(prefers-reduced-motion:reduce){*{transition:none!important;animation-duration:2s!important}}
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--cream:#FAF6E9;--yellow:#FDE047;--pink:#F472B6;--purple:#C4A5F5;--cyan:#5EEAD4;--green:#BEF264;--wa:#25D366;--black:#0F0F0F}
+html,body{min-height:100%}
+body{background:var(--cream);color:var(--black);font-family:'Archivo',sans-serif;font-weight:500;background-image:radial-gradient(circle,rgba(0,0,0,.22) 1.4px,transparent 1.4px);background-size:20px 20px;display:flex;flex-direction:column;min-height:100vh;position:relative;overflow-x:hidden}
+.bg-blobs{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.bg-blobs svg{position:absolute;width:100%;height:100%;opacity:.85}
+.ico{width:18px;height:18px;flex-shrink:0;display:inline-block;vertical-align:middle}
+.topbar{background:var(--yellow);border-bottom:3px solid var(--black);padding:14px 20px;position:sticky;top:0;z-index:100}
+.topbar-inner{max-width:480px;margin:0 auto;display:flex;align-items:center;gap:10px}
+.topbar-logo{width:38px;height:38px;background:var(--pink);border:2.5px solid var(--black);border-radius:11px;display:flex;align-items:center;justify-content:center;box-shadow:2.5px 2.5px 0 var(--black);flex-shrink:0;overflow:hidden}
+.topbar-logo img{width:100%;height:100%;object-fit:contain;display:block}
+.topbar-title{font-size:16px;font-weight:900;letter-spacing:-.6px}
+.topbar-pill{background:#fff;border:2.5px solid var(--black);border-radius:30px;padding:4px 11px;font-size:10px;font-weight:800;letter-spacing:.6px;text-transform:uppercase;color:var(--black);margin-left:auto}
+.footer-bar{background:var(--yellow);border-top:3px solid var(--black);padding:16px 20px;margin-top:auto;position:relative;z-index:1}
+.footer-inner{max-width:480px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:12px;font-size:11px;font-weight:700;color:var(--black);flex-wrap:wrap}
+.footer-brand{display:flex;align-items:center;gap:8px}
+.footer-brand .dot{width:8px;height:8px;background:var(--pink);border:2px solid var(--black);border-radius:50%}
+.footer-pill{background:#fff;border:2px solid var(--black);border-radius:30px;padding:4px 10px;font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;box-shadow:2px 2px 0 var(--black)}
+.wrap{width:100%;max-width:480px;margin:0 auto;padding:40px 20px 60px;position:relative;z-index:1;flex:1}
+.header{text-align:center;margin-bottom:24px}
+.logo-box{width:80px;height:80px;background:var(--pink);border:3px solid var(--black);border-radius:22px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:5px 5px 0 var(--black);transform:rotate(-4deg);overflow:hidden}
+.logo-box img{width:100%;height:100%;object-fit:contain;display:block}
+.header h1{font-size:28px;font-weight:900;letter-spacing:-1px;margin-bottom:6px}
+.header p{font-size:14px;font-weight:600;opacity:.7}
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px}
+.action-btn{padding:14px 10px;border:2.5px solid var(--black);border-radius:14px;background:#fff;font-family:'Archivo',sans-serif;font-weight:800;font-size:12px;letter-spacing:-.2px;text-transform:uppercase;cursor:pointer;box-shadow:3px 3px 0 var(--black);transition:all .12s;display:flex;align-items:center;justify-content:center;gap:8px;color:var(--black);text-decoration:none}
+.action-btn:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--black)}
+.action-btn:active{transform:translate(3px,3px);box-shadow:0 0 0 var(--black)}
+.action-btn .ico{width:16px;height:16px}
+.action-wa{background:var(--wa);color:#fff}.action-wa:hover{background:#1FB855}
+.action-garansi{background:var(--yellow)}.action-back{background:var(--cream)}
+.card{background:#fff;border:3px solid var(--black);border-radius:22px;padding:22px;box-shadow:6px 6px 0 var(--black);margin-bottom:18px}
+.card-yellow{background:var(--yellow)}.card-purple{background:var(--purple)}.card-cyan{background:var(--cyan)}.card-green{background:var(--green)}
+.label{font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.label .ico{width:16px;height:16px}
+.chips{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:22px}
+.chip{border:2.5px solid var(--black);border-radius:12px;padding:12px 6px;text-align:center;cursor:pointer;background:#fff;transition:all .12s;box-shadow:3px 3px 0 var(--black)}
+.chip:hover{transform:translate(1px,1px);box-shadow:2px 2px 0 var(--black)}
+.chip.active{background:var(--pink);transform:translate(2px,2px);box-shadow:1px 1px 0 var(--black)}
+.chip .dur{font-size:14px;font-weight:900;letter-spacing:-.3px;margin-bottom:2px}
+.chip .hrg{font-size:11px;font-weight:700;opacity:.75}
+.field{margin-bottom:12px}.field:last-child{margin-bottom:0}
+.input-wrap{position:relative}
+.input-wrap .ico{position:absolute;left:14px;top:50%;transform:translateY(-50%);opacity:.55;pointer-events:none;color:var(--black)}
+.field input{width:100%;background:#fff;border:2.5px solid var(--black);border-radius:12px;padding:13px 14px 13px 42px;font-family:'Archivo',sans-serif;font-size:14px;font-weight:600;color:var(--black);transition:all .12s}
+.field input:focus{outline:none;background:var(--cream);box-shadow:3px 3px 0 var(--black);transform:translate(-1px,-1px)}
+.field input::placeholder{color:#999;font-weight:500}
+.qris-box{background:#fff;border:2.5px solid var(--black);border-radius:14px;padding:16px;box-shadow:4px 4px 0 var(--black);display:flex;gap:16px;align-items:center}
+.qris-img-wrap{border:2.5px solid var(--black);border-radius:10px;background:#fff;padding:6px;flex-shrink:0;width:152px;height:152px;overflow:hidden;display:flex;align-items:center;justify-content:center}
+.qris-img-wrap img{display:block;width:140px;height:140px;object-fit:contain}
+.qris-info{flex:1;min-width:0}
+.qris-info h4{font-size:14px;font-weight:900;margin-bottom:4px;letter-spacing:-.3px}
+.qris-info .nm-id{font-size:10px;font-weight:600;opacity:.7;margin-bottom:8px}
+.qris-info .nominal{display:inline-block;background:var(--yellow);border:2px solid var(--black);border-radius:8px;padding:4px 12px;font-size:15px;font-weight:900;letter-spacing:-.3px;margin-bottom:8px;box-shadow:2px 2px 0 var(--black)}
+.qris-info .step{font-size:11px;font-weight:600;opacity:.8;margin-bottom:8px;line-height:1.5}
+.btn-dl{display:inline-flex;align-items:center;gap:6px;padding:7px 12px;background:var(--yellow);border:2px solid var(--black);border-radius:8px;font-family:'Archivo',sans-serif;font-size:10px;font-weight:800;letter-spacing:.4px;text-transform:uppercase;text-decoration:none;color:var(--black);box-shadow:2px 2px 0 var(--black);transition:all .12s;cursor:pointer}
+.btn-dl:hover{transform:translate(1px,1px);box-shadow:1px 1px 0 var(--black)}
+.btn-dl .ico{width:12px;height:12px}
+.upload{border:2.5px dashed var(--black);border-radius:14px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .15s;background:#fff;color:var(--black)}
+.upload:hover,.upload.dragover{background:var(--yellow);border-style:solid}
+.upload.has-file{background:#fff;border-style:solid}
+.upload input{display:none}
+.upload .upload-icon{display:flex;justify-content:center;margin-bottom:8px}
+.upload .txt{font-size:13px;font-weight:800;letter-spacing:-.2px;margin-bottom:2px}
+.upload .sub{font-size:11px;font-weight:600;opacity:.65}
+.preview{max-width:130px;max-height:130px;border-radius:10px;margin:0 auto 8px;display:block;border:2.5px solid var(--black);box-shadow:3px 3px 0 var(--black)}
+.btn-submit{width:100%;padding:16px;background:var(--pink);border:3px solid var(--black);border-radius:14px;font-family:'Archivo',sans-serif;font-size:15px;font-weight:900;letter-spacing:.3px;text-transform:uppercase;cursor:pointer;box-shadow:5px 5px 0 var(--black);display:flex;align-items:center;justify-content:center;gap:10px;transition:all .12s;color:var(--black);margin-top:4px}
+.btn-submit .ico{width:18px;height:18px}
+.btn-submit:hover:not(:disabled){transform:translate(2px,2px);box-shadow:3px 3px 0 var(--black)}
+.btn-submit:active:not(:disabled){transform:translate(5px,5px);box-shadow:0 0 0 var(--black)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed}
+.btn-submit.green{background:var(--green)}
+.spinner{width:16px;height:16px;border:3px solid rgba(0,0,0,.2);border-top-color:var(--black);border-radius:50%;animation:spin .7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+.success{display:none;background:var(--cyan);border:3px solid var(--black);border-radius:22px;padding:36px 24px;text-align:center;box-shadow:6px 6px 0 var(--black);animation:popIn .4s cubic-bezier(.5,1.5,.5,1)}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:scale(1)}}
+.success .check{width:66px;height:66px;background:var(--yellow);border:3px solid var(--black);border-radius:18px;display:flex;align-items:center;justify-content:center;margin:0 auto 16px;box-shadow:4px 4px 0 var(--black);transform:rotate(-5deg);color:var(--black)}
+.success .check .ico{width:34px;height:34px}
+.success h2{font-size:22px;font-weight:900;letter-spacing:-.8px;margin-bottom:8px}
+.success p{font-size:13px;font-weight:600;margin-bottom:20px;line-height:1.5}
+.btn-canva{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:var(--pink);border:3px solid var(--black);border-radius:14px;color:var(--black);text-decoration:none;font-family:'Archivo',sans-serif;font-size:14px;font-weight:900;letter-spacing:.3px;text-transform:uppercase;box-shadow:5px 5px 0 var(--black);transition:all .12s}
+.btn-canva .ico{width:18px;height:18px}
+.btn-canva:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--black)}
+.warning{margin-top:16px;padding:10px 14px;background:var(--yellow);border:2.5px solid var(--black);border-radius:10px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:6px;box-shadow:2px 2px 0 var(--black)}
+.warning .ico{width:12px;height:12px}
+.info-box{background:#fff;border:2.5px dashed var(--black);border-radius:12px;padding:12px 14px;font-size:11px;font-weight:600;line-height:1.6;margin-bottom:14px}
+.info-box strong{font-weight:900}
+.toast{position:fixed;bottom:30px;left:50%;transform:translateX(-50%) translateY(100px);background:var(--black);color:#fff;padding:14px 24px;border-radius:12px;font-weight:800;font-size:13px;z-index:9999;transition:transform .3s;box-shadow:0 10px 30px rgba(0,0,0,.3);max-width:90%;text-align:center}
+.toast.show{transform:translateX(-50%) translateY(0)}
+.toast.error{background:#DC2626}.toast.success{background:#16A34A}
+.hidden{display:none!important}
+@media(max-width:420px){.qris-box{flex-direction:column;text-align:center}.qris-img-wrap{width:180px;height:180px}.qris-img-wrap img{width:168px;height:168px}.topbar-title{font-size:14px}.topbar-pill{font-size:9px;padding:3px 9px}.action-btn{font-size:11px;padding:12px 8px}}
 </style>
 </head>
 <body>
+
+<div class="bg-blobs" aria-hidden="true">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice">
+    <path d="M 1080 60 C 1140 60 1180 100 1180 160 C 1180 220 1140 260 1080 260 C 1020 260 980 220 980 160 C 980 100 1020 60 1080 60 Z" fill="#F472B6" opacity="0.35"/>
+    <path d="M 1100 130 m -50 0 a 30 30 0 1 0 100 0 a 30 30 0 1 0 -100 0" fill="#C4A5F5" opacity="0.4"/>
+    <path d="M 100 80 C 160 70 200 120 190 180 C 180 240 120 260 70 240 C 20 220 10 160 30 120 C 50 90 70 85 100 80 Z" fill="#FDE047" opacity="0.5"/>
+    <path d="M 120 680 C 200 650 280 690 280 760 C 280 830 200 870 120 840 C 40 810 30 710 120 680 Z" fill="#5EEAD4" opacity="0.4"/>
+    <path d="M 1050 620 C 1120 590 1190 630 1200 700 L 1200 850 L 950 850 C 930 760 970 650 1050 620 Z" fill="#C4A5F5" opacity="0.45"/>
+    <path d="M 60 400 m -40 0 a 40 40 0 1 0 80 0 a 40 40 0 1 0 -80 0" fill="#F472B6" opacity="0.25"/>
+    <path d="M 1150 400 m -35 0 a 35 35 0 1 0 70 0 a 35 35 0 1 0 -70 0" fill="#FDE047" opacity="0.4"/>
+    <path d="M 600 60 m -30 0 a 30 30 0 1 0 60 0 a 30 30 0 1 0 -60 0" fill="#5EEAD4" opacity="0.35"/>
+    <path d="M 220 320 l 6 14 15 2 -11 10 3 15 -13 -7 -13 7 3 -15 -11 -10 15 -2 z" fill="#0F0F0F" opacity="0.15"/>
+    <path d="M 950 480 l 6 14 15 2 -11 10 3 15 -13 -7 -13 7 3 -15 -11 -10 15 -2 z" fill="#0F0F0F" opacity="0.12"/>
+  </svg>
+</div>
+
 <div class="topbar">
-  <div class="logo-s"><img src="logo-topbar.png" alt="" onerror="this.remove()"></div>
-  <h1>MYCLIPS STORE</h1><span class="pill">CANVA ONLY</span>
+  <div class="topbar-inner">
+    <div class="topbar-logo"><img src="logo-topbar.png" alt="Logo"></div>
+    <div class="topbar-title">MYCLIPS STORE</div>
+    <div class="topbar-pill">Canva Only</div>
+  </div>
 </div>
 
 <div class="wrap">
-  <div id="top">
-    <div class="head">
-      <div class="logo-b"><img src="logo-header.png" alt="" onerror="this.remove()"></div>
-      <div><h2>Canva Pro/Tim</h2><p>Aktif Instan — Harga Pelajar</p></div>
-    </div>
-    <div class="actions">
-      <a class="btn b-wa" target="_blank" rel="noopener" href="https://wa.me/6285707486749?text=Halo%20MYCLIPS%20STORE%2C%20saya%20mau%20order%20aplikasi%20lain%20(selain%20Canva).%20Mohon%20info%20harga%20dan%20ketersediaan.">💬 Order APK Lain</a>
-      <button class="btn b-yel" id="btnGaransi" type="button">🛡️ Ambil Garansi</button>
-    </div>
+
+  <div class="header">
+    <div class="logo-box"><img src="logo-header.png" alt="Logo"></div>
+    <h1>Canva Pro/Tim</h1>
+    <p>Aktif Instan — Harga Pelajar</p>
   </div>
 
-  <!-- FORM ORDER -->
-  <div id="orderView">
-    <div class="card c-yel">
-      <div class="lbl">⏱️ Pilih Durasi</div>
-      <div class="chips" id="chips">
-        <button type="button" class="chip" data-p="1 Bulan" data-h="3000">1 Bulan<small>Rp 3.000</small></button>
-        <button type="button" class="chip on" data-p="2 Bulan" data-h="6000">2 Bulan<small>Rp 6.000</small></button>
-        <button type="button" class="chip" data-p="3 Bulan" data-h="8500">3 Bulan<small>Rp 8.500</small></button>
+  <div class="actions" id="topActions">
+    <a href="https://wa.me/6285707486749?text=Halo%20MYCLIPS%20STORE%2C%20saya%20mau%20order%20aplikasi%20lain%20(selain%20Canva).%20Mohon%20info%20harga%20dan%20ketersediaan." target="_blank" rel="noopener" class="action-btn action-wa">
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+      Order Apk Lain
+    </a>
+    <button class="action-btn action-garansi" id="btnTabGaransi" type="button">
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+      Ambil Garansi
+    </button>
+  </div>
+
+  <div id="orderSection">
+    <div class="card card-yellow">
+      <div class="label">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m7.5 4.27 9 5.15"/><path d="M21 8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16Z"/><path d="m3.3 7 8.7 5 8.7-5"/><path d="M12 22V12"/></svg>
+        Pilih Durasi
       </div>
-      <div class="lbl">👤 Data Pemesan</div>
-      <div class="in"><span>📞</span><input id="wa" type="tel" inputmode="tel" placeholder="No. WhatsApp"></div>
-      <div class="in"><span>✉️</span><input id="email" type="email" placeholder="Email Canva"></div>
+      <div class="chips" id="chips">
+        <div class="chip" data-paket="1 Bulan" data-harga="3000"><div class="dur">1 Bln</div><div class="hrg">Rp 3K</div></div>
+        <div class="chip active" data-paket="2 Bulan" data-harga="6000"><div class="dur">2 Bln</div><div class="hrg">Rp 6K</div></div>
+        <div class="chip" data-paket="3 Bulan" data-harga="8500"><div class="dur">3 Bln</div><div class="hrg">Rp 8,5K</div></div>
+      </div>
+
+      <div class="label" style="margin-top:6px;">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></svg>
+        Data Pemesan
+      </div>
+      <div class="field"><div class="input-wrap">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+        <input type="tel" id="wa" placeholder="No. WhatsApp">
+      </div></div>
+      <div class="field"><div class="input-wrap">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        <input type="email" id="email" placeholder="Email Canva">
+      </div></div>
     </div>
 
-    <div class="card c-pur">
-      <div class="lbl"><span>📱 Scan QRIS</span><span class="hl" id="nominal">Rp 6.000</span></div>
-      <div class="qris">
-        <div class="qbox"><img src="qrisku.png" alt="QRIS MYCLIPS"></div>
-        <div class="qinfo">
-          <b class="m">MYCLIPS</b>NMID: ID1025382075196
-          <div class="hl" id="nominal2">Rp 6.000</div>
-          <p>Scan QRIS di atas/di samping, lalu transfer sesuai nominal di atas.</p>
-          <a class="btn b-yel" href="qrisku.png" download="QRIS-MYCLIPS.png" style="font-size:13px;padding:9px">⬇️ Simpan QRIS</a>
+    <div class="card card-purple">
+      <div class="label">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect width="5" height="5" x="3" y="3" rx="1"/><rect width="5" height="5" x="16" y="3" rx="1"/><rect width="5" height="5" x="3" y="16" rx="1"/><path d="M21 16h-3a2 2 0 0 0-2 2v3"/><path d="M21 21v.01"/><path d="M12 7v3a2 2 0 0 1-2 2H7"/><path d="M3 12h.01"/><path d="M12 3h.01"/><path d="M12 16v.01"/><path d="M16 12h1"/><path d="M21 12v.01"/><path d="M12 21v-1"/></svg>
+        Scan QRIS — <span id="qrisNominal" style="margin-left:auto;">Rp 6.000</span>
+      </div>
+      <div class="qris-box">
+        <div class="qris-img-wrap"><img src="qrisku.png" alt="QRIS MYCLIPS"></div>
+        <div class="qris-info">
+          <h4>MYCLIPS</h4>
+          <div class="nm-id">NMID: ID1025382075196</div>
+          <div class="nominal" id="nominalDisplay">Rp 6.000</div>
+          <div class="step">Scan QRIS di atas/di samping, lalu <strong>transfer sesuai nominal di atas</strong>.</div>
+          <a href="qrisku.png" download="QRIS-MYCLIPS.png" class="btn-dl">
+            <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            Simpan QRIS
+          </a>
         </div>
       </div>
     </div>
 
-    <div class="card c-cy">
-      <div class="lbl">🧾 Upload Bukti Transfer</div>
-      <label class="up" id="upBox" for="file">
-        <div id="upIdle"><div style="font-size:34px">⬆️</div>KLIK UNTUK UPLOAD<small>JPG / PNG · Max 5MB</small></div>
-        <div id="upPrev" class="hide"><img id="prev" alt="Preview"><div id="fname"></div><small>Klik untuk ganti</small></div>
-      </label>
-      <input type="file" id="file" accept="image/jpeg,image/png" class="hide">
+    <div class="card card-cyan">
+      <div class="label">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 4h-5L7 7H4a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-3l-2.5-3z"/><circle cx="12" cy="13" r="3"/></svg>
+        Upload Bukti Transfer
+      </div>
+      <div class="upload" id="uploadZone">
+        <input type="file" id="fileInput" accept="image/*">
+        <div class="upload-icon">
+          <svg width="34" height="34" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" x2="12" y1="3" y2="15"/></svg>
+        </div>
+        <div class="txt">KLIK UNTUK UPLOAD</div>
+        <div class="sub">JPG / PNG · Max 5MB</div>
+      </div>
     </div>
 
-    <button class="btn b-pk" id="btnOrder" type="button" style="font-size:17px">🚀 Dapatkan Akses Canva Pro</button>
+    <button class="btn-submit" id="btnSubmit" type="button">
+      <span class="spinner" id="spinner"></span>
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg>
+      <span id="btnText">Dapatkan Akses Canva Pro</span>
+    </button>
   </div>
 
-  <!-- FORM GARANSI -->
-  <div id="garansiView" class="hide">
-    <div class="card c-gr">
-      <div class="lbl">🛡️ Klaim Garansi</div>
-      <div class="note"><b>📌 Cara pakai:</b><br>1. Hubungi admin kalau ada masalah<br>2. Admin akan kasih kode garansi<br>3. Masukkan kode di bawah<br>4. Akses Canva Pro akan terbuka lagi</div>
-      <div class="in"><span>🔑</span><input id="kode" placeholder="MYC-XXXX-XXXX" maxlength="13" autocapitalize="characters"></div>
-      <div class="in"><span>📞</span><input id="waG" type="tel" inputmode="tel" placeholder="No. WhatsApp"></div>
-      <button class="btn b-gr" id="btnKlaim" type="button" style="margin-bottom:12px">✅ Ambil Garansi</button>
-      <button class="btn b-cr" id="btnBack" type="button">⬅️ Kembali ke Order Canva</button>
+  <div id="garansiSection" class="hidden">
+    <div class="card card-green">
+      <div class="label">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></svg>
+        Klaim Garansi
+      </div>
+      <div class="info-box">
+        <strong>📌 Cara pakai:</strong><br>
+        1. Hubungi admin kalau ada masalah<br>
+        2. Admin akan kasih <strong>kode garansi</strong><br>
+        3. Masukkan kode di bawah<br>
+        4. Akses Canva Pro akan terbuka lagi
+      </div>
+      <div class="field"><div class="input-wrap">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 18v3c0 .6.4 1 1 1h4v-3h3v-3h2l1.4-1.4a6.5 6.5 0 1 0-4-4Z"/><circle cx="16.5" cy="7.5" r=".5" fill="currentColor"/></svg>
+        <input type="text" id="kodeGaransi" placeholder="MYC-XXXX-XXXX" maxlength="13" autocomplete="off" style="text-transform:uppercase;">
+      </div></div>
+      <div class="field"><div class="input-wrap">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
+        <input type="tel" id="waGaransi" placeholder="No. WhatsApp">
+      </div></div>
+      <button class="btn-submit green" id="btnGaransi" type="button">
+        <span class="spinner" id="spinnerGaransi"></span>
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+        <span id="btnGaransiText">Ambil Garansi</span>
+      </button>
+      <button class="action-btn action-back" id="btnBackToOrder" type="button" style="margin-top:14px;width:100%;">
+        <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+        Kembali ke Order Canva
+      </button>
     </div>
   </div>
 
-  <!-- SUKSES -->
-  <div id="okView" class="hide">
-    <div class="card c-cy ok">
-      <div class="tick">✓</div>
-      <h3>Berhasil!</h3>
-      <p>Klik tombol di bawah untuk akses Canva Pro.</p>
-      <a class="btn b-pk" id="okLink" href="#" target="_blank" rel="noopener">🎨 Masuk ke Canva Pro</a>
-      <div class="kode hide" id="kodeBox">Simpan kode garansimu:<b id="kodeVal"></b></div>
-      <div class="warn">Link otomatis dari server</div>
+  <div class="success" id="successBox">
+    <div class="check">
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+    </div>
+    <h2 id="successTitle">Berhasil!</h2>
+    <p id="successText">Klik tombol di bawah untuk akses Canva Pro.</p>
+    <a href="#" id="canvaLink" class="btn-canva" target="_blank" rel="noopener">
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
+      Masuk ke Canva Pro
+    </a>
+    <div class="warning">
+      <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
+      Link otomatis dari server
     </div>
   </div>
 </div>
 
-<div class="foot"><span>© 2025 MYCLIPS STORE</span><span class="pill">Garansi ON</span></div>
-<div id="toast"></div>
+<div class="footer-bar">
+  <div class="footer-inner">
+    <div class="footer-brand"><span class="dot"></span><span>© 2025 MYCLIPS STORE</span></div>
+    <div class="footer-pill">Garansi ON</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-// ===== KONFIGURASI =====
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyDbTKmfz5rfoW_CooH0VHhwVP_cBkvib3-l_R4QuKLZQfFlPmVehq1qxDLifCSMxAa/exec';
-const MAX_SIZE = 5 * 1024 * 1024;
+// ==========================================
+// KONFIG
+// ==========================================
+const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzNteh8BV7k4o1KTNTnVjFdESfvb3H3ypMqtAiDIdnJsUBOZUOqYYC1rFPQTQv6MgjB/exec';
 
+let selectedPaket = '2 Bulan';
+let selectedHarga = 6000;
+let selectedFile = null;
 const $ = id => document.getElementById(id);
-let paket = '2 Bulan', harga = 6000, fileData = null;
-const rp = n => 'Rp ' + n.toLocaleString('id-ID');
+const formatRp = n => 'Rp ' + n.toLocaleString('id-ID');
 
-// Toast: tipe 'info' | 'err' | 'suc'
-let tt;
-function toast(msg, tipe) {
+// ============ TOAST ============
+let toastTimer;
+function showToast(msg, type = '') {
   const t = $('toast');
   t.textContent = msg;
-  t.className = 'show ' + (tipe || '');
-  clearTimeout(tt);
-  tt = setTimeout(() => t.className = '', 3500);
+  t.className = 'toast show ' + type;
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 3500);
 }
 
-// Pilih paket
-$('chips').addEventListener('click', e => {
-  const c = e.target.closest('.chip'); if (!c) return;
-  document.querySelectorAll('.chip').forEach(x => x.classList.remove('on'));
-  c.classList.add('on');
-  paket = c.dataset.p; harga = +c.dataset.h;
-  $('nominal').textContent = $('nominal2').textContent = rp(harga);
+// ============ TAB GARANSI ============
+$('btnTabGaransi').addEventListener('click', () => {
+  $('orderSection').classList.add('hidden');
+  $('garansiSection').classList.remove('hidden');
+  $('successBox').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+$('btnBackToOrder').addEventListener('click', () => {
+  $('garansiSection').classList.add('hidden');
+  $('orderSection').classList.remove('hidden');
+  $('successBox').style.display = 'none';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 });
 
-// Upload file + drag & drop + preview
-function setFile(f) {
-  if (!f) return;
-  if (!/^image\/(jpeg|png)$/.test(f.type)) return toast('File harus JPG atau PNG', 'err');
-  if (f.size > MAX_SIZE) return toast('Ukuran file maksimal 5MB', 'err');
-  const r = new FileReader();
-  r.onload = () => {
-    fileData = { base64: r.result.split(',')[1], mime: f.type };
-    $('prev').src = r.result; $('fname').textContent = f.name;
-    $('upIdle').classList.add('hide'); $('upPrev').classList.remove('hide');
-    $('upBox').classList.add('has');
-  };
-  r.readAsDataURL(f);
-}
-$('file').addEventListener('change', e => setFile(e.target.files[0]));
-['dragover', 'drop'].forEach(ev => $('upBox').addEventListener(ev, e => {
+// ============ CHIP PAKET ============
+document.querySelectorAll('.chip').forEach(el => {
+  el.addEventListener('click', () => {
+    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active');
+    selectedPaket = el.dataset.paket;
+    selectedHarga = parseInt(el.dataset.harga, 10);
+    $('nominalDisplay').textContent = formatRp(selectedHarga);
+    $('qrisNominal').textContent = formatRp(selectedHarga);
+  });
+});
+
+// ============ UPLOAD ============
+const uploadZone = $('uploadZone');
+const fileInput = $('fileInput');
+
+uploadZone.addEventListener('click', (e) => { if (e.target !== fileInput) fileInput.click(); });
+uploadZone.addEventListener('dragover', (e) => { e.preventDefault(); uploadZone.classList.add('dragover'); });
+uploadZone.addEventListener('dragleave', () => uploadZone.classList.remove('dragover'));
+uploadZone.addEventListener('drop', (e) => {
   e.preventDefault();
-  if (ev === 'drop') setFile(e.dataTransfer.files[0]);
-}));
+  uploadZone.classList.remove('dragover');
+  if (e.dataTransfer.files[0]) handleFile(e.dataTransfer.files[0]);
+});
+fileInput.addEventListener('change', (e) => { if (e.target.files[0]) handleFile(e.target.files[0]); });
 
-// Ganti tampilan
-$('btnGaransi').onclick = () => { $('orderView').classList.add('hide'); $('garansiView').classList.remove('hide'); };
-$('btnBack').onclick = () => { $('garansiView').classList.add('hide'); $('orderView').classList.remove('hide'); };
-$('kode').addEventListener('input', e => e.target.value = e.target.value.toUpperCase());
+function handleFile(file) {
+  if (file.size > 5 * 1024 * 1024) return showToast('File terlalu besar. Max 5MB.', 'error');
+  if (!file.type.startsWith('image/')) return showToast('Hanya file gambar.', 'error');
+  selectedFile = file;
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    uploadZone.classList.add('has-file');
+    // sembunyikan tampilan awal, tampilkan preview (input file tetap di tempat)
+    uploadZone.querySelectorAll(':scope > .upload-icon, :scope > .txt, :scope > .sub')
+      .forEach(x => x.classList.add('hidden'));
+    let pv = $('previewBox');
+    if (!pv) { pv = document.createElement('div'); pv.id = 'previewBox'; uploadZone.appendChild(pv); }
+    pv.innerHTML = '<img class="preview" alt="Preview"><div class="txt"></div><div class="sub">Klik untuk ganti</div>';
+    pv.querySelector('img').src = e.target.result;
+    pv.querySelector('.txt').textContent = '✓ ' + file.name;
+  };
+  reader.readAsDataURL(file);
+}
 
-// Kirim ke Apps Script (text/plain agar tidak kena preflight CORS)
+// ============ HELPER ============
+function fileToBase64(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+
+// Kirim ke Apps Script; return null kalau koneksi gagal
 async function kirim(payload) {
-  const res = await fetch(SCRIPT_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
-  return res.json();
+  try {
+    const res = await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(payload)
+    });
+    return await res.json();
+  } catch (err) {
+    return null;
+  }
 }
-function loading(btn, on, teks) {
-  btn.disabled = on;
-  if (on) { btn.dataset.old = btn.innerHTML; btn.innerHTML = '<span class="spin"></span> MEMPROSES...'; }
-  else btn.innerHTML = btn.dataset.old || teks;
-}
-function sukses(link, kode) {
-  ['top', 'orderView', 'garansiView'].forEach(i => $(i).classList.add('hide'));
-  $('okLink').href = link;
-  if (kode) { $('kodeVal').textContent = kode; $('kodeBox').classList.remove('hide'); }
-  $('okView').classList.remove('hide');
+
+// Halaman sukses (kode = kode garansi, hanya untuk order baru)
+function tampilSukses(judul, link, kode) {
+  ['orderSection', 'garansiSection', 'topActions'].forEach(id => $(id).classList.add('hidden'));
+  $('successTitle').textContent = judul;
+  $('successText').textContent = 'Klik tombol di bawah untuk akses Canva Pro.';
+  $('canvaLink').href = link;
+  const w = document.querySelector('.warning');
+  w.lastChild.textContent = ' Link otomatis dari server';
+  let kb = $('kodeBox');
+  if (!kb) {
+    w.insertAdjacentHTML('beforebegin', '<div class="info-box" id="kodeBox" style="margin-top:16px;margin-bottom:0"><strong>Simpan kode garansimu:</strong><br><span id="kodeVal" style="font-size:18px;font-weight:900;letter-spacing:1px"></span></div>');
+    kb = $('kodeBox');
+  }
+  if (kode) { $('kodeVal').textContent = kode; kb.classList.remove('hidden'); }
+  else kb.classList.add('hidden');
+  $('successBox').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-$('btnOrder').onclick = async () => {
-  const wa = $('wa').value.trim(), email = $('email').value.trim();
-  if (!wa) return toast('Isi No. WhatsApp dulu!', 'err');
-  if (!email) return toast('Isi email Canva dulu!', 'err');
-  if (!fileData) return toast('Upload bukti transfer dulu!', 'err');
-  const b = $('btnOrder'); loading(b, true);
-  try {
-    const r = await kirim({ action: 'order', whatsapp: wa, email, paket, harga, screenshot: fileData.base64, mimeType: fileData.mime });
-    if (r.success) sukses(r.link, r.kodeGaransi);
-    else { toast(r.message || 'Gagal memproses order', 'err'); loading(b, false); }
-  } catch (e) { toast('Koneksi gagal, coba lagi', 'err'); loading(b, false); }
-};
+// ============ SUBMIT ORDER ============
+const btnSubmit = $('btnSubmit'), spinner = $('spinner'), btnText = $('btnText');
 
-$('btnKlaim').onclick = async () => {
-  const kode = $('kode').value.trim().toUpperCase(), wa = $('waG').value.trim();
-  if (!kode) return toast('Isi kode garansi dulu!', 'err');
-  if (!wa) return toast('Isi No. WhatsApp dulu!', 'err');
-  const b = $('btnKlaim'); loading(b, true);
-  try {
-    const r = await kirim({ action: 'garansi', kode, whatsapp: wa });
-    if (r.success) sukses(r.link);
-    else { toast(r.message || 'Gagal klaim garansi', 'err'); loading(b, false); }
-  } catch (e) { toast('Koneksi gagal, coba lagi', 'err'); loading(b, false); }
-};
+btnSubmit.addEventListener('click', async () => {
+  const wa = $('wa').value.trim();
+  const email = $('email').value.trim();
+  if (!wa) return showToast('Isi No. WhatsApp dulu!', 'error');
+  if (!email) return showToast('Isi email Canva dulu!', 'error');
+  if (!selectedFile) return showToast('Upload bukti transfer dulu!', 'error');
+
+  btnSubmit.disabled = true;
+  spinner.style.display = 'block';
+  btnText.textContent = 'MEMPROSES...';
+
+  const base64 = await fileToBase64(selectedFile);
+  const data = await kirim({
+    action: 'order', whatsapp: wa, email,
+    paket: selectedPaket, harga: selectedHarga,
+    screenshot: base64.split(',')[1], mimeType: selectedFile.type
+  });
+
+  if (data && data.success) {
+    tampilSukses('Berhasil!', data.link, data.kodeGaransi);
+  } else {
+    showToast(data ? (data.message || 'Gagal memproses order') : 'Koneksi gagal, coba lagi', 'error');
+    btnSubmit.disabled = false;
+    spinner.style.display = 'none';
+    btnText.textContent = 'Dapatkan Akses Canva Pro';
+  }
+});
+
+// ============ SUBMIT GARANSI ============
+const btnGaransi = $('btnGaransi'), spinnerGaransi = $('spinnerGaransi'), btnGaransiText = $('btnGaransiText');
+
+btnGaransi.addEventListener('click', async () => {
+  const kode = $('kodeGaransi').value.trim().toUpperCase();
+  const wa = $('waGaransi').value.trim();
+  if (!kode) return showToast('Masukkan kode garansi dulu!', 'error');
+  if (!wa) return showToast('Isi No. WhatsApp dulu!', 'error');
+
+  btnGaransi.disabled = true;
+  spinnerGaransi.style.display = 'block';
+  btnGaransiText.textContent = 'MEMVERIFIKASI...';
+
+  const data = await kirim({ action: 'garansi', kode, whatsapp: wa });
+
+  if (data && data.success) {
+    tampilSukses('Garansi Aktif!', data.link, null);
+  } else {
+    showToast(data ? (data.message || 'Kode tidak valid') : 'Koneksi gagal, coba lagi', 'error');
+    btnGaransi.disabled = false;
+    spinnerGaransi.style.display = 'none';
+    btnGaransiText.textContent = 'Ambil Garansi';
+  }
+});
+
+// Input kode otomatis uppercase
+$('kodeGaransi').addEventListener('input', (e) => { e.target.value = e.target.value.toUpperCase(); });
 </script>
+
 </body>
 </html>
