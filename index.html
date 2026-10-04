@@ -164,11 +164,11 @@ body{background:var(--cream);color:var(--black);font-family:'Archivo',sans-serif
       </div>
       <div class="field"><div class="input-wrap">
         <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
-        <input type="tel" id="wa" placeholder="No. WhatsApp">
+        <input type="tel" id="wa" placeholder="No. WhatsApp" autocomplete="off">
       </div></div>
       <div class="field"><div class="input-wrap">
         <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
-        <input type="email" id="email" placeholder="Email Canva">
+        <input type="email" id="email" placeholder="Email Canva" autocomplete="off" autocapitalize="off" spellcheck="false">
       </div></div>
     </div>
 
@@ -233,7 +233,7 @@ body{background:var(--cream);color:var(--black);font-family:'Archivo',sans-serif
       </div></div>
       <div class="field"><div class="input-wrap">
         <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="20" x="5" y="2" rx="2" ry="2"/><path d="M12 18h.01"/></svg>
-        <input type="tel" id="waGaransi" placeholder="No. WhatsApp">
+        <input type="tel" id="waGaransi" placeholder="No. WhatsApp" autocomplete="off">
       </div></div>
       <button class="btn-submit green" id="btnGaransi" type="button">
         <span class="spinner" id="spinnerGaransi"></span>
@@ -378,6 +378,12 @@ async function kirim(payload) {
   }
 }
 
+// Simpan tampilan sukses di sessionStorage supaya tahan refresh (hilang kalau tab ditutup)
+const STATE_KEY = 'mc_state';
+function simpanState(st) { try { sessionStorage.setItem(STATE_KEY, JSON.stringify(st)); } catch (e) {} }
+function muatState() { try { return JSON.parse(sessionStorage.getItem(STATE_KEY) || 'null'); } catch (e) { return null; } }
+function hapusState() { try { sessionStorage.removeItem(STATE_KEY); } catch (e) {} }
+
 // Token sekali pakai: disimpan di memori saja, TIDAK ditaruh di HTML
 let bukaToken = null;
 
@@ -387,6 +393,8 @@ function tampilSudahDipakai(pesan) {
   $('successText').textContent = pesan || 'Link akses sudah dibuka di tab baru dan tidak bisa dipakai lagi. Kalau ada kendala, hubungi admin.';
   $('canvaLink').classList.add('hidden');
   document.querySelector('.warning').lastChild.textContent = ' Link hanya bisa dibuka 1 kali';
+  const st = muatState();
+  if (st) { st.dipakai = true; st.pesan = pesan || null; st.token = null; simpanState(st); }
 }
 
 // Klik tombol: minta link ke server (sekali saja), buka di tab baru
@@ -410,8 +418,9 @@ $('canvaLink').addEventListener('click', async () => {
 });
 
 // Halaman sukses (kode/label/catatan = kotak kode, opsional)
-function tampilSukses(judul, token, kode, label, catatan) {
+function tampilSukses(judul, token, kode, label, catatan, pulihkan) {
   ['orderSection', 'garansiSection', 'topActions'].forEach(id => $(id).classList.add('hidden'));
+  kosongkanIsian();
   $('successTitle').textContent = judul;
   $('successText').textContent = 'Klik tombol di bawah untuk akses Canva Pro.';
   bukaToken = token;
@@ -422,6 +431,8 @@ function tampilSukses(judul, token, kode, label, catatan) {
   if (!$('kodeBox')) {
     w.insertAdjacentHTML('beforebegin', '<div class="info-box" id="kodeBox" style="margin-top:16px;margin-bottom:0"><strong id="kodeLabel"></strong><br><span id="kodeVal" style="font-size:18px;font-weight:900;letter-spacing:1px"></span><br><span id="kodeNote"></span></div>');
     w.insertAdjacentHTML('afterend', '<a class="action-btn action-wa" id="btnAdmin" target="_blank" rel="noopener" style="margin-top:14px;width:100%" href="https://wa.me/6285707486749?text=' + encodeURIComponent('Halo MYCLIPS STORE, saya ada kendala dengan akses Canva saya.') + '">Ada kendala? Hubungi admin</a>');
+    $('btnAdmin').insertAdjacentHTML('afterend', '<button type="button" class="action-btn action-back" id="btnUtama" style="margin-top:12px;width:100%">Kembali ke Halaman Utama</button>');
+    $('btnUtama').addEventListener('click', kembaliUtama);
   }
   const kb = $('kodeBox');
   if (kode) {
@@ -432,6 +443,10 @@ function tampilSukses(judul, token, kode, label, catatan) {
   } else kb.classList.add('hidden');
   $('successBox').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
+  if (!pulihkan) {
+    simpanState({ judul, token, kode, label, catatan, dipakai: false, pesan: null });
+    history.pushState({ sukses: 1 }, '', '#sukses');   // tombol Back = kembali ke halaman utama
+  }
 }
 
 // Sukses setelah order
@@ -509,6 +524,43 @@ btnGaransi.addEventListener('click', async () => {
 
 // Input kode otomatis uppercase
 $('kodeGaransi').addEventListener('input', (e) => { e.target.value = e.target.value.toUpperCase(); });
+
+// ============ KOSONGKAN ISIAN ============
+// Semua isian selalu kosong; tidak ada isian yang disimpan
+function kosongkanIsian() {
+  ['wa', 'email', 'kodeGaransi', 'waGaransi'].forEach(id => { $(id).value = ''; });
+  fileInput.value = '';
+  selectedFile = null;
+}
+kosongkanIsian();
+// Kalau halaman dipulihkan dari cache browser (tombol back/forward), muat ulang agar bersih
+window.addEventListener('pageshow', (e) => { if (e.persisted) location.reload(); });
+
+// ============ REFRESH & BACK ============
+// Tombol "Kembali ke Halaman Utama": sama seperti menekan Back
+function kembaliUtama() {
+  hapusState();
+  history.back();
+  // cadangan kalau tidak ada halaman sebelumnya
+  setTimeout(() => { if (location.hash === '#sukses') location.replace(location.pathname + location.search); }, 400);
+}
+
+// Tombol Back dari halaman sukses -> kembali ke halaman utama (bersih)
+window.addEventListener('popstate', () => {
+  if (location.hash !== '#sukses') { hapusState(); location.reload(); }
+});
+
+// Saat halaman dimuat: kalau sedang di #sukses dan ada state, tampilkan lagi halaman sukses
+(function pulihkan() {
+  const st = muatState();
+  if (location.hash === '#sukses' && st) {
+    tampilSukses(st.judul, st.token, st.kode, st.label, st.catatan, true);
+    if (st.dipakai) tampilSudahDipakai(st.pesan);
+  } else {
+    hapusState();
+    if (location.hash === '#sukses') history.replaceState(null, '', location.pathname + location.search);
+  }
+})();
 </script>
 
 </body>
