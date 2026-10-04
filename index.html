@@ -89,6 +89,8 @@ body{background:var(--cream);color:var(--black);font-family:'Archivo',sans-serif
 .btn-canva{display:inline-flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;background:var(--pink);border:3px solid var(--black);border-radius:14px;color:var(--black);text-decoration:none;font-family:'Archivo',sans-serif;font-size:14px;font-weight:900;letter-spacing:.3px;text-transform:uppercase;box-shadow:5px 5px 0 var(--black);transition:all .12s}
 .btn-canva .ico{width:18px;height:18px}
 .btn-canva:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--black)}
+.btn-canva{cursor:pointer;-webkit-user-select:none;user-select:none}
+.btn-canva:disabled{opacity:.6;cursor:not-allowed}
 .warning{margin-top:16px;padding:10px 14px;background:var(--yellow);border:2.5px solid var(--black);border-radius:10px;font-size:11px;font-weight:800;display:inline-flex;align-items:center;gap:6px;box-shadow:2px 2px 0 var(--black)}
 .warning .ico{width:12px;height:12px}
 .info-box{background:#fff;border:2.5px dashed var(--black);border-radius:12px;padding:12px 14px;font-size:11px;font-weight:600;line-height:1.6;margin-bottom:14px}
@@ -251,13 +253,13 @@ body{background:var(--cream);color:var(--black);font-family:'Archivo',sans-serif
     </div>
     <h2 id="successTitle">Berhasil!</h2>
     <p id="successText">Klik tombol di bawah untuk akses Canva Pro.</p>
-    <a href="#" id="canvaLink" class="btn-canva" target="_blank" rel="noopener">
+    <button type="button" id="canvaLink" class="btn-canva">
       <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".5" fill="currentColor"/><circle cx="17.5" cy="10.5" r=".5" fill="currentColor"/><circle cx="8.5" cy="7.5" r=".5" fill="currentColor"/><circle cx="6.5" cy="12.5" r=".5" fill="currentColor"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.648-.746 1.648-1.688 0-.437-.18-.835-.437-1.125-.29-.289-.438-.652-.438-1.125a1.64 1.64 0 0 1 1.668-1.668h1.996c3.051 0 5.555-2.503 5.555-5.554C21.965 6.012 17.461 2 12 2z"/></svg>
       Masuk ke Canva Pro
-    </a>
+    </button>
     <div class="warning">
       <svg class="ico" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
-      Link otomatis dari server
+      Link hanya bisa dibuka 1 kali
     </div>
   </div>
 </div>
@@ -376,23 +378,77 @@ async function kirim(payload) {
   }
 }
 
-// Halaman sukses (kode = kode garansi, hanya untuk order baru)
-function tampilSukses(judul, link, kode) {
+// Token sekali pakai: disimpan di memori saja, TIDAK ditaruh di HTML
+let bukaToken = null;
+
+// Tampilan setelah link dibuka
+function tampilSudahDipakai(pesan) {
+  $('successTitle').textContent = 'Link Sudah Dipakai';
+  $('successText').textContent = pesan || 'Link akses sudah dibuka di tab baru dan tidak bisa dipakai lagi. Kalau ada kendala, hubungi admin.';
+  $('canvaLink').classList.add('hidden');
+  document.querySelector('.warning').lastChild.textContent = ' Link hanya bisa dibuka 1 kali';
+}
+
+// Klik tombol: minta link ke server (sekali saja), buka di tab baru
+$('canvaLink').addEventListener('click', async () => {
+  if (!bukaToken) return;
+  const btn = $('canvaLink');
+  const token = bukaToken;
+  bukaToken = null;
+  btn.disabled = true;
+  const win = window.open('', '_blank');   // harus dibuka sekarang agar tidak diblokir popup
+  const data = await kirim({ action: 'buka', token });
+  if (data && data.success) {
+    if (win) { win.opener = null; win.location.href = data.link; }
+    else window.location.href = data.link;
+    tampilSudahDipakai();
+  } else {
+    if (win) win.close();
+    if (data) tampilSudahDipakai(data.message);
+    else { bukaToken = token; btn.disabled = false; showToast('Koneksi gagal, coba lagi', 'error'); }
+  }
+});
+
+// Halaman sukses (kode/label/catatan = kotak kode, opsional)
+function tampilSukses(judul, token, kode, label, catatan) {
   ['orderSection', 'garansiSection', 'topActions'].forEach(id => $(id).classList.add('hidden'));
   $('successTitle').textContent = judul;
   $('successText').textContent = 'Klik tombol di bawah untuk akses Canva Pro.';
-  $('canvaLink').href = link;
+  bukaToken = token;
+  $('canvaLink').disabled = false;
+  $('canvaLink').classList.remove('hidden');
   const w = document.querySelector('.warning');
-  w.lastChild.textContent = ' Link otomatis dari server';
-  let kb = $('kodeBox');
-  if (!kb) {
-    w.insertAdjacentHTML('beforebegin', '<div class="info-box" id="kodeBox" style="margin-top:16px;margin-bottom:0"><strong>Simpan kode garansimu:</strong><br><span id="kodeVal" style="font-size:18px;font-weight:900;letter-spacing:1px"></span></div>');
-    kb = $('kodeBox');
+  w.lastChild.textContent = ' Link hanya bisa dibuka 1 kali';
+  if (!$('kodeBox')) {
+    w.insertAdjacentHTML('beforebegin', '<div class="info-box" id="kodeBox" style="margin-top:16px;margin-bottom:0"><strong id="kodeLabel"></strong><br><span id="kodeVal" style="font-size:18px;font-weight:900;letter-spacing:1px"></span><br><span id="kodeNote"></span></div>');
+    w.insertAdjacentHTML('afterend', '<a class="action-btn action-wa" id="btnAdmin" target="_blank" rel="noopener" style="margin-top:14px;width:100%" href="https://wa.me/6285707486749?text=' + encodeURIComponent('Halo MYCLIPS STORE, saya ada kendala dengan akses Canva saya.') + '">Ada kendala? Hubungi admin</a>');
   }
-  if (kode) { $('kodeVal').textContent = kode; kb.classList.remove('hidden'); }
-  else kb.classList.add('hidden');
+  const kb = $('kodeBox');
+  if (kode) {
+    $('kodeLabel').textContent = label || 'Simpan kodemu:';
+    $('kodeVal').textContent = kode;
+    $('kodeNote').textContent = catatan || '';
+    kb.classList.remove('hidden');
+  } else kb.classList.add('hidden');
   $('successBox').style.display = 'block';
   window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Sukses setelah order
+function tampilOrder(data) {
+  const jatah = data.jatah || 0;
+  tampilSukses('Berhasil!', data.token, data.kodeGaransi,
+    jatah > 0 ? 'Simpan kode garansimu (jatah klaim: ' + jatah + '×)' : 'Simpan kode pesananmu',
+    'Screenshot kode ini. Dipakai untuk ' + (jatah > 0 ? 'klaim garansi atau ' : '') + 'ambil ulang link kalau belum sempat dibuka.');
+}
+
+// Sukses setelah klaim garansi
+function tampilKlaim(data, kode) {
+  const sisa = data.sisa || 0;
+  const catatan = data.ulang
+    ? 'Link sebelumnya belum pernah dibuka, jadi jatah garansimu tidak terpakai.'
+    : (sisa > 0 ? 'Sisa jatah klaim: ' + sisa + '×.' : 'Jatah garansi kode ini sudah habis.');
+  tampilSukses(data.ulang ? 'Link Ditemukan!' : 'Garansi Aktif!', data.token, kode, 'Kodemu', catatan);
 }
 
 // ============ SUBMIT ORDER ============
@@ -417,7 +473,7 @@ btnSubmit.addEventListener('click', async () => {
   });
 
   if (data && data.success) {
-    tampilSukses('Berhasil!', data.link, data.kodeGaransi);
+    tampilOrder(data);
   } else {
     showToast(data ? (data.message || 'Gagal memproses order') : 'Koneksi gagal, coba lagi', 'error');
     btnSubmit.disabled = false;
@@ -442,7 +498,7 @@ btnGaransi.addEventListener('click', async () => {
   const data = await kirim({ action: 'garansi', kode, whatsapp: wa });
 
   if (data && data.success) {
-    tampilSukses('Garansi Aktif!', data.link, null);
+    tampilKlaim(data, kode);
   } else {
     showToast(data ? (data.message || 'Kode tidak valid') : 'Koneksi gagal, coba lagi', 'error');
     btnGaransi.disabled = false;
