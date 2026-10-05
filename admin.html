@@ -5,75 +5,107 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex,nofollow">
 <title>Admin — MYCLIPS STORE</title>
+<link rel="icon" href="logo-topbar.png">
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800;900&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font:500 14px 'Archivo',sans-serif;color:#0F0F0F;background:#FAF6E9;background-image:radial-gradient(rgba(0,0,0,.22) 1.4px,transparent 1.4px);background-size:20px 20px;min-height:100vh}
 .hide{display:none!important}
-.lg{max-width:420px;margin:0 auto;padding:16px}
+/* login */
+.lg{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;position:relative;overflow:hidden;gap:16px}
+.bl{position:absolute;border:3px solid #000;border-radius:50%;opacity:.55;z-index:0}
+.bl.a{width:260px;height:260px;background:#F9A8D4;top:-70px;left:-70px}.bl.b{width:200px;height:200px;background:#5EEAD4;bottom:-60px;right:-40px}.bl.c{width:120px;height:120px;background:#FDE047;top:20%;right:12%}
+.lc{position:relative;z-index:1;width:100%;max-width:400px;background:#fff;border:3px solid #000;border-radius:24px;box-shadow:8px 8px 0 #000;padding:30px 24px;text-align:center}
+.lc.sh{animation:sh .4s}@keyframes sh{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.lgo{width:84px;height:84px;margin:-62px auto 14px;background:#F472B6;border:3px solid #000;border-radius:22px;box-shadow:5px 5px 0 #000;transform:rotate(-4deg);display:grid;place-items:center;overflow:hidden}
+.lgo img{width:100%;height:100%;object-fit:contain}
+.lc h2{font-size:26px;font-weight:900;letter-spacing:-.8px}
+.pwf{position:relative;margin-top:20px}
+.pwf span{position:absolute;left:14px;top:50%;transform:translateY(-50%)}
+.pwf input{padding-left:44px;padding-right:50px}
+.eye{position:absolute;right:8px;top:50%;transform:translateY(-50%);padding:4px 8px;box-shadow:none}
+.ft{position:relative;z-index:1;font-weight:700;opacity:.7}
+/* layout */
 #app{display:flex;min-height:100vh}
 .side{width:236px;flex-shrink:0;background:#fff;border-right:3px solid #000;padding:16px 12px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column;gap:6px;z-index:30}
 .brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:16px;padding:4px 8px 14px}
-.brand i{width:34px;height:34px;background:#F472B6;border:2.5px solid #000;border-radius:10px;display:grid;place-items:center;font-style:normal;box-shadow:2px 2px 0 #000}
+.brand i{width:38px;height:38px;background:#F472B6;border:2.5px solid #000;border-radius:10px;display:grid;place-items:center;font-style:normal;box-shadow:2px 2px 0 #000;overflow:hidden}
+.brand img{width:100%;height:100%;object-fit:contain}
 .nv{display:flex;align-items:center;gap:10px;width:100%;text-align:left;border:2.5px solid transparent;background:none;box-shadow:none;padding:10px 12px;border-radius:12px;font:700 14px 'Archivo',sans-serif;color:#000;cursor:pointer;margin-bottom:4px}
-.nv.on{background:#FDE047;border-color:#000;box-shadow:3px 3px 0 #000}
+.nv.on{border-color:#000;box-shadow:3px 3px 0 #000}
 .main{flex:1;min-width:0}
 .tb{position:sticky;top:0;z-index:20;background:#FDE047;border-bottom:3px solid #000;padding:12px 16px;display:flex;align-items:center;gap:10px}
 .tb h1{font-size:18px;font-weight:900;flex:1}
 .burger{display:none}
 .pg{max-width:1000px;margin:0 auto;padding:18px 16px 40px}
 .ov{position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:25}
+/* komponen */
 .card{background:#fff;border:3px solid #000;border-radius:16px;box-shadow:5px 5px 0 #000;padding:16px;margin-bottom:14px}
-.y{background:#FDE047}
+.cy{background:#5EEAD4}.y{background:#FDE047}.pu{background:#C4A5F5}.li{background:#BEF264}
 button{font:800 12px 'Archivo',sans-serif;border:2.5px solid #000;border-radius:10px;background:#fff;padding:8px 12px;cursor:pointer;box-shadow:2px 2px 0 #000;color:#000}
 button:active{transform:translate(2px,2px);box-shadow:none}
 button:disabled{opacity:.6;cursor:wait}
 button.s{padding:6px 10px}
 button.bp{background:#F472B6;padding:10px 16px;font-size:13px}
-input,select{border:2.5px solid #000;border-radius:10px;padding:10px;font:600 14px 'Archivo',sans-serif;background:#fff;color:#000}
-input{width:100%}
-label{display:block;font-weight:800;font-size:12px;margin:10px 0 4px}
+input{width:100%;border:2.5px solid #000;border-radius:10px;padding:10px;font:600 14px 'Archivo',sans-serif;background:#fff;color:#000}
+label{display:block;font-weight:800;font-size:12px;margin:12px 0 4px}
 .row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}
 .row input{flex:1;min-width:140px}.row input[type=number]{flex:0 0 80px;min-width:0}
-.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.hd{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:14px}
 .hd h3{font-size:16px;font-weight:900}
-.ct{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.ct input{width:230px}
+.ttl{display:inline-block;padding:5px 16px;border:2.5px solid #000;border-radius:20px;box-shadow:2px 2px 0 #000}
+.ct{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.ct>input{width:230px}
 .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:14px}
 .st{border:3px solid #000;border-radius:16px;padding:14px;box-shadow:4px 4px 0 #000;display:flex;flex-direction:column;gap:8px}
 .st span{font-size:12px;font-weight:700}.st b{font-size:24px;font-weight:900;line-height:1}
-.s1{background:#C4A5F5}.s2{background:#BEF264}.s3{background:#5EEAD4}.s4{background:#FDBA74}.s5{background:#FDE047}.s6{background:#F9A8D4}
-.two{display:grid;grid-template-columns:1.4fr 1fr;gap:14px}
+.two{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}.two .card{margin-bottom:14px}
 .ch7{display:flex;align-items:flex-end;gap:8px;height:170px}
 .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:4px}
-.col .bb{width:100%;max-width:40px;background:#C4A5F5;border:2.5px solid #000;border-radius:8px 8px 0 0}
+.col .bb{width:100%;max-width:40px;border:2.5px solid #000;border-radius:8px 8px 0 0}
 .col em{font-style:normal;font-weight:800;font-size:12px}.col small{font-size:10px;opacity:.7}
-.rw{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:2px dashed #000}.rw:last-child{border:0}
-.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
-.it{border:2.5px solid #000;border-radius:14px;padding:12px;background:#fff;box-shadow:3px 3px 0 #000}
-.tag{display:inline-block;border:2px solid #000;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:800;background:#BEF264}
-.tag.r{background:#F472B6}.tag.k{background:#FDE047}
-.m{font-size:12px;opacity:.75;word-break:break-all}
+.rw{display:flex;justify-content:space-between;gap:10px;padding:10px 12px;margin-bottom:8px;background:#fff;border:2.5px solid #000;border-left-width:10px;border-radius:10px}
+.rw:last-child{margin-bottom:0}
+.gl{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:16px}
+.it{border:2.5px solid #000;border-radius:14px;background:#fff;box-shadow:4px 4px 0 #000;overflow:hidden}
+.ih{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;padding:10px 12px;border-bottom:2.5px solid #000}
+.ib{padding:12px}
+.sk{border-top:2px dashed #000;margin-top:10px;padding-top:10px}
+.lb{display:block;font-size:10px;font-weight:800;letter-spacing:.7px;opacity:.6;margin-bottom:2px}
+.tag{display:inline-block;border:2px solid #000;border-radius:20px;padding:2px 9px;font-size:11px;font-weight:800;background:#fff}
+.chip{display:inline-block;border:2.5px solid #000;border-radius:10px;padding:5px 12px;font-weight:900;background:#fff;box-shadow:2px 2px 0 #000}
+.m{font-size:12px;opacity:.8;word-break:break-all}
 a{color:#000;font-weight:700}
+/* dropdown */
+.dd{position:relative}
+.ddb{display:flex;align-items:center;gap:8px;padding:9px 12px;font-size:13px}
+.ddm{position:absolute;right:0;top:calc(100% + 6px);min-width:200px;background:#fff;border:3px solid #000;border-radius:12px;box-shadow:4px 4px 0 #000;padding:6px;z-index:15}
+.ddm button{display:flex;width:100%;gap:8px;align-items:center;text-align:left;border:2px solid transparent;box-shadow:none;background:none;padding:9px 10px;border-radius:8px;font-size:13px}
+.ddm button:hover{background:#FDE047;border-color:#000}.ddm button.on{background:#F9A8D4;border-color:#000}
+.dot{width:12px;height:12px;border:2px solid #000;border-radius:50%;display:inline-block;flex-shrink:0}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#000;color:#fff;padding:12px 20px;border-radius:12px;font-weight:700;z-index:99;transition:transform .3s;max-width:90%;text-align:center}
 #toast.show{transform:translateX(-50%) translateY(0)}#toast.err{background:#DC2626}#toast.ok{background:#16A34A}
 @media(max-width:860px){
 .side{position:fixed;left:0;top:0;transform:translateX(-105%);transition:transform .25s;box-shadow:6px 0 0 #000}
 .side.open{transform:none}.burger{display:inline-block}
-.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.ct,.ct input{width:100%}}
+.grid{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.ct,.ct>input{width:100%}.ddm{left:0;right:auto}}
 </style>
 </head>
 <body>
 <div id="login" class="lg">
-  <div class="card y">
-    <h3>🔐 Admin MYCLIPS</h3>
-    <div class="row"><input id="pw" type="password" placeholder="Password admin" autocomplete="off"></div>
-    <div class="row"><button class="bp" id="btnMasuk" type="button" style="width:100%">Masuk</button></div>
+  <i class="bl a"></i><i class="bl b"></i><i class="bl c"></i>
+  <div class="lc" id="lc">
+    <div class="lgo"><img src="logo-topbar.png" alt="" onerror="this.remove()"></div>
+    <h2>Admin Panel</h2>
+    <p class="m">MYCLIPS STORE · khusus pemilik</p>
+    <div class="pwf"><span>🔑</span><input id="pw" type="password" placeholder="Password admin" autocomplete="off"><button class="eye" data-a="eye" type="button" aria-label="Lihat password">👁</button></div>
+    <button class="bp" id="btnMasuk" type="button" style="width:100%;margin-top:16px">Masuk →</button>
   </div>
+  <small class="ft">© 2025 MYCLIPS STORE</small>
 </div>
 
 <div id="app" class="hide">
   <aside class="side" id="side">
-    <div class="brand"><i>M</i>MYCLIPS ADMIN</div>
+    <div class="brand"><i><img src="logo-topbar.png" alt="" onerror="this.parentNode.textContent='M'"></i>MYCLIPS ADMIN</div>
     <div id="menu"></div>
     <div style="flex:1"></div>
     <button class="nv" data-a="out" type="button"><span>🚪</span>Keluar</button>
@@ -94,7 +126,12 @@ a{color:#000;font-weight:700}
 const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyDbTKmfz5rfoW_CooH0VHhwVP_cBkvib3-l_R4QuKLZQfFlPmVehq1qxDLifCSMxAa/exec';
 // Password hanya disimpan di memori halaman (hilang saat refresh)
 let pass = '', D = null, tab = 'ringkasan', q = '', fg = 'menunggu', fa = 'belum';
-const TABS = [['ringkasan', '📊', 'Ringkasan'], ['order', '🧾', 'Order'], ['garansi', '🛡️', 'Garansi'], ['link', '🔗', 'Link Canva'], ['akses', '🔑', 'Akses']];
+const TABS = [['ringkasan', '📊', 'Ringkasan', '#C4A5F5'], ['order', '🧾', 'Order', '#5EEAD4'], ['garansi', '🛡️', 'Garansi', '#BEF264'], ['link', '🔗', 'Link Canva', '#F9A8D4'], ['akses', '🔑', 'Akses', '#FDBA74']];
+const PAL = ['#C4A5F5', '#5EEAD4', '#FDE047', '#F9A8D4', '#BEF264', '#FDBA74'];
+const OPT = {
+  fg: [['menunggu', 'Menunggu link', '#FDBA74'], ['siap', 'Siap klaim', '#BEF264'], ['habis', 'Jatah 0 / habis', '#FDE047'], ['semua', 'Semua', '#C4A5F5']],
+  fa: [['belum', 'Belum dibuka', '#FDE047'], ['sudah', 'Sudah dibuka', '#5EEAD4'], ['semua', 'Semua', '#C4A5F5']]
+};
 const $ = id => document.getElementById(id);
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const href = u => /^https?:\/\//i.test(u) ? esc(u) : '#';
@@ -103,6 +140,7 @@ const wa = n => { let d = String(n).replace(/\D/g, ''); if (d[0] === '0') d = '6
 let tt;
 function toast(m, t) { const e = $('toast'); e.textContent = m; e.className = 'show ' + (t || ''); clearTimeout(tt); tt = setTimeout(() => e.className = '', 3500); }
 function menu(buka) { $('side').classList.toggle('open', buka); $('ov').classList.toggle('hide', !buka); }
+async function salin(t, ok) { try { await navigator.clipboard.writeText(t); toast(ok, 'ok'); } catch (x) { toast('Gagal menyalin', 'err'); } }
 
 async function api(op, p) {
   try {
@@ -115,37 +153,49 @@ async function muat() {
   if (!r.success) { toast(r.message || 'Gagal memuat', 'err'); return false; }
   D = r; render(); return true;
 }
-const sel = (k, a, v) => `<select data-s="${k}">${a.map(x => `<option value="${x[0]}" ${x[0] === v ? 'selected' : ''}>${x[1]}</option>`).join('')}</select>`;
+const dd = (k, v) => { const o = OPT[k], c = o.find(x => x[0] === v); return `<div class="dd" data-dd="${k}"><button class="ddb" data-a="dd" type="button"><i class="dot" style="background:${c[2]}"></i>${c[1]} ▾</button><div class="ddm hide">${o.map(x => `<button class="${x[0] === v ? 'on' : ''}" data-o="${x[0]}" type="button"><i class="dot" style="background:${x[2]}"></i>${x[1]}</button>`).join('')}</div></div>`; };
+
+// Umur link aktif (dari riwayat terakhir)
+function umur() {
+  const h = (D.riwayat || [])[0]; if (!h) return '';
+  const m = h.wt.match(/^(\d+)\/(\d+)\/(\d+)/); if (!m) return '';
+  const n = Math.floor((Date.now() - new Date(+m[3], +m[2] - 1, +m[1]).getTime()) / 864e5);
+  const c = n < 3 ? '#BEF264' : n === 3 ? '#FDBA74' : '#F9A8D4';
+  return `<span class="tag" style="background:${c}">${n < 4 ? 'Diganti ' + n + ' hari lalu' : 'Sudah ' + n + ' hari, waktunya ganti!'}</span>`;
+}
 
 function ringkasan() {
   const O = D.orders, hari = new Date().toLocaleDateString('en-GB');
-  const st = (t, v, k) => `<div class="st ${k}"><span>${t}</span><b>${v}</b></div>`;
+  const st = (t, v, c) => `<div class="st" style="background:${c}"><span>${t}</span><b>${v}</b></div>`;
   const days = []; for (let i = 6; i >= 0; i--) days.push(new Date(Date.now() - i * 864e5).toLocaleDateString('en-GB'));
   const n = days.map(d => O.filter(o => o.ts.startsWith(d)).length), mx = Math.max(1, ...n);
-  const bars = days.map((d, i) => `<div class="col"><em>${n[i]}</em><div class="bb" style="height:${Math.round(n[i] / mx * 110) + 4}px"></div><small>${d.slice(0, 5)}</small></div>`).join('');
-  const baru = O.slice(-5).reverse().map(o => `<div class="rw"><div><b>${esc(o.pk)}</b> · ${esc(o.wa)}<div class="m">${esc(o.ts)}${o.tm ? ' · Tim ' + esc(o.tm) : ''}</div></div><b>${rp(o.hg)}</b></div>`).join('') || '<p class="m">Belum ada order.</p>';
-  return `<div class="grid">${st('Total order', O.length, 's1')}${st('Pendapatan', rp(O.reduce((s, o) => s + o.hg, 0)), 's2')}${st('Order hari ini', O.filter(o => o.ts.startsWith(hari)).length, 's3')}${st('Menunggu link garansi', O.filter(o => o.si > 0 && !o.lk && !o.iv).length, 's4')}${st('Siap klaim', O.filter(o => o.si > 0 && o.lk && !o.iv).length, 's5')}${st('Akses belum dibuka', D.akses.filter(a => !a.db).length, 's6')}</div>
-<div class="two"><div class="card"><div class="hd"><h3>Order 7 hari terakhir</h3></div><div class="ch7">${bars}</div></div>
-<div class="card"><div class="hd"><h3>Link Canva aktif</h3></div><p><b>${esc(D.tim) || '(nama tim belum diisi)'}</b></p><p class="m">${esc(D.link) || '(belum diatur)'}</p></div></div>
-<div class="card"><div class="hd"><h3>Order terbaru</h3></div>${baru}</div>`;
+  const bars = days.map((d, i) => `<div class="col"><em>${n[i]}</em><div class="bb" style="height:${Math.round(n[i] / mx * 110) + 4}px;background:${PAL[i % 6]}"></div><small>${d.slice(0, 5)}</small></div>`).join('');
+  const baru = O.slice(-5).reverse().map((o, i) => `<div class="rw" style="border-left-color:${PAL[i % 6]}"><div><b>${esc(o.pk)}</b> · ${esc(o.wa)}<div class="m">${esc(o.em)}</div><div class="m">${esc(o.ts)}${o.tm ? ' · Tim ' + esc(o.tm) : ''}</div></div><b>${rp(o.hg)}</b></div>`).join('') || '<p class="m">Belum ada order.</p>';
+  return `<div class="grid">${st('Total order', O.length, PAL[0])}${st('Pendapatan', rp(O.reduce((s, o) => s + o.hg, 0)), PAL[4])}${st('Order hari ini', O.filter(o => o.ts.startsWith(hari)).length, PAL[1])}${st('Menunggu link garansi', O.filter(o => o.si > 0 && !o.lk && !o.iv).length, PAL[5])}${st('Siap klaim', O.filter(o => o.si > 0 && o.lk && !o.iv).length, PAL[2])}${st('Akses belum dibuka', D.akses.filter(a => !a.db).length, PAL[3])}</div>
+<div class="two"><div class="card pu"><div class="hd"><h3>Order 7 hari terakhir</h3></div><div class="ch7">${bars}</div></div>
+<div class="card cy"><div class="hd"><h3>Link Canva aktif</h3>${umur()}</div><span class="chip">${esc(D.tim) || 'Nama tim belum diisi'}</span><p class="m" style="margin-top:16px">${esc(D.link) || '(belum diatur)'}</p></div></div>
+<div class="card y"><div class="hd"><h3>Order terbaru</h3></div>${baru}</div>`;
 }
 
 function linkTab() {
-  const rw = (D.riwayat || []).map(h => `<div class="rw"><div><b>${esc(h.tm) || '-'}</b><div class="m">${esc(h.lk)}</div></div><span class="m">${esc(h.wt)}</span></div>`).join('') || '<p class="m">Belum ada riwayat.</p>';
-  return `<div class="two"><div class="card y"><div class="hd"><h3>Ganti link Canva</h3></div><p class="m">Ganti tiap ~3 hari. Hanya berlaku untuk order baru.</p><label>Nama tim</label><input id="tim" value="${esc(D.tim)}" placeholder="MYCLIPS 1026 | 01.30" autocomplete="off"><label>Link Canva</label><input id="cfg" value="${esc(D.link)}" placeholder="https://www.canva.com/..." autocomplete="off"><div class="row"><button class="bp" data-a="cfg">Simpan</button><button data-a="tes">Tes buka link</button></div></div><div class="card"><div class="hd"><h3>Riwayat link</h3></div>${rw}</div></div>`;
+  const rw = (D.riwayat || []).map((h, i) => `<div class="rw" style="border-left-color:${PAL[i % 6]}"><div><b>${esc(h.tm) || '-'}</b><div class="m">${esc(h.lk)}</div></div><span class="m">${esc(h.wt)}</span></div>`).join('') || '<p class="m">Belum ada riwayat.</p>';
+  return `<div class="two"><div class="card cy"><div class="hd"><h3>Link aktif sekarang</h3>${umur()}</div><span class="chip">${esc(D.tim) || 'Nama tim belum diisi'}</span><p class="m" style="margin-top:16px">${esc(D.link) || '(belum diatur)'}</p><div class="row"><button class="bp" data-a="tes" type="button">Tes buka link</button><button data-a="salinl" type="button">Salin link</button></div></div>
+<div class="card y"><div class="hd"><h3>Ganti link baru</h3></div><p class="m">Ganti tiap ~3 hari. Hanya berlaku untuk order baru.</p><label>Nama tim</label><input id="tim" placeholder="MYCLIPS 1026 | 01.30" autocomplete="off"><label>Link Canva</label><input id="cfg" placeholder="https://www.canva.com/..." autocomplete="off"><div class="row"><button class="bp" data-a="cfg" type="button">Simpan</button></div></div></div>
+<div class="card pu"><div class="hd"><h3>Riwayat link</h3></div>${rw}</div>`;
 }
 
 function render() {
-  $('menu').innerHTML = TABS.map(t => `<button class="nv ${t[0] === tab ? 'on' : ''}" data-t="${t[0]}"><span>${t[1]}</span>${t[2]}</button>`).join('');
-  $('judul').textContent = TABS.find(t => t[0] === tab)[2];
+  $('menu').innerHTML = TABS.map(t => `<button class="nv ${t[0] === tab ? 'on' : ''}" data-t="${t[0]}" style="${t[0] === tab ? 'background:' + t[3] : ''}"><span>${t[1]}</span>${t[2]}</button>`).join('');
+  const T = TABS.find(t => t[0] === tab);
+  $('judul').textContent = T[2];
   const m = $('main');
   if (tab === 'ringkasan') m.innerHTML = ringkasan();
   else if (tab === 'link') m.innerHTML = linkTab();
   else {
     let ct = `<input id="q" placeholder="Cari WA / email / kode..." value="${esc(q)}" autocomplete="off">`;
-    if (tab === 'garansi') ct += sel('fg', [['menunggu', 'Menunggu link'], ['siap', 'Siap klaim'], ['habis', 'Jatah 0/habis'], ['semua', 'Semua']], fg);
-    if (tab === 'akses') ct += sel('fa', [['belum', 'Belum dibuka'], ['sudah', 'Sudah dibuka'], ['semua', 'Semua']], fa);
-    m.innerHTML = `<div class="hd"><h3>${$('judul').textContent}</h3><div class="ct">${ct}</div></div><div id="list" class="gl"></div>`;
+    if (tab === 'garansi') ct += dd('fg', fg);
+    if (tab === 'akses') ct += dd('fa', fa);
+    m.innerHTML = `<div class="hd"><h3 class="ttl" style="background:${T[3]}">${T[2]}</h3><div class="ct">${ct}</div></div><div id="list" class="gl"></div>`;
     $('q').addEventListener('input', e => { q = e.target.value; isi(); });
     isi();
   }
@@ -155,34 +205,39 @@ function isi() {
   const s = q.toLowerCase(); let h = '';
   const cocok = o => (o.wa + o.em + o.kd).toLowerCase().includes(s);
   if (tab === 'order') {
-    h = D.orders.filter(cocok).slice().reverse().map(o => `<div class="it"><b>${esc(o.pk)}</b> · ${rp(o.hg)} <span class="tag k">${esc(o.ts)}</span><p>${esc(o.wa)} · ${esc(o.em)}</p><p class="m">Kode ${esc(o.kd)} · Akses sampai ${esc(o.ak)}${o.tm ? ' · Tim ' + esc(o.tm) : ''}</p><div class="row"><a href="${wa(o.wa)}" target="_blank" rel="noopener">WhatsApp</a><a href="${href(o.bk)}" target="_blank" rel="noopener">Bukti transfer</a><button class="s" data-a="salin" data-k="${esc(o.kd)}">Salin kode</button></div></div>`).join('');
+    h = D.orders.filter(cocok).slice().reverse().map((o, i) => `<div class="it"><div class="ih" style="background:${PAL[i % 6]}"><b>${esc(o.pk)} · ${rp(o.hg)}</b><span class="tag">${esc(o.ts)}</span></div><div class="ib"><b>${esc(o.wa)}</b><p class="m">${esc(o.em)}</p><div class="sk"><span class="lb">KODE · AKSES</span><p class="m">${esc(o.kd)} · sampai ${esc(o.ak)}${o.tm ? ' · Tim ' + esc(o.tm) : ''}</p></div><div class="row"><a href="${wa(o.wa)}" target="_blank" rel="noopener">WhatsApp</a><a href="${href(o.bk)}" target="_blank" rel="noopener">Bukti transfer</a><button class="s" data-a="salin" data-k="${esc(o.kd)}" type="button">Salin kode</button></div></div></div>`).join('');
   } else if (tab === 'garansi') {
     const f = o => fg === 'semua' || (fg === 'habis' ? (o.si <= 0 || o.iv) : fg === 'menunggu' ? (o.si > 0 && !o.lk && !o.iv) : (o.si > 0 && o.lk && !o.iv));
-    h = D.orders.filter(o => f(o) && cocok(o)).slice().reverse().map(o => `<div class="it"><b>${esc(o.kd)}</b> <span class="tag ${o.iv ? 'r' : o.si > 0 ? '' : 'k'}">${o.iv ? 'Diblokir' : 'Sisa klaim ' + o.si}</span><p>${esc(o.wa)} · ${esc(o.pk)} · akses sampai ${esc(o.ak)}</p>${o.kt ? `<p class="m">Klaim terakhir ${esc(o.kt)} (${esc(o.kw)})</p>` : ''}<div class="row"><input id="lk${o.r}" placeholder="Link garansi baru" value="${esc(o.lk)}"><button class="s" data-a="lk" data-r="${o.r}" data-k="${esc(o.kd)}">Simpan link</button><button class="s" data-a="aktif" data-r="${o.r}">Pakai link aktif</button></div><div class="row"><input type="number" id="si${o.r}" min="0" max="20" value="${o.iv ? 1 : o.si}"><button class="s" data-a="si" data-r="${o.r}" data-k="${esc(o.kd)}">Simpan sisa</button><button class="s" data-a="${o.iv ? 'un' : 'iv'}" data-r="${o.r}" data-k="${esc(o.kd)}">${o.iv ? 'Buka blokir' : 'Blokir'}</button><a href="${wa(o.wa)}" target="_blank" rel="noopener">WhatsApp</a></div></div>`).join('');
+    h = D.orders.filter(o => f(o) && cocok(o)).slice().reverse().map(o => {
+      const c = o.iv ? '#F9A8D4' : o.si > 0 ? (o.lk ? '#BEF264' : '#FDBA74') : '#FDE047';
+      return `<div class="it"><div class="ih" style="background:${c}"><b>${esc(o.kd)}</b><span class="tag">${o.iv ? 'Diblokir' : 'Sisa klaim ' + o.si}</span></div><div class="ib"><b>${esc(o.wa)}</b><p class="m">${esc(o.em)}</p><p class="m">${esc(o.pk)} · akses sampai ${esc(o.ak)}</p>${o.kt ? `<p class="m">Klaim terakhir ${esc(o.kt)} (${esc(o.kw)})</p>` : ''}<div class="sk"><span class="lb">LINK GARANSI</span><div class="row" style="margin-top:2px"><input id="lk${o.r}" placeholder="Link garansi baru" value="${esc(o.lk)}"><button class="s" data-a="lk" data-r="${o.r}" data-k="${esc(o.kd)}" type="button">Simpan link</button></div></div><div class="sk"><span class="lb">SISA KLAIM</span><div class="row" style="margin-top:2px"><input type="number" id="si${o.r}" min="0" max="20" value="${o.iv ? 1 : o.si}"><button class="s" data-a="si" data-r="${o.r}" data-k="${esc(o.kd)}" type="button">Simpan sisa</button><button class="s" data-a="${o.iv ? 'un' : 'iv'}" data-r="${o.r}" data-k="${esc(o.kd)}" type="button">${o.iv ? 'Buka blokir' : 'Blokir'}</button></div></div><div class="row"><button class="s" data-a="salin" data-k="${esc(o.kd)}" type="button" style="background:#C4A5F5">Salin kode garansi</button><a href="${wa(o.wa)}" target="_blank" rel="noopener">WhatsApp</a></div></div></div>`;
+    }).join('');
   } else if (tab === 'akses') {
-    h = D.akses.filter(x => (fa === 'semua' || (fa === 'belum' ? !x.db : !!x.db)) && (x.wa + x.kd + x.tk).toLowerCase().includes(s)).slice().reverse().map(x => `<div class="it"><span class="tag ${x.db ? '' : 'k'}">${x.db ? 'Dibuka ' + esc(x.db) : 'Belum dibuka'}</span> <span class="m">dibuat ${esc(x.dt)}</span><p>${esc(x.wa) || '-'} ${x.kd ? '· ' + esc(x.kd) : ''}</p><p class="m">${esc(x.tk)}</p><p class="m">${esc(x.lk)}</p></div>`).join('');
+    h = D.akses.filter(x => (fa === 'semua' || (fa === 'belum' ? !x.db : !!x.db)) && (x.wa + x.kd + x.tk).toLowerCase().includes(s)).slice().reverse().map(x => {
+      const od = D.orders.find(o => o.tk === x.tk) || {};
+      return `<div class="it"><div class="ih" style="background:${x.db ? '#5EEAD4' : '#FDE047'}"><b>${x.db ? 'Dibuka ' + esc(x.db) : 'Belum dibuka'}</b><span class="tag">dibuat ${esc(x.dt)}</span></div><div class="ib"><span class="lb">PEMBELI</span><b>${esc(x.wa) || '-'}</b><p class="m">${esc(od.em) || '-'}</p><div class="sk"><span class="lb">KODE</span><p><b>${esc(x.kd) || '-'}</b></p></div><div class="sk"><span class="lb">LINK</span><p class="m">${esc(x.lk)}</p></div><div class="sk"><span class="lb">TOKEN</span><p class="m">${esc(x.tk)}</p></div></div></div>`;
+    }).join('');
   }
-  $('list').innerHTML = h || '<div class="it">Tidak ada data.</div>';
+  $('list').innerHTML = h || '<div class="it"><div class="ib">Tidak ada data.</div></div>';
 }
-
-document.addEventListener('change', e => {
-  const s = e.target.closest('select[data-s]'); if (!s) return;
-  if (s.dataset.s === 'fg') fg = s.value; else fa = s.value;
-  isi();
-});
 
 document.addEventListener('click', async e => {
   if (e.target.id === 'ov') return menu(false);
+  const dm = e.target.closest('.dd');
+  document.querySelectorAll('.ddm').forEach(x => { if (!dm || x.parentNode !== dm) x.classList.add('hide'); });
   const b = e.target.closest('button'); if (!b) return;
   if (b.dataset.t) { tab = b.dataset.t; q = ''; menu(false); return render(); }
+  if (b.dataset.o !== undefined) { if (dm.dataset.dd === 'fg') fg = b.dataset.o; else fa = b.dataset.o; return render(); }
   const a = b.dataset.a; if (!a) return;
+  if (a === 'dd') return dm.querySelector('.ddm').classList.toggle('hide');
   if (a === 'menu') return menu(!$('side').classList.contains('open'));
+  if (a === 'eye') { const p = $('pw'); p.type = p.type === 'password' ? 'text' : 'password'; return; }
   if (a === 'out') { pass = ''; D = null; menu(false); $('app').classList.add('hide'); $('login').classList.remove('hide'); return; }
   if (a === 'ref') { if (await muat()) toast('Data dimuat ulang', 'ok'); return; }
-  if (a === 'salin') { try { await navigator.clipboard.writeText(b.dataset.k); toast('Kode disalin', 'ok'); } catch (x) { toast('Gagal menyalin', 'err'); } return; }
+  if (a === 'salin') return salin(b.dataset.k, 'Kode disalin');
+  if (a === 'salinl') return salin(D.link, 'Link disalin');
   if (a === 'tes') { window.open(D.link, '_blank', 'noopener'); return; }
   const r0 = b.dataset.r, k = b.dataset.k; let r;
-  if (a === 'aktif') { $('lk' + r0).value = D.link; return toast('Link aktif diisi, tekan Simpan link', 'ok'); }
   if (a === 'iv' && !confirm('Blokir kode ' + k + '? Kode tidak bisa diklaim sampai blokir dibuka.')) return;
   b.disabled = true;
   if (a === 'cfg') r = await api('setConfig', { link: $('cfg').value, tim: $('tim').value });
@@ -192,7 +247,7 @@ document.addEventListener('click', async e => {
   b.disabled = false;
   if (!r || !r.success) return toast((r && r.message) || 'Gagal menyimpan', 'err');
   toast('Tersimpan', 'ok');
-  await muat();
+  await muat();   // tampilan dimuat ulang, isian Link Canva otomatis kosong
 });
 
 $('btnMasuk').onclick = async () => {
@@ -201,7 +256,8 @@ $('btnMasuk').onclick = async () => {
   $('btnMasuk').disabled = true;
   const ok = await muat();
   $('btnMasuk').disabled = false;
-  if (ok) { $('login').classList.add('hide'); $('app').classList.remove('hide'); } else pass = '';
+  if (ok) { $('login').classList.add('hide'); $('app').classList.remove('hide'); }
+  else { pass = ''; const c = $('lc'); c.classList.remove('sh'); void c.offsetWidth; c.classList.add('sh'); }
 };
 $('pw').addEventListener('keydown', e => { if (e.key === 'Enter') $('btnMasuk').click(); });
 </script>
